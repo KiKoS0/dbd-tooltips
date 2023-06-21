@@ -1,0 +1,43 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:svelte/recommended",
+    "plugin:svelte/prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "extraFileExtensions": [
+      ".svelte"
+    ]
+  },
+  "plugins": [
+    "unused-imports"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.svelte"
+      ],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      }
+    }
+  ],
+  "rules": {
+    "unused-imports/no-unused-imports-ts": 2,
+    "@typescript-eslint/no-unused-vars": "off" // This behaves weirdly with svelte's onMount.
+  },
+  "env": {
+    "browser": true
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "vite.config.ts",
+    "svelte.config.js"
+  ]
+}

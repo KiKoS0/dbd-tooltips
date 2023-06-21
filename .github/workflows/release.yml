@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: write
+
+jobs:
+  draft_release:
+    runs-on: ubuntu-22.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Create draft release
+        run: |
+          gh release create \
+            --repo ${{ github.repository }} \
+            --title ${{ github.ref_name }} \
+            --notes '' \
+            --draft \
+            ${{ github.ref_name }}
+
+  release_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: yarn-build-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-build-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+            yarn-build-${{ runner.os }}-
+            yarn-build-
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Build
+        run: |
+          make release
+          mv app.zip dbd-twitch-client-${{ github.ref_name }}.zip
+          sha256sum dbd-twitch-client-${{ github.ref_name }}.zip > checksums.txt
+      - name: Upload build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload --clobber "${{ github.ref_name }}" \
+            dbd-twitch-client-${{ github.ref_name }}.zip \
+            checksums.txt
