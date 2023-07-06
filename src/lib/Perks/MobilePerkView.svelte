@@ -104,6 +104,8 @@
           on:keyup={goBack}
           class="close warp black"
           style={landscapeMode ? fixSmallWidthStuff('close') : ''}
+          role="button"
+          tabindex="0"
         />
       </div>
       <PerkTootipHud
