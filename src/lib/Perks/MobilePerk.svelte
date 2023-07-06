@@ -38,7 +38,7 @@
     gifSrc = path
   }
 
-  const hoverOverPerk = () => {
+  const onPerkClick = () => {
     log(`Perk ${number} clicked`)
     showPerk.update((_) => number)
   }
@@ -76,8 +76,10 @@
     <div
       class="image-container"
       style={gifSrc ? getImageStyle() : ''}
-      on:click={hoverOverPerk}
-      on:keyup={hoverOverPerk}
+      on:click={onPerkClick}
+      on:keyup={onPerkClick}
+      role="button"
+      tabindex="0"
     />
   {/if}
 </div>
