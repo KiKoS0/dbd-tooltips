@@ -2766,8 +2766,8 @@ __metadata:
   linkType: hard
 
 "svelte-check@npm:^3.3.1":
-  version: 3.4.5
-  resolution: "svelte-check@npm:3.4.5"
+  version: 3.4.6
+  resolution: "svelte-check@npm:3.4.6"
   dependencies:
     "@jridgewell/trace-mapping": ^0.3.17
     chokidar: ^3.4.1
@@ -2775,13 +2775,13 @@ __metadata:
     import-fresh: ^3.2.1
     picocolors: ^1.0.0
     sade: ^1.7.4
-    svelte-preprocess: ^5.0.3
+    svelte-preprocess: ^5.0.4
     typescript: ^5.0.3
   peerDependencies:
     svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0
   bin:
     svelte-check: bin/svelte-check
-  checksum: 80029a728e7236990472244723b331e93d0d81668a49e0fa8285f8b5b1d7a58549a1fed9e6272054d51f4d29c4684ec4f8c644b05570ab33891429ca0abd6669
+  checksum: d2baa7dc91f09ae726c76f174038411871c800dc1d8134a177390cc4f0d0f31a6da49f020d9d58f4211a3b7020209fc804884081ce9fc0a3870a25d345b0fc9e
   languageName: node
   linkType: hard
 
@@ -2812,7 +2812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:^5.0.3":
+"svelte-preprocess@npm:^5.0.4":
   version: 5.0.4
   resolution: "svelte-preprocess@npm:5.0.4"
   dependencies:
