@@ -2862,8 +2862,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^4.0.0":
-  version: 4.0.5
-  resolution: "svelte@npm:4.0.5"
+  version: 4.1.2
+  resolution: "svelte@npm:4.1.2"
   dependencies:
     "@ampproject/remapping": ^2.2.1
     "@jridgewell/sourcemap-codec": ^1.4.15
@@ -2878,7 +2878,7 @@ __metadata:
     locate-character: ^3.0.0
     magic-string: ^0.30.0
     periscopic: ^3.1.0
-  checksum: df3ab2baeabc50428ab0e82655bcaf801207f8c25b06c6e9907d678d49b7eec6fe17280e931b257f3a7233355a06669fc62fb77cc0c27de5387198c3b11608f3
+  checksum: f194763fe7c2ac252d815590dd3a1b3f9b031ac8e517bad8c2f44c81d7db236e720e852792b5aeab8de2cc5771a7cde67d6418156d726a811894563a68b30b90
   languageName: node
   linkType: hard
 
