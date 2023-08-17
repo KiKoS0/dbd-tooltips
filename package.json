@@ -36,5 +36,5 @@
   "dependencies": {
     "svelte-watch-resize": "^1.0.3"
   },
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@3.6.2"
 }
