@@ -1179,13 +1179,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-compat-utils@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "eslint-compat-utils@npm:0.1.2"
+  peerDependencies:
+    eslint: ">=6.0.0"
+  checksum: 023fe1422eb5dfebe71e118fe144836f28c06b1f4d55ef4c1c42ec2dbfa3e09f19287b0092881aad307429cf247fec9ade603e050392033106d26bc981d82ee5
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-svelte@npm:^2.30.0":
-  version: 2.34.1
-  resolution: "eslint-plugin-svelte@npm:2.34.1"
+  version: 2.35.0
+  resolution: "eslint-plugin-svelte@npm:2.35.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
     debug: "npm:^4.3.1"
+    eslint-compat-utils: "npm:^0.1.2"
     esutils: "npm:^2.0.3"
     known-css-properties: "npm:^0.29.0"
     postcss: "npm:^8.4.5"
@@ -1200,7 +1210,7 @@ __metadata:
   peerDependenciesMeta:
     svelte:
       optional: true
-  checksum: d1aba8ee18d7fec2fa31c86f5b6c0015da821dbaddaac9e96fa10299d4013852bf8955f70a8cbacb26220a37fe068aac4b73ff1e811f1068d8c25640df25652a
+  checksum: 8ee8e2f68ba6c7246241a7710b8b55da3333d81f8665e80a11a56448258c0483a1acf7d4577b2e37f60974afb12386d1946cd2945a31a3ac0af84cac5f088391
   languageName: node
   linkType: hard
 
