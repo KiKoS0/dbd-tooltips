@@ -2827,8 +2827,8 @@ __metadata:
   linkType: hard
 
 "svelte-check@npm:^3.3.1":
-  version: 3.5.2
-  resolution: "svelte-check@npm:3.5.2"
+  version: 3.6.0
+  resolution: "svelte-check@npm:3.6.0"
   dependencies:
     "@jridgewell/trace-mapping": "npm:^0.3.17"
     chokidar: "npm:^3.4.1"
@@ -2836,13 +2836,13 @@ __metadata:
     import-fresh: "npm:^3.2.1"
     picocolors: "npm:^1.0.0"
     sade: "npm:^1.7.4"
-    svelte-preprocess: "npm:^5.0.4"
+    svelte-preprocess: "npm:^5.1.0"
     typescript: "npm:^5.0.3"
   peerDependencies:
-    svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0
+    svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
   bin:
     svelte-check: bin/svelte-check
-  checksum: a07f0f036918351b60dc991a860c746ab20cbeb4cef71be62918fd80d7f81d562a85d6e783ab3d2a19c31c180a4cf9af68a33ffae80ccce185596381876d405d
+  checksum: 3aca0b80d99f28945d8880cbc784b66c7a34120c58ac2acd8e3c7c4c9c10b9fba64236a263d8ccf901e809d03d931a9310bcaaa4e4059bd6742be904418d28b8
   languageName: node
   linkType: hard
 
@@ -2873,9 +2873,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-preprocess@npm:^5.0.4":
-  version: 5.0.4
-  resolution: "svelte-preprocess@npm:5.0.4"
+"svelte-preprocess@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "svelte-preprocess@npm:5.1.0"
   dependencies:
     "@types/pug": "npm:^2.0.6"
     detect-indent: "npm:^6.1.0"
@@ -2892,7 +2892,7 @@ __metadata:
     sass: ^1.26.8
     stylus: ^0.55.0
     sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
-    svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0
+    svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
     typescript: ">=3.9.5 || ^4.0.0 || ^5.0.0"
   peerDependenciesMeta:
     "@babel/core":
@@ -2915,7 +2915,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 1ed64b96a91327a47992df0b82df708b5cda92e1da211edbedaf411e633a0be5a8425d19f996abc8dcef52dadd26b5474924dd9eeb30a7b409bf60c33b689d6c
+  checksum: fb40153aa282edadad68221fcf82db1b7c67a208941b136c529fd843d1e8b595d79e9d39e5f252672e11a8b62c621ccf2078de4a57e5adbb89e13046998ae597
   languageName: node
   linkType: hard
 
