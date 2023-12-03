@@ -38,9 +38,6 @@
     "typescript": "^5.0.2",
     "vite": "^5.0.0"
   },
-  "dependencies": {
-    "svelte-watch-resize": "^1.0.3"
-  },
   "packageManager": "yarn@4.0.2",
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"

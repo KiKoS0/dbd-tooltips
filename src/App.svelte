@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { watchResize } from 'svelte-watch-resize'
+  import { onDestroy, onMount } from 'svelte'
   import {
     appEnabled,
     isMobile,
@@ -20,11 +19,9 @@
   const TopHud = () => import('./lib/TopHud.svelte')
 
   let scale = 1
-  const handleResize = (node: HTMLElement) => {
-    scale = node.clientHeight / 1080
-  }
+  let containerRef: HTMLDivElement | undefined
 
-  const fetchData = async <T>(
+  const fetchData = async <T,>(
     url: string,
     updateFn: (data: (prev: T) => T) => void
   ) => {
@@ -52,9 +49,15 @@
     fetchData('powers.json', killersData.update)
   }
 
-  onMount(async () => {
-    initialize()
+  onMount(() => initialize())
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    scale = (entries?.[0]?.contentRect?.height || 540) / 1080
   })
+
+  $: containerRef && resizeObserver.observe(containerRef)
+
+  onDestroy(() => resizeObserver.disconnect())
 </script>
 
 <Twitch />
@@ -65,7 +68,7 @@
 {:else if $isMobile}
   <Lazy component={MobilePerkView} delayMs={300} />
 {:else if $appEnabled}
-  <div class="auto-scale" use:watchResize={handleResize}>
+  <div bind:this={containerRef} class="auto-scale">
     <Lazy component={TopHud} delayMs={300} {scale} />
     <div class="dbd-app">
       <div class="yadiv">
