@@ -1,6 +1,7 @@
 {
   "name": "dbd-tooltips",
   "version": "0.1.0",
+  "private": true,
   "description": "The official client for the Dead by Daylight Tooltips extention for Twitch.",
   "repository": "https://github.com/KiKoS0/dbd-tooltips",
   "type": "module",
@@ -14,17 +15,20 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint -c .eslintrc.json './src/**/*.{ts,ts,svelte}'",
-    "tc": "tsc --build"
+    "tc": "tsc --build",
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tsconfig/svelte": "^5.0.0",
     "@types/node": "^20.3.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/parser": "^6.13.1",
     "eslint": "^8.42.0",
     "eslint-plugin-svelte": "^2.30.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.0",
     "svelte": "^4.0.0",
@@ -36,5 +40,8 @@
   "dependencies": {
     "svelte-watch-resize": "^1.0.3"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.0.2",
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
+  }
 }
