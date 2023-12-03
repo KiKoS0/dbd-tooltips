@@ -1,6 +1,6 @@
 <img src="./docs/logo.png" width="200" alt="dbdtwitch logo">
 
-![CI](https://github.com/KiKoS0/dbd-tooltips/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/KiKoS0/dbd-tooltips/actions/workflows/ci.yml/badge.svg) [![RelativeCI](https://badges.relative-ci.com/badges/e5LIoc61EJTFjWCpt9Pn?branch=master)](https://app.relative-ci.com/projects/e5LIoc61EJTFjWCpt9Pn)
 
 <a href="https://dashboard.twitch.tv/extensions/0ixgrf6sebd7d7sesoo762sq9rie81">Install on Twitch</a>
 ·

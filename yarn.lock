@@ -1089,6 +1089,7 @@ __metadata:
     lint-staged: "npm:^15.2.0"
     prettier: "npm:^3.0.0"
     prettier-plugin-svelte: "npm:^3.0.0"
+    rollup-plugin-webpack-stats: "npm:^0.2.2"
     svelte: "npm:^4.0.0"
     svelte-check: "npm:^3.3.1"
     svelte-watch-resize: "npm:^1.0.3"
@@ -2920,6 +2921,15 @@ __metadata:
   bin:
     rimraf: bin.js
   checksum: 9cb7757acb489bd83757ba1a274ab545eafd75598a9d817e0c3f8b164238dd90eba50d6b848bd4dcc5f3040912e882dc7ba71653e35af660d77b25c381d402e8
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-webpack-stats@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "rollup-plugin-webpack-stats@npm:0.2.2"
+  peerDependencies:
+    rollup: ^3.0.0
+  checksum: c68a039b37452763019b454ca48fe6cd8c002cd7a08e580ffa7df99d35cf4cf4f692b8815be740663e6cbd0671fa3785b32d23d191d7c15f4e02171b09fcf68e
   languageName: node
   linkType: hard
 
