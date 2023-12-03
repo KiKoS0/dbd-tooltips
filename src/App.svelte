@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
   import { onDestroy, onMount } from 'svelte'
   import {
     appEnabled,
@@ -9,14 +10,10 @@
     killersData
   } from './lib/Stores/globals'
   import { checkForContainer } from './lib/utils'
-  import Lazy from './lib/shared/Lazy.svelte'
   import { Twitch } from './lib/Twitch'
-
-  const ConfigurationHud = () =>
-    import('./lib/Configuration/ConfigurationHud.svelte')
-  const MobilePerkView = () => import('./lib/Perks/MobilePerkView.svelte')
-  const PerksAddonsView = () => import('./lib/PerksAddonsView.svelte')
-  const TopHud = () => import('./lib/TopHud.svelte')
+  import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
+  import TopHud from './lib/TopHud.svelte'
+  import PerksAddonsView from './lib/PerksAddonsView.svelte'
 
   let scale = 1
   let containerRef: HTMLDivElement | undefined
@@ -62,17 +59,15 @@
 
 <Twitch />
 {#if $isConfig}
-  <Lazy component={ConfigurationHud} delayMs={300}>
-    Loading configuration...
-  </Lazy>
+  <ConfigurationHud>Loading configuration...</ConfigurationHud>
 {:else if $isMobile}
-  <Lazy component={MobilePerkView} delayMs={300} />
+  <MobilePerkView />
 {:else if $appEnabled}
   <div bind:this={containerRef} class="auto-scale">
-    <Lazy component={TopHud} delayMs={300} {scale} />
+    <TopHud {scale} />
     <div class="dbd-app">
       <div class="yadiv">
-        <Lazy component={PerksAddonsView} delayMs={300} />
+        <PerksAddonsView />
       </div>
     </div>
   </div>
