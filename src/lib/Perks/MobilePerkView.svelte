@@ -1,18 +1,15 @@
 <script lang="ts">
   import MobilePerk from './MobilePerk.svelte'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import { watchResize } from 'svelte-watch-resize'
   import { appEnabled, perkStore, showPerk } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
   import { log } from '../Twitch/utils'
   import type { Perk, PerkShowControl } from '../Stores/types'
   import type { Nullable } from '../types'
 
-  onMount(async () => {
-    log('MOUNTED MOBILE HUD')
-
+  onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
     // Sometimes it does and sometimes it doesn't especially
     // when the orientation is changed by clicking the orientation button
@@ -28,16 +25,12 @@
   let showPerkLock = false
   let hoveredPerk: Nullable<Perk> = null
 
+  let containerRef: HTMLDivElement | undefined
+
   const goBack = () => showPerk.update((_) => -1)
 
-  const handleResize = (node: HTMLElement) => {
-    let clientWidth = node.clientWidth
-    let clientHeight = node.clientHeight
-
-    log(`Width: ${clientWidth}`)
-    log(`Height: ${clientHeight}`)
-
-    perkHudScale = (clientHeight / 534) * 0.4
+  const handleResize = (height: number) => {
+    perkHudScale = (height / 534) * 0.4
     log(`perkHudScale: ${perkHudScale}`)
   }
 
@@ -70,6 +63,14 @@
   const perks_num: PerkShowControl[] = [0, 1, 3, 2]
   $: perk_hud_style = `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
   $: perkScreenOpen = $showPerk !== -1
+
+  const resizeObserver = new ResizeObserver((entries) =>
+    handleResize(entries?.[0]?.contentRect?.height || 540)
+  )
+
+  $: containerRef && resizeObserver.observe(containerRef)
+
+  onDestroy(() => resizeObserver.disconnect())
 </script>
 
 {#if (waitingForData && !showPerkLock) || !$appEnabled}
@@ -79,7 +80,7 @@
 {:else}
   <div
     class="perk_info_img"
-    use:watchResize={handleResize}
+    bind:this={containerRef}
     style={landscapeMode ? fixSmallWidthStuff('perk_info_img') : ''}
   >
     {#if !perkScreenOpen}

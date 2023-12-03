@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { watchResize } from 'svelte-watch-resize'
+  import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
+  import { onDestroy, onMount } from 'svelte'
   import {
     appEnabled,
     isMobile,
@@ -10,21 +10,15 @@
     killersData
   } from './lib/Stores/globals'
   import { checkForContainer } from './lib/utils'
-  import Lazy from './lib/shared/Lazy.svelte'
   import { Twitch } from './lib/Twitch'
-
-  const ConfigurationHud = () =>
-    import('./lib/Configuration/ConfigurationHud.svelte')
-  const MobilePerkView = () => import('./lib/Perks/MobilePerkView.svelte')
-  const PerksAddonsView = () => import('./lib/PerksAddonsView.svelte')
-  const TopHud = () => import('./lib/TopHud.svelte')
+  import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
+  import TopHud from './lib/TopHud.svelte'
+  import PerksAddonsView from './lib/PerksAddonsView.svelte'
 
   let scale = 1
-  const handleResize = (node: HTMLElement) => {
-    scale = node.clientHeight / 1080
-  }
+  let containerRef: HTMLDivElement | undefined
 
-  const fetchData = async <T>(
+  const fetchData = async <T,>(
     url: string,
     updateFn: (data: (prev: T) => T) => void
   ) => {
@@ -52,24 +46,28 @@
     fetchData('powers.json', killersData.update)
   }
 
-  onMount(async () => {
-    initialize()
+  onMount(() => initialize())
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    scale = (entries?.[0]?.contentRect?.height || 540) / 1080
   })
+
+  $: containerRef && resizeObserver.observe(containerRef)
+
+  onDestroy(() => resizeObserver.disconnect())
 </script>
 
 <Twitch />
 {#if $isConfig}
-  <Lazy component={ConfigurationHud} delayMs={300}>
-    Loading configuration...
-  </Lazy>
+  <ConfigurationHud>Loading configuration...</ConfigurationHud>
 {:else if $isMobile}
-  <Lazy component={MobilePerkView} delayMs={300} />
+  <MobilePerkView />
 {:else if $appEnabled}
-  <div class="auto-scale" use:watchResize={handleResize}>
-    <Lazy component={TopHud} delayMs={300} {scale} />
+  <div bind:this={containerRef} class="auto-scale">
+    <TopHud {scale} />
     <div class="dbd-app">
       <div class="yadiv">
-        <Lazy component={PerksAddonsView} delayMs={300} />
+        <PerksAddonsView />
       </div>
     </div>
   </div>

@@ -15,7 +15,6 @@
     const { component, delayMs, ...restProps } = $$props
     props = restProps
   }
-  const test = 'hello world'
 
   onMount(() => {
     if (delayMs) {
