@@ -58,7 +58,7 @@
       } else {
         // No data for perk available, probably need to update the json files.
         hoveredPerkInfo = {
-          gif: './images/perks/empty_perk.png',
+          gif: './images/empty_perk.png',
           name: 'Unknown Perk',
           description:
             "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
