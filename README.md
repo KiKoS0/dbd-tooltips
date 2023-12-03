@@ -25,5 +25,6 @@ For reporting bugs, we highly recommend joining our [Discord](https://discord.gg
 To compile the source code, you simply need to have [Node.js](https://nodejs.org/en/download) installed on your system. Once installed, you can run the following command:
 
 ```bash
+  git clone --recurse-submodules https://github.com/KiKoS0/dbd-tooltips.git && cd dbd-tooltips
   make clean dev
 ```
