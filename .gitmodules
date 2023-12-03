@@ -1,0 +1,3 @@
+[submodule "public/data"]
+	path = public/data
+	url = https://github.com/KiKoS0/dbd-tooltips-data.git

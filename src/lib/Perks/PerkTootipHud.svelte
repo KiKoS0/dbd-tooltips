@@ -42,7 +42,7 @@
             item.actor === 'survivor' ? survivor_perks : killer_perks
           if (item.id in perk_dic) {
             // Preload only when it's available obviously
-            const img = perk_dic[item.id]['gif'].replace('data', 'images')
+            const img = perk_dic[item.id]['gif']
             const newImage = new Image()
             newImage.src = img
             // @ts-expect-error: // TODO: Find a better way to preload the image.
@@ -62,7 +62,6 @@
 
   let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
-  let vid
 
   const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
 
@@ -85,7 +84,7 @@
 
   $: {
     let hPerk = hoveredPerk
-    log(`hPerk: ${hPerk}`)
+    log(`Hovered perk: ${hPerk?.id}`)
 
     if (hPerk && survivor_perks && killer_perks) {
       const perk_dic =
@@ -99,15 +98,11 @@
       if (perk_dic[perkId]) {
         hoveredPerkInfo = localizePerk(perkId, perk_dic, localized_perk_dic)
 
-        if (hoveredPerkInfo?.gif)
-          imageUpdate(hoveredPerkInfo.gif.replace('data', 'images'))
-
-        vid = document.getElementById('bgvid') as HTMLVideoElement
-        if (vid) vid.currentTime = 0
+        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
       } else {
         // No data for perk available, probably need to update the json files.
         hoveredPerkInfo = {
-          gif: './images/perks/empty_perk.png',
+          gif: './images/empty_perk.png',
           name: 'Unknown Perk',
           description:
             "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
@@ -148,7 +143,8 @@
 
   function imageUpdate(path: string) {
     const newImage = new Image()
-    const fallbackUrl = `https://${fallbackCdnHost}/${path}`
+    const fallbackPath = path.replace(/^data\//, '')
+    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
     if (blacklistedImgs.has(path)) {
       path = fallbackUrl
     } else {
@@ -201,7 +197,14 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video preload="auto" playsinline autoplay muted loop id="bgvid">
+            <video
+              id="bg-vid-perk"
+              preload="auto"
+              playsinline
+              autoplay
+              muted
+              loop
+            >
               <source
                 src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
                 type="video/mp4"
@@ -279,7 +282,7 @@
     display: none !important;
     opacity: 0 !important;
   }
-  #bgvid {
+  #bg-vid-perk {
     appearance: none;
     background: black;
   }
