@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { afterUpdate } from 'svelte'
   import { t } from '../I18n'
   import { showChangelogs } from '../Stores/globals'
   import { log } from '../Twitch/utils'
@@ -8,22 +8,37 @@
   export let changelogs: string | undefined = undefined
   export let mobileMode = false
 
+  let containerRef: HTMLDivElement | undefined
+
   const ignoreLinkClick = () => false
 
-  onMount(async () => {
-    let links = document
-      .getElementsByClassName('description_container')[0]
-      .getElementsByTagName('a')
+  const disableLinks = () => {
+    const links = containerRef?.getElementsByTagName('a') || []
 
     Array.from(links).forEach((l) => {
       l.onclick = ignoreLinkClick
     })
 
-    log(`LINKS: ${links.length}`)
-  })
+    log(`Disabled links: ${links.length}`)
+  }
+
+  const fixIconSrcs = () => {
+    const icons = containerRef?.getElementsByTagName('img') || []
+
+    Array.from(icons).forEach((icon) => {
+      const iconSrc = icon.src
+      if (/images\/icons\//.test(iconSrc)) {
+        icon.src = iconSrc.replace(/images\/icons\//, 'data/images/icons/')
+      }
+    })
+
+    log(`Updated icons: ${icons.length}`)
+  }
+
+  afterUpdate(() => (fixIconSrcs(), disableLinks()))
 </script>
 
-<div class="description_container">
+<div bind:this={containerRef} class="description_container">
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html description}
 
@@ -70,11 +85,15 @@
   }
 
   .wiki-info {
-    font: italic 400 1.17rem 'Inter', sans-serif;
+    font:
+      italic 400 1.17rem 'Inter',
+      sans-serif;
     text-align: center;
   }
   .wiki-info span {
-    font: italic 500 1.17rem 'Inter', sans-serif;
+    font:
+      italic 500 1.17rem 'Inter',
+      sans-serif;
   }
 
   .description_container {

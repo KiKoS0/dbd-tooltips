@@ -22,13 +22,14 @@
 
   const imageUpdate = (path: string) => {
     const newImage = new Image()
-    const fallback_url = `https://${fallbackCdnHost}/${path}`
+    const fallbackPath = path.replace(/^data\//, '')
+    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
     if (blacklistedImgs.has(path)) {
-      path = fallback_url
+      path = fallbackUrl
     } else {
-      newImage.onerror = (e, s) => {
+      newImage.onerror = () => {
         blacklistedImgs.add(path)
-        gifSrc = fallback_url
+        gifSrc = fallbackUrl
       }
     }
 
@@ -53,8 +54,7 @@
       if (perk_dic[hPerk.id]) {
         hoveredPerkInfo = perk_dic[hPerk.id]
 
-        if (hoveredPerkInfo?.gif)
-          imageUpdate(hoveredPerkInfo['gif'].replace('data', 'images'))
+        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo['gif'])
       } else {
         // No data for perk available, probably need to update the json files.
         hoveredPerkInfo = {

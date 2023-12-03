@@ -42,7 +42,7 @@
             item.actor === 'survivor' ? survivor_perks : killer_perks
           if (item.id in perk_dic) {
             // Preload only when it's available obviously
-            const img = perk_dic[item.id]['gif'].replace('data', 'images')
+            const img = perk_dic[item.id]['gif']
             const newImage = new Image()
             newImage.src = img
             // @ts-expect-error: // TODO: Find a better way to preload the image.
@@ -85,7 +85,7 @@
 
   $: {
     let hPerk = hoveredPerk
-    log(`hPerk: ${hPerk}`)
+    log(`Hovered perk: ${hPerk?.id}`)
 
     if (hPerk && survivor_perks && killer_perks) {
       const perk_dic =
@@ -99,8 +99,7 @@
       if (perk_dic[perkId]) {
         hoveredPerkInfo = localizePerk(perkId, perk_dic, localized_perk_dic)
 
-        if (hoveredPerkInfo?.gif)
-          imageUpdate(hoveredPerkInfo.gif.replace('data', 'images'))
+        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
 
         vid = document.getElementById('bgvid') as HTMLVideoElement
         if (vid) vid.currentTime = 0
@@ -148,7 +147,8 @@
 
   function imageUpdate(path: string) {
     const newImage = new Image()
-    const fallbackUrl = `https://${fallbackCdnHost}/${path}`
+    const fallbackPath = path.replace(/^data\//, '')
+    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
     if (blacklistedImgs.has(path)) {
       path = fallbackUrl
     } else {

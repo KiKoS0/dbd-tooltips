@@ -26,7 +26,7 @@
 
           if (item.id in addon_dic) {
             // Preload only when it's available obviously
-            const img = addon_dic[item.id]['img_path'].replace('data', 'images')
+            const img = addon_dic[item.id].img_path
             const newImage = new Image()
             newImage.src = img
             // @ts-expect-error: // TODO: Find a better way to preload the image.
@@ -67,8 +67,7 @@
           ...perk_dic[hAddon.killerId].addons[hAddon.id]
         }
 
-        if (hoveredPerkInfo?.img_path)
-          imageUpdate(hoveredPerkInfo.img_path.replace('data', 'images'))
+        if (hoveredPerkInfo?.img_path) imageUpdate(hoveredPerkInfo.img_path)
 
         vid = document.getElementById('bgvid') as HTMLVideoElement
         if (vid) vid.currentTime = 0
@@ -104,13 +103,14 @@
 
   function imageUpdate(path: string) {
     const newImage = new Image()
-    const fallback_url = `https://${fallbackCdnHost}/${path}`
-    if (blacklist_imgs.has(path)) {
-      path = fallback_url
+    const fallbackPath = path.replace(/^data\//, '')
+    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
+    if (blacklistedImgs.has(path)) {
+      path = fallbackUrl
     } else {
-      newImage.onerror = (e, s) => {
-        blacklist_imgs.add(path)
-        gifSrc = fallback_url
+      newImage.onerror = () => {
+        blacklistedImgs.add(path)
+        gifSrc = fallbackUrl
       }
     }
 
@@ -121,7 +121,7 @@
     unique = {}
   }
 
-  const blacklist_imgs = new Set()
+  const blacklistedImgs = new Set()
 
   let unique = {}
 </script>
