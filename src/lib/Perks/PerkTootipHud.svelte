@@ -62,7 +62,6 @@
 
   let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
-  let vid
 
   const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
 
@@ -100,9 +99,6 @@
         hoveredPerkInfo = localizePerk(perkId, perk_dic, localized_perk_dic)
 
         if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
-
-        vid = document.getElementById('bgvid') as HTMLVideoElement
-        if (vid) vid.currentTime = 0
       } else {
         // No data for perk available, probably need to update the json files.
         hoveredPerkInfo = {
@@ -201,7 +197,14 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video preload="auto" playsinline autoplay muted loop id="bgvid">
+            <video
+              id="bg-vid-perk"
+              preload="auto"
+              playsinline
+              autoplay
+              muted
+              loop
+            >
               <source
                 src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
                 type="video/mp4"
@@ -279,7 +282,7 @@
     display: none !important;
     opacity: 0 !important;
   }
-  #bgvid {
+  #bg-vid-perk {
     appearance: none;
     background: black;
   }

@@ -52,7 +52,6 @@
       })
     | undefined = undefined
   let gifSrc: string | undefined = undefined
-  let vid: HTMLVideoElement | undefined = undefined
 
   const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
 
@@ -68,9 +67,6 @@
         }
 
         if (hoveredPerkInfo?.img_path) imageUpdate(hoveredPerkInfo.img_path)
-
-        vid = document.getElementById('bgvid') as HTMLVideoElement
-        if (vid) vid.currentTime = 0
       } else {
         // No data for perk available, probably need to update the json files.
         hoveredPerkInfo = {
@@ -162,7 +158,7 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video preload="auto" playsinline autoplay muted loop id="bgvid">
+            <video id="bg-vid-addon" preload="auto" playsinline autoplay muted loop>
               <source
                 src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
                 type="video/mp4"
@@ -234,7 +230,7 @@
     display: none !important;
     opacity: 0 !important;
   }
-  #bgvid {
+  #bg-vid-addon {
     appearance: none;
     background: black;
   }
