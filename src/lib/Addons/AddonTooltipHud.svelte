@@ -53,8 +53,6 @@
     | undefined = undefined
   let gifSrc: string | undefined = undefined
 
-  const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
-
   $: {
     let hAddon = hoveredAddon
     if (hAddon && killers_data) {
@@ -98,28 +96,12 @@
   }
 
   function imageUpdate(path: string) {
-    const newImage = new Image()
-    const fallbackPath = path.replace(/^data\//, '')
-    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
-    if (blacklistedImgs.has(path)) {
-      path = fallbackUrl
-    } else {
-      newImage.onerror = () => {
-        blacklistedImgs.add(path)
-        gifSrc = fallbackUrl
-      }
-    }
-
-    newImage.src = path
-    // @ts-expect-error: // TODO: Find a better way to preload the image.
-    window[path] = newImage
-    gifSrc = path
-    unique = {}
+    const imageRelativePath = path.replace(/^data\//, '')
+    gifSrc = `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
+    forceRerender = {}
   }
 
-  const blacklistedImgs = new Set()
-
-  let unique = {}
+  let forceRerender = {}
 </script>
 
 {#if !disabled}
@@ -137,7 +119,7 @@
           class="perk_info_img"
           class:perk_info_img_lan={mobileMode && landscapeMode}
         >
-          {#key unique}
+          {#key forceRerender}
             <img src={gifSrc} alt={hoveredPerkInfo?.icon_alt} />
           {/key}
         </div>
@@ -158,7 +140,14 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video id="bg-vid-addon" preload="auto" playsinline autoplay muted loop>
+            <video
+              id="bg-vid-addon"
+              preload="auto"
+              playsinline
+              autoplay
+              muted
+              loop
+            >
               <source
                 src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
                 type="video/mp4"

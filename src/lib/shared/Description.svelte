@@ -10,6 +10,8 @@
 
   let containerRef: HTMLDivElement | undefined
 
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
+
   const ignoreLinkClick = () => false
 
   const disableLinks = () => {
@@ -22,20 +24,23 @@
     log(`Disabled links: ${links.length}`)
   }
 
-  const fixIconSrcs = () => {
+  const redirectIconSrcsToCDN = () => {
     const icons = containerRef?.getElementsByTagName('img') || []
 
     Array.from(icons).forEach((icon) => {
       const iconSrc = icon.src
-      if (/images\/icons\//.test(iconSrc)) {
-        icon.src = iconSrc.replace(/images\/icons\//, 'data/images/icons/')
+
+      const match = /images\/icons\/.*/.exec(iconSrc)
+      const notGoingToCDNAlready = !iconSrc.includes(cdnHost)
+
+      if (match && notGoingToCDNAlready) {
+        icon.src = `https://${cdnHost}/${match[0]}`
       }
     })
-
     log(`Updated icons: ${icons.length}`)
   }
 
-  afterUpdate(() => (fixIconSrcs(), disableLinks()))
+  afterUpdate(() => (redirectIconSrcsToCDN(), disableLinks()))
 </script>
 
 <div bind:this={containerRef} class="description_container">

@@ -16,27 +16,10 @@
 
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
-  const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
 
-  const blacklistedImgs = new Set()
-
-  const imageUpdate = (path: string) => {
-    const newImage = new Image()
-    const fallbackPath = path.replace(/^data\//, '')
-    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
-    if (blacklistedImgs.has(path)) {
-      path = fallbackUrl
-    } else {
-      newImage.onerror = () => {
-        blacklistedImgs.add(path)
-        gifSrc = fallbackUrl
-      }
-    }
-
-    newImage.src = path
-    // @ts-expect-error: // TODO: Find a better way to preload the image.
-    window[path] = newImage
-    gifSrc = path
+  function imageUpdate(path: string) {
+    const imageRelativePath = path.replace(/^data\//, '')
+    gifSrc = `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
   }
 
   const onPerkClick = () => {

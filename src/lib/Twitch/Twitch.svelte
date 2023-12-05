@@ -12,7 +12,7 @@
   import { locale, type Locale } from '../I18n'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
-  import { emptyAddons, emptyPerks, log } from './utils'
+  import { emptyAddons, emptyPerks, fetchData, log } from './utils'
   import type {
     DbdLoadoutPayload,
     TwitchAuthPayload,
@@ -29,7 +29,7 @@
   let lastUpdateTimestamp = 0
   let isFirstUpdate = true
   let infoAnimationDelay = 5000
-  const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   appEnabled.subscribe((val) => {
     commsEnabled = val
@@ -246,9 +246,7 @@
     })()
 
   export const updateAppLocale = async (requestedLocale: Locale) => {
-    const response = await fetch(
-      `https://${fallbackCdnHost}/supported_locales.json`
-    )
+    const response = await fetch(`https://${cdnHost}/supported_locales.json`)
     let data = (await response.json()) as string[]
 
     const lang = data.includes(requestedLocale) ? requestedLocale : 'en'
@@ -258,20 +256,11 @@
   const initLocale = (lang: Locale) => {
     locale.update(() => lang)
     if (lang !== 'en') {
-      (async () => {
-        const response = await fetch(
-          `https://${fallbackCdnHost}/locales/survivors_${lang}.json`
-        )
-        let data = await response.json()
-        localizedSurvivorPerksData.update(() => data)
-      })()
-      ;(async () => {
-        const response = await fetch(
-          `https://${fallbackCdnHost}/locales/killers_${lang}.json`
-        )
-        let data = await response.json()
-        localizedKillerPerksData.update(() => data)
-      })()
+      fetchData(
+        `locales/survivors_${lang}.json`,
+        localizedSurvivorPerksData.update
+      )
+      fetchData(`locales/killers_${lang}.json`, localizedKillerPerksData.update)
     } else {
       localizedSurvivorPerksData.update(() => ({}))
       localizedKillerPerksData.update(() => ({}))
