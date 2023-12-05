@@ -14,20 +14,10 @@
   import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
   import TopHud from './lib/TopHud.svelte'
   import PerksAddonsView from './lib/PerksAddonsView.svelte'
+  import { fetchData } from './lib/Twitch/utils'
 
   let scale = 1
   let containerRef: HTMLDivElement | undefined
-
-  const fetchData = async <T,>(
-    url: string,
-    updateFn: (data: (prev: T) => T) => void
-  ) => {
-    const response = await fetch(
-      `https://${import.meta.env?.VITE_FALLBACK_CDN_HOST}/${url}`
-    )
-    const data = (await response.json()) as T
-    updateFn(() => data)
-  }
 
   const initialize = () => {
     // Check if config mode

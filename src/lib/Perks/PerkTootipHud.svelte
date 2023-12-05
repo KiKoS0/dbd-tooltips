@@ -1,14 +1,13 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import {
-    perkStore,
     survivorPerksData,
     killerPerksData,
     localizedSurvivorPerksData,
     localizedKillerPerksData,
     hudSize
   } from '../Stores/globals'
-  import { onDestroy, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
   import { log } from '../Twitch/utils'
@@ -27,33 +26,13 @@
   $: localized_survivor_perks = $localizedSurvivorPerksData
   $: localized_killer_perks = $localizedKillerPerksData
 
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
+
   onMount(async () => {
     // Preloading first part of the smoke video
     const video = document.createElement('video')
     video.setAttribute('src', 'videos/smoke.mp4')
   })
-
-  const unsubscribe = perkStore.subscribe((value) => {
-    if (value && value.constructor === Array) {
-      // Preloading perks gifs
-      value.forEach(function (item) {
-        if (item && survivor_perks && killer_perks) {
-          const perk_dic =
-            item.actor === 'survivor' ? survivor_perks : killer_perks
-          if (item.id in perk_dic) {
-            // Preload only when it's available obviously
-            const img = perk_dic[item.id]['gif']
-            const newImage = new Image()
-            newImage.src = img
-            // @ts-expect-error: // TODO: Find a better way to preload the image.
-            window[img] = newImage
-          }
-        }
-      })
-    }
-  })
-
-  onDestroy(unsubscribe)
 
   export let disabled = false
   export let hoveredPerk: Nullable<Perk> = null
@@ -62,8 +41,6 @@
 
   let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
-
-  const fallbackCdnHost = import.meta.env?.VITE_FALLBACK_CDN_HOST
 
   const localizePerk = (
     perkId: string,
@@ -138,26 +115,13 @@
     } else return ''
   }
 
-  const blacklistedImgs = new Set()
-  let unique = {}
+  let forceRerender = {}
+
+  const removeDataPrefixInPath = (path: string) => path.replace(/^data\//, '')
 
   function imageUpdate(path: string) {
-    const newImage = new Image()
-    const fallbackPath = path.replace(/^data\//, '')
-    const fallbackUrl = `https://${fallbackCdnHost}/${fallbackPath}`
-    if (blacklistedImgs.has(path)) {
-      path = fallbackUrl
-    } else {
-      newImage.onerror = (e, s) => {
-        blacklistedImgs.add(path)
-        gifSrc = fallbackUrl
-      }
-    }
-    newImage.src = path
-    // @ts-expect-error: // TODO: Find a better way to preload the image.
-    window[path] = newImage
-    gifSrc = path
-    unique = {}
+    gifSrc = `https://${cdnHost}/${removeDataPrefixInPath(path)}`
+    forceRerender = {}
   }
 </script>
 
@@ -176,7 +140,7 @@
           class="perk_info_img"
           class:perk_info_img_lan={mobileMode && landscapeMode}
         >
-          {#key unique}
+          {#key forceRerender}
             <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
           {/key}
         </div>
