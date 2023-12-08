@@ -5,7 +5,8 @@ import { webpackStats } from 'rollup-plugin-webpack-stats'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(), webpackStats()],
+  base: './',
+  plugins: [svelte({}), webpackStats()],
   envDir: './env',
   build: {
     rollupOptions: {
