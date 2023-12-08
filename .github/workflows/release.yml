@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
 jobs:
   draft_release:
     runs-on: ubuntu-22.04
