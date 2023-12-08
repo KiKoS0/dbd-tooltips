@@ -1,13 +1,21 @@
 <script lang="ts">
+  import AddonTooltipHud from './../Addons/AddonTooltipHud.svelte'
   import MobilePerk from './MobilePerk.svelte'
   import { onDestroy, onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import { appEnabled, perkStore, showPerk } from '../Stores/globals'
+  import {
+    appEnabled,
+    perkStore,
+    addonStore,
+    showPerk,
+    showAddon
+  } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
   import { log } from '../Twitch/utils'
-  import type { Perk, PerkShowControl } from '../Stores/types'
+  import type { Perk, Addon, PerkShowControl } from '../Stores/types'
   import type { Nullable } from '../types'
+  import MobileAddon from './MobileAddon.svelte'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -24,10 +32,14 @@
 
   let showPerkLock = false
   let hoveredPerk: Nullable<Perk> = null
+  let hoveredAddon: Nullable<Addon> = null
 
   let containerRef: HTMLDivElement | undefined
 
-  const goBack = () => showPerk.update((_) => -1)
+  const goBack = () => {
+    showAddon.update((_) => -1)
+    showPerk.update((_) => -1)
+  }
 
   const handleResize = (height: number) => {
     perkHudScale = (height / 534) * 0.4
@@ -57,12 +69,15 @@
     } else if (!showPerkLock) {
       showPerkLock = true
       hoveredPerk = $perkStore[$showPerk]
+      hoveredAddon = $addonStore[$showAddon]
     }
   }
 
-  const perks_num: PerkShowControl[] = [0, 1, 3, 2]
-  $: perk_hud_style = `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
-  $: perkScreenOpen = $showPerk !== -1
+  $: perkHudStyle = `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
+
+  $: currentlyShowingPerk = $showPerk !== -1
+  $: currentlyShowingAddon = $showAddon !== -1
+  $: perkScreenOpen = currentlyShowingPerk || currentlyShowingAddon
 
   const resizeObserver = new ResizeObserver((entries) =>
     handleResize(entries?.[0]?.contentRect?.height || 540)
@@ -70,6 +85,7 @@
 
   $: containerRef && resizeObserver.observe(containerRef)
 
+  const perksNumbers: PerkShowControl[] = [0, 1, 3, 2]
   onDestroy(() => resizeObserver.disconnect())
 </script>
 
@@ -85,11 +101,16 @@
   >
     {#if !perkScreenOpen}
       <div in:fly={{ y: -50, duration: 500 }} class="main_screen_header">
-        Current perks
+        Current loadout
       </div>
-      <div class="mobile_perk_hud" style={perk_hud_style}>
+      <div class="mobile_perk_hud" style={perkHudStyle}>
         {#each $perkStore as _, i}
-          <MobilePerk number={perks_num[i]} />
+          <MobilePerk number={perksNumbers[i]} />
+        {/each}
+      </div>
+      <div class="mobile_addon_hud">
+        {#each $addonStore as _, i}
+          <MobileAddon number={i} />
         {/each}
       </div>
       <a href="https://www.patreon.com/kikos" target="_blank">
@@ -99,7 +120,7 @@
         </div>
       </a>
     {:else}
-      <div transition:fade id="btn-wrapper">
+      <div id="btn-wrapper">
         <span
           on:click={goBack}
           on:keyup={goBack}
@@ -109,13 +130,19 @@
           tabindex="0"
         />
       </div>
-      <PerkTootipHud
-        mobileMode={true}
-        disabled={false}
-        {landscapeMode}
-        {hoveredPerk}
-      />
     {/if}
+    <PerkTootipHud
+      mobileMode={true}
+      disabled={!currentlyShowingPerk}
+      {landscapeMode}
+      {hoveredPerk}
+    />
+    <AddonTooltipHud
+      mobileMode={true}
+      disabled={!currentlyShowingAddon}
+      {landscapeMode}
+      {hoveredAddon}
+    />
   </div>
 {/if}
 
@@ -151,12 +178,13 @@
   }
   .mobile_perk_hud {
     width: 572px;
+    height: auto;
     flex-wrap: wrap;
     display: flex;
     gap: 60px 60px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 53%;
   }
   .perk_info_img {
     background: #0b0b0b;
@@ -184,6 +212,16 @@
     background-position: center;
     animation: blinker 1.5s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
   }
+
+  .mobile_addon_hud {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+    top: 67%;
+    width: 100%;
+  }
+
   @keyframes blinker {
     from {
       opacity: 1;

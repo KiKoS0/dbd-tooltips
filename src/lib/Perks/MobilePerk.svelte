@@ -8,18 +8,23 @@
   } from '../Stores/globals'
   import { log } from '../Twitch/utils'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
+  import { EMPTY_PERK } from '../utils'
 
   export let number: PerkShowControl
 
-  let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
+  let perkData: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
 
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
 
-  function imageUpdate(path: string) {
+  function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
-    gifSrc = `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
+
+    const updated = absolute
+      ? `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
+      : imageRelativePath
+    gifSrc = updated
   }
 
   const onPerkClick = () => {
@@ -29,53 +34,39 @@
 
   $: {
     let hPerk = $perkStore[number]
-    log(hPerk)
+
     if (hPerk && survivor_perks && killer_perks) {
-      const perk_dic =
-        hPerk.actor === 'survivor' ? survivor_perks : killer_perks
+      const perkDic = hPerk.actor === 'survivor' ? survivor_perks : killer_perks
 
-      if (perk_dic[hPerk.id]) {
-        hoveredPerkInfo = perk_dic[hPerk.id]
-
-        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo['gif'])
-      } else {
-        // No data for perk available, probably need to update the json files.
-        hoveredPerkInfo = {
-          gif: './images/empty_perk.png',
-          name: 'Unknown Perk',
-          description:
-            "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
-          character: 'Unknown'
-        }
-      }
+      perkData = perkDic[hPerk.id] ? perkDic[hPerk.id] : EMPTY_PERK
+      imageUpdate(perkData.gif as string, perkData.gif !== EMPTY_PERK.gif)
     }
   }
 
-  const getImageStyle = () => `background-image: url("${gifSrc}");`
+  const getImageStyle = () =>
+    `background-image: url("${gifSrc}");background-size: 220px;`
 </script>
 
 <div class:disabled={!$perkStore[number]} in:fade class="diam">
-  {#if hoveredPerkInfo}
-    <div
-      class="image-container"
-      style={gifSrc ? getImageStyle() : ''}
-      on:click={onPerkClick}
-      on:keyup={onPerkClick}
-      role="button"
-      tabindex="0"
-    />
-  {/if}
+  <div
+    class="image-container"
+    style={gifSrc ? getImageStyle() : ''}
+    on:click={onPerkClick}
+    on:keyup={onPerkClick}
+    role="button"
+    tabindex="0"
+  />
 </div>
 
-<!-- eslint-disable svelte/valid-compile -->
+<!-- eslint-disable svelte/valid-compile  -->
 <style>
   .disabled {
     visibility: hidden;
   }
 
   .diam {
-    width: 256px;
-    height: 256px;
+    width: 220px;
+    height: 220px;
     flex-shrink: 0;
   }
 
