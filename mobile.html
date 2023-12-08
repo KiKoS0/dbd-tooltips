@@ -1,49 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://cdn.dbdtwitch.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    <style>
+      body {
+        padding: unset;
+        overflow-x: hidden;
+      }
 
-<head>
-  <meta charset='utf-8'>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
-  <style>
-    body {
-      padding: unset;
-      overflow-x: hidden;
-    }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
+      ::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+      }
 
-    ::-webkit-scrollbar-button {
-      width: 0px;
-      height: 0px;
-    }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(98, 0, 255, 0.418);
+        /* background: white; */
+        border: 0px none #ffffff;
+        border-radius: 50px;
+      }
 
-    ::-webkit-scrollbar-thumb {
-      background: rgba(98, 0, 255, 0.418);
-      /* background: white; */
-      border: 0px none #ffffff;
-      border-radius: 50px;
-    }
+      ::-webkit-scrollbar-track {
+        background: #212121;
+        border: 0px none #ffffff;
+        border-radius: 57px;
+      }
 
-    ::-webkit-scrollbar-track {
-      background: #212121;
-      border: 0px none #ffffff;
-      border-radius: 57px;
-    }
+      ::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+    </style>
+  </head>
 
-    ::-webkit-scrollbar-corner {
-      background: transparent;
-    }
-  </style>
-</head>
-
-<body id="app" class="dbd_mobile_container" tabindex="-1" style="width: 100% !important; height: 100% !important;">
-</body>
-<script type="module" src="/src/main.ts"></script>
-
+  <body
+    id="app"
+    class="dbd_mobile_container"
+    tabindex="-1"
+    style="width: 100% !important; height: 100% !important"
+  ></body>
+  <script type="module" src="/src/main.ts"></script>
 </html>

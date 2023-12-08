@@ -19,6 +19,7 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
+    "@sentry/vite-plugin": "^2.10.2",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tsconfig/svelte": "^5.0.0",
     "@types/node": "^20.3.0",
@@ -41,5 +42,8 @@
   "packageManager": "yarn@4.0.2",
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "@sentry/svelte": "^7.86.0"
   }
 }
