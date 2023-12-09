@@ -2,9 +2,13 @@
 clean:
 	rm -rf dist node_modules app.zip
 
+.PHONY: deps
+deps: 
+	yarn --immutable 
+
 .PHONY: dev
 dev:
-	yarn --immutable 
+	make deps 
 	yarn dev
 
 .PHONY: lint
@@ -24,4 +28,4 @@ package:
 	@ echo "Packaged file created $(CURDIR)/app.zip"
 
 .PHONY: release
-release: build package
+release: deps build package

@@ -1,6 +1,6 @@
 {
   "name": "dbd-tooltips",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "The official client for the Dead by Daylight Tooltips extention for Twitch.",
   "repository": "https://github.com/KiKoS0/dbd-tooltips",
