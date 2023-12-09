@@ -28,4 +28,8 @@ package:
 	@ echo "Packaged file created $(CURDIR)/app.zip"
 
 .PHONY: release
-release: deps build package
+release: deps build delete-sourcemaps package
+
+.PHONY: delete-sourcemaps
+delete-sourcemaps:
+	find dist -name "*.map" -type f -delete

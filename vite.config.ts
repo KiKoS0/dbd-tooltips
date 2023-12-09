@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
     plugins: [svelte({}), webpackStats(), [...productionPlugins]],
     envDir: './env',
     build: {
+      sourcemap: mode !== 'development' ? 'hidden' : true,
       rollupOptions: {
         input: {
           web: resolve(__dirname, 'video_overlay.html'),
