@@ -19,7 +19,8 @@
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import { FEATURE_FLAGS } from '../shared/flags'
-  import { featureFlagEnabled, isFirefox } from '../utils'
+  import { isFirefox } from '../utils'
+  import { featureFlagEnabled } from '../Stores/flags'
 
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
@@ -36,6 +37,7 @@
 
   let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
+  let disableVideo = false
 
   const localizePerk = (
     perkId: string,
@@ -119,8 +121,11 @@
     forceRerender = {}
   }
 
-  const disableVideo =
-    featureFlagEnabled(FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO) && isFirefox()
+  const disableFirefoxVideoFlag = featureFlagEnabled(
+    FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO
+  )
+
+  $: disableVideo = $disableFirefoxVideoFlag && isFirefox()
 </script>
 
 {#if !disabled}
