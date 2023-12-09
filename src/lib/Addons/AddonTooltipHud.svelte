@@ -2,20 +2,16 @@
   import { fade } from 'svelte/transition'
   import { log } from '../Twitch/utils'
   import { addonStore, hudSize, killersData } from '../Stores/globals'
-  import { onMount, onDestroy } from 'svelte'
+  import { onDestroy } from 'svelte'
 
   import Description from '../shared/Description.svelte'
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
+  import { featureFlagEnabled, isFirefox } from '../utils'
+  import { FEATURE_FLAGS } from '../shared/flags'
 
   $: killers_data = $killersData
-
-  onMount(async () => {
-    // Preload smoke video
-    const video = document.createElement('video')
-    video.setAttribute('src', 'videos/smoke.mp4')
-  })
 
   const unsubscribe = addonStore.subscribe((value) => {
     if (value && value.constructor === Array) {
@@ -102,6 +98,9 @@
   }
 
   let forceRerender = {}
+
+  const disableVideo =
+    featureFlagEnabled(FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO) && isFirefox()
 </script>
 
 {#if !disabled}
@@ -140,19 +139,21 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video
-              id="bg-vid-addon"
-              preload="auto"
-              playsinline
-              autoplay
-              muted
-              loop
-            >
-              <source
-                src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
-                type="video/mp4"
-              />
-            </video>
+            {#if !disableVideo}
+              <video
+                id="bg-vid-addon"
+                preload="auto"
+                playsinline
+                autoplay
+                muted
+                loop
+              >
+                <source
+                  src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
+                  type="video/mp4"
+                />
+              </video>
+            {/if}
             <div class="perk_info_header_wrapper">
               <div
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}

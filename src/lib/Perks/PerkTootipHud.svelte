@@ -7,7 +7,6 @@
     localizedKillerPerksData,
     hudSize
   } from '../Stores/globals'
-  import { onMount } from 'svelte'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
   import { log } from '../Twitch/utils'
@@ -19,6 +18,8 @@
     PerkEntry
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
+  import { FEATURE_FLAGS } from '../shared/flags'
+  import { featureFlagEnabled, isFirefox } from '../utils'
 
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
@@ -27,12 +28,6 @@
   $: localized_killer_perks = $localizedKillerPerksData
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
-
-  onMount(async () => {
-    // Preloading first part of the smoke video
-    const video = document.createElement('video')
-    video.setAttribute('src', 'videos/smoke.mp4')
-  })
 
   export let disabled = false
   export let hoveredPerk: Nullable<Perk> = null
@@ -123,6 +118,9 @@
     gifSrc = `https://${cdnHost}/${removeDataPrefixInPath(path)}`
     forceRerender = {}
   }
+
+  const disableVideo =
+    featureFlagEnabled(FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO) && isFirefox()
 </script>
 
 {#if !disabled}
@@ -161,19 +159,21 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video
-              id="bg-vid-perk"
-              preload="auto"
-              playsinline
-              autoplay
-              muted
-              loop
-            >
-              <source
-                src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
-                type="video/mp4"
-              />
-            </video>
+            {#if !disableVideo}
+              <video
+                id="bg-vid-perk"
+                preload="auto"
+                playsinline
+                autoplay
+                muted
+                loop
+              >
+                <source
+                  src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
+                  type="video/mp4"
+                />
+              </video>
+            {/if}
             <div class="perk_info_header_wrapper">
               <div
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
