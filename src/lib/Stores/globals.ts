@@ -3,6 +3,7 @@ import type { DbdUIScale } from '../Twitch/types'
 import type {
   AddonShowControl,
   AddonsLoadout,
+  FeatureFlagEntries,
   KillerEntries,
   LocalizedPerkEntries,
   PerkEntries,
@@ -43,3 +44,6 @@ export const isMobile = writable(false)
 export const showInfo = writable(false)
 export const isConfig = writable(false)
 export const appEnabled = writable(false)
+
+export const featureFlagsData: Writable<FeatureFlagEntries | undefined> =
+  writable(undefined)

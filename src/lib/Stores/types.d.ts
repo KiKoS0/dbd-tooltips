@@ -52,3 +52,5 @@ export type LocalizedPerkEntry = {
   link: string
 }
 export type LocalizedPerkEntries = Record<string, LocalizedPerkEntry | never>
+
+export type FeatureFlagEntries = Record<string, boolean>
