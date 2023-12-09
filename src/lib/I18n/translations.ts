@@ -31,7 +31,7 @@ const translations: Translations = {
     'perk.tooltip.subtitle': 'COMPÉTENCE {{actor}}',
     general: 'GÉNÉRALE',
     loadout: 'Compétences actuelles',
-    support: 'Soutenez-nous'
+    support: 'Nous soutenir'
   }
 }
 
