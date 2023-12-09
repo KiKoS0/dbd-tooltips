@@ -1,5 +1,3 @@
-import { featureFlagsData } from './Stores/globals'
-import { get } from 'svelte/store'
 import type { AddonEntry, PerkEntry } from './Stores/types'
 
 export function getTimeout(ttl: number | string | Date): number {
@@ -25,9 +23,6 @@ export function checkForContainer(name: string): boolean {
 }
 
 export const isFirefox = () => /firefox/i.test(navigator.userAgent)
-
-export const featureFlagEnabled = (flag: string) =>
-  get(featureFlagsData)?.[flag] || false
 
 export const EMPTY_PERK: PerkEntry = {
   gif: './images/empty_perk.png',

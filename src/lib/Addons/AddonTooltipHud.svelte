@@ -8,8 +8,9 @@
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
-  import { featureFlagEnabled, isFirefox } from '../utils'
+  import { isFirefox } from '../utils'
   import { FEATURE_FLAGS } from '../shared/flags'
+  import { featureFlagEnabled } from '../Stores/flags'
 
   $: killers_data = $killersData
 
@@ -99,8 +100,11 @@
 
   let forceRerender = {}
 
-  const disableVideo =
-    featureFlagEnabled(FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO) && isFirefox()
+  const disableFirefoxVideoFlag = featureFlagEnabled(
+    FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO
+  )
+
+  $: disableVideo = $disableFirefoxVideoFlag && isFirefox()
 </script>
 
 {#if !disabled}
