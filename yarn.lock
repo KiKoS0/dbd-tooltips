@@ -3228,11 +3228,11 @@ __metadata:
   linkType: hard
 
 "rollup-plugin-webpack-stats@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "rollup-plugin-webpack-stats@npm:0.2.2"
+  version: 0.2.3
+  resolution: "rollup-plugin-webpack-stats@npm:0.2.3"
   peerDependencies:
-    rollup: ^3.0.0
-  checksum: c68a039b37452763019b454ca48fe6cd8c002cd7a08e580ffa7df99d35cf4cf4f692b8815be740663e6cbd0671fa3785b32d23d191d7c15f4e02171b09fcf68e
+    rollup: ^3.0.0 || ^4.0.0
+  checksum: da58b0a38ea14e3a7cb0cb4e334bb9daf742b0cf559684c45a394f4111c9a67e1340544c3919f5311e91c13c06f27a98f2bbed8389bead52d6ddb54edd80fb11
   languageName: node
   linkType: hard
 
