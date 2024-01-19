@@ -755,6 +755,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/estree@npm:^1.0.1":
+  version: 1.0.5
+  resolution: "@types/estree@npm:1.0.5"
+  checksum: b3b0e334288ddb407c7b3357ca67dbee75ee22db242ca7c56fe27db4e1a31989cb8af48a84dd401deb787fe10cc6b2ab1ee82dc4783be87ededbe3d53c79c70d
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.12":
   version: 7.0.12
   resolution: "@types/json-schema@npm:7.0.12"
@@ -1089,12 +1096,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axobject-query@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "axobject-query@npm:3.2.1"
+"axobject-query@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "axobject-query@npm:4.0.0"
   dependencies:
     dequal: "npm:^2.0.3"
-  checksum: f7debc2012e456139b57d888c223f6d3cb4b61eb104164a85e3d346273dd6ef0bc9a04b6660ca9407704a14a8e05fa6b6eb9d55f44f348c7210de7ffb350c3a7
+  checksum: 4d756b5c2ff099f1c7f99e55a5de9b2066cb2a13a3170185ff34bfec2d7bcab81eb820a4e7340d35c251341b61ebee6e705b7ce64db78224df1df5a4d68448fe
   languageName: node
   linkType: hard
 
@@ -3745,15 +3752,16 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^4.0.0":
-  version: 4.2.8
-  resolution: "svelte@npm:4.2.8"
+  version: 4.2.9
+  resolution: "svelte@npm:4.2.9"
   dependencies:
     "@ampproject/remapping": "npm:^2.2.1"
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
     "@jridgewell/trace-mapping": "npm:^0.3.18"
+    "@types/estree": "npm:^1.0.1"
     acorn: "npm:^8.9.0"
     aria-query: "npm:^5.3.0"
-    axobject-query: "npm:^3.2.1"
+    axobject-query: "npm:^4.0.0"
     code-red: "npm:^1.0.3"
     css-tree: "npm:^2.3.1"
     estree-walker: "npm:^3.0.3"
@@ -3761,7 +3769,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.4"
     periscopic: "npm:^3.1.0"
-  checksum: 13673a6211cc38224398f4bda8e0ba93edfb1338aa4f28f614a31ac31b152479038761cfc57f1668554f5ab70effcd8023dcf549d75e7b2a7ae703d213b7e9da
+  checksum: 534d3cdd3ee0c7c5139e17493c45f15426676b5d32da2c9430268ef94504ac908ea541283b3025aaf56a17382badc2464e95927d3dd094588d894ea350302bfa
   languageName: node
   linkType: hard
 
