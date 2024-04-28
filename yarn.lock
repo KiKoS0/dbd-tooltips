@@ -3706,11 +3706,11 @@ __metadata:
   linkType: hard
 
 "rollup-plugin-webpack-stats@npm:^0.2.2":
-  version: 0.2.5
-  resolution: "rollup-plugin-webpack-stats@npm:0.2.5"
+  version: 0.2.6
+  resolution: "rollup-plugin-webpack-stats@npm:0.2.6"
   peerDependencies:
     rollup: ^3.0.0 || ^4.0.0
-  checksum: 10c0/5069342a7437e3c330ab5cc8bc3d3eda07fe22ebcead867d53c11f2eb8e563c06086ed66a2a4da7ff2c7cff117e33cefa800da3b3f385d845cccdd2eaf62eb73
+  checksum: 10c0/9508a7e20e73330f39d906d4ad0b04371b8dcedf6a69354799c0091ecdf6a5344b9b03c61ad198257ad1cf88ffcab1b1e326584774499f07c45e8f0a9b1398ff
   languageName: node
   linkType: hard
 
