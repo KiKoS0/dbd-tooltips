@@ -1723,7 +1723,7 @@ __metadata:
     lint-staged: "npm:^15.2.0"
     prettier: "npm:^3.0.0"
     prettier-plugin-svelte: "npm:^3.0.0"
-    rollup-plugin-webpack-stats: "npm:^0.2.2"
+    rollup-plugin-webpack-stats: "npm:^0.4.0"
     svelte: "npm:^4.0.0"
     svelte-check: "npm:^3.3.1"
     tslib: "npm:^2.5.0"
@@ -3704,12 +3704,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-webpack-stats@npm:^0.2.2":
-  version: 0.2.6
-  resolution: "rollup-plugin-webpack-stats@npm:0.2.6"
+"rollup-plugin-webpack-stats@npm:^0.4.0":
+  version: 0.4.1
+  resolution: "rollup-plugin-webpack-stats@npm:0.4.1"
   peerDependencies:
     rollup: ^3.0.0 || ^4.0.0
-  checksum: 10c0/9508a7e20e73330f39d906d4ad0b04371b8dcedf6a69354799c0091ecdf6a5344b9b03c61ad198257ad1cf88ffcab1b1e326584774499f07c45e8f0a9b1398ff
+  checksum: 10c0/b0f93ffdaf542c6b5f4979e32a92fda15c999f21bf622a0cfe48d7cfaac72f08e1fef77832dbf34098dacac9d2797595b5983f9061fb3611c23431ef256ea73f
   languageName: node
   linkType: hard
 
