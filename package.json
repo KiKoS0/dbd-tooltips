@@ -44,6 +44,6 @@
     "*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@sentry/svelte": "^7.86.0"
+    "@sentry/svelte": "^8.0.0"
   }
 }
