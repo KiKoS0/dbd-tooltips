@@ -1,9 +1,8 @@
 <script lang="ts">
   import { getConfig, postConfig } from '../Twitch'
-  import { log } from '../Twitch/utils'
   import { userData } from '../Stores/globals'
-  
-let initialized = false
+
+  let initialized = false
   let isUnavailable = false
   let isLoading = true
   let configEnabledByEBS = false
@@ -15,7 +14,7 @@ let initialized = false
     if ($userData && !initialized) {
       getConfig()
         .then((data) => {
-          log(`Configuration: ${JSON.stringify(data)}`)
+          console.log(`Configuration: ${JSON.stringify(data)}`)
           initialized = true
           isLoading = false
           configEnabledByEBS = data.globalConfigEnabled
@@ -31,7 +30,7 @@ let initialized = false
   function submitConfig() {
     savedConfig = false
     postConfig({ ui_scale: scale }).then((res) => {
-      log('Successfully sent')
+      console.log('Successfully sent')
       savedConfig = true
     })
   }

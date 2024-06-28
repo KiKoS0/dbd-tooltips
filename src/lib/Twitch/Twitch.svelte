@@ -11,13 +11,7 @@
   import { locale, type Locale } from '../I18n'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
-  import {
-    API_ENDPOINT,
-    EMPTY_ADDONS,
-    EMPTY_PERKS,
-    fetchData,
-    log
-  } from './utils'
+  import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS, fetchData } from './utils'
   import { appEnabledStore } from '../Stores/AppStateStore.svelte'
   import type {
     DbdLoadoutPayload,
@@ -39,7 +33,7 @@
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   const apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/`
-  log(`EBS ENDPOINT: ${apiEndpoint}`)
+  console.log(`EBS ENDPOINT: ${apiEndpoint}`)
 
   export const queryPerks = () =>
     (async () => {
@@ -87,7 +81,7 @@
         perkStore.update((_) => EMPTY_PERKS)
       }
 
-      log('SENDING refresh request')
+      console.log('SENDING refresh request')
       method()
         .then((data) => {
           if (doUpdate) {
@@ -95,8 +89,8 @@
           }
         })
         .catch((err) => {
-          log('Update request failed.')
-          log(err)
+          console.log('Update request failed.')
+          console.log(err)
           // Reset state
           updateApp()
         })
@@ -104,7 +98,7 @@
   }
 
   export const updateApp = (data?: DbdLoadoutPayload) => {
-    log(data)
+    console.log(data)
 
     if (data?.extra && data.actor == 'killer') {
       const killerId = data.extra.killer
@@ -141,12 +135,12 @@
   let timer: ReturnType<typeof setTimeout>
 
   const scheduleUpdate = (data: DbdLoadoutPayload) => {
-    log('data' + data)
+    console.log('data' + data)
     var diff = getTimeout(data.ttl)
     const rdm = getRandom(data.rdm)
     clearTimeout(timer)
     timer = setTimeout(() => refreshPerks(queryPerks, false), diff + rdm)
-    log('Next call in ms: ' + diff + ' + ' + rdm)
+    console.log('Next call in ms: ' + diff + ' + ' + rdm)
   }
 
   const socketDispatch = (
@@ -154,15 +148,15 @@
     contentType: string,
     messagePayload: string
   ) => {
-    log('-- Received broadcast --')
-    log('target: ' + target)
-    log('contentType: ' + contentType)
+    console.log('-- Received broadcast --')
+    console.log('target: ' + target)
+    console.log('contentType: ' + contentType)
     const message = JSON.parse(messagePayload)
-    log('message-type: ' + message.type)
+    console.log('message-type: ' + message.type)
 
     switch (message.type) {
       case 'delay':
-        log('Got delay broadcast')
+        console.log('Got delay broadcast')
         scheduleUpdate(message.data)
         break
       case 'update':
@@ -176,7 +170,7 @@
 
   // High load fail-safe
   const killApp = () => {
-    log('BYE BYE.')
+    console.log('BYE BYE.')
     killSwitchOn = true
     appEnabled.disable()
   }
@@ -187,10 +181,10 @@
       channelId = auth.channelId
       userData.update(() => ({ token, channelId }))
 
-      log('onAuthorized')
-      log('Token: ' + token)
-      log('Location: ' + window.location)
-      log(`CHANNELID: ${channelId}`)
+      console.log('onAuthorized')
+      console.log('Token: ' + token)
+      console.log('Location: ' + window.location)
+      console.log(`CHANNELID: ${channelId}`)
 
       if (!initialized) {
         refreshPerks(queryPerks, true, true)
@@ -201,9 +195,9 @@
 
   const onVisibilityChanged = (isVisible: boolean) => {
     if (isVisible) {
-      log('Visiblity on.')
+      console.log('Visiblity on.')
     } else {
-      log('Visiblity off. Disabling app.')
+      console.log('Visiblity off. Disabling app.')
       appEnabled.disable()
     }
   }
@@ -217,7 +211,7 @@
 
     if (appEnabled.value) {
       if (!gameIsDBD) {
-        log('Disabling app, game is not dbd')
+        console.log('Disabling app, game is not dbd')
         appEnabled.disable()
       }
     } else if (gameIsDBD && !configMode) {

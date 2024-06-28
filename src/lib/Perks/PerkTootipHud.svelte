@@ -9,7 +9,6 @@
   } from '../Stores/globals'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
-  import { log } from '../Twitch/utils'
   import type { Nullable } from '../types'
   import type {
     LocalizedPerkEntries,
@@ -58,7 +57,7 @@
 
   $: {
     let hPerk = hoveredPerk
-    log(`Hovered perk: ${hPerk?.id}`)
+    console.log(`Hovered perk: ${hPerk?.id}`)
 
     if (hPerk && survivor_perks && killer_perks) {
       const perk_dic =

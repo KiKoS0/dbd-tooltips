@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { log } from '../Twitch/utils'
   import { addonStore, hudSize, killersData } from '../Stores/globals'
   import { onDestroy } from 'svelte'
 
@@ -72,7 +71,7 @@
           character: 'Unknown'
         }
         imageUpdate(hoveredPerkInfo.gif as string)
-        log(hoveredPerkInfo)
+        console.log(hoveredPerkInfo)
       }
     }
   }

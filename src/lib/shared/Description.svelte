@@ -2,7 +2,6 @@
   import { afterUpdate } from 'svelte'
   import { t } from '../I18n'
   import { showChangelogs } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
 
   export let description = ''
   export let changelogs: string | undefined = undefined
@@ -21,7 +20,7 @@
       l.onclick = ignoreLinkClick
     })
 
-    log(`Disabled links: ${links.length}`)
+    console.log(`Disabled links: ${links.length}`)
   }
 
   const redirectIconSrcsToCDN = () => {
@@ -37,7 +36,7 @@
         icon.src = `https://${cdnHost}/${match[0]}`
       }
     })
-    log(`Updated icons: ${icons.length}`)
+    console.log(`Updated icons: ${icons.length}`)
   }
 
   afterUpdate(() => (redirectIconSrcsToCDN(), disableLinks()))

@@ -6,7 +6,6 @@
     survivorPerksData,
     showPerk
   } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
 
@@ -28,7 +27,7 @@
   }
 
   const onPerkClick = () => {
-    log(`Perk ${number} clicked`)
+    console.log(`Perk ${number} clicked`)
     showPerk.update((_) => number)
   }
 

@@ -6,7 +6,6 @@
 
   import { perkStore, addonStore, showPerk, showAddon } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
-  import { log } from '../Twitch/utils'
   import type { Perk, Addon, PerkShowControl } from '../Stores/types'
   import type { Nullable } from '../types'
   import MobileAddon from './MobileAddon.svelte'
@@ -39,7 +38,7 @@
 
   const handleResize = (height: number) => {
     perkHudScale = (height / 534) * 0.4
-    log(`perkHudScale: ${perkHudScale}`)
+    console.log(`perkHudScale: ${perkHudScale}`)
   }
 
   const cssFixes: { [k: string]: string } = {
@@ -56,7 +55,7 @@
 
   $: {
     waitingForData = $perkStore.every((x) => x === null)
-    log(`Waiting for data: ${waitingForData}`)
+    console.log(`Waiting for data: ${waitingForData}`)
   }
 
   $: {

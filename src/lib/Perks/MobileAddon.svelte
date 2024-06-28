@@ -5,7 +5,6 @@
     killersData as killersStoreData,
     showAddon
   } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
 
@@ -26,7 +25,7 @@
   }
 
   const onAddonClick = () => {
-    log(`Addon ${number} clicked`)
+    console.log(`Addon ${number} clicked`)
     showAddon.update((_) => number as AddonShowControl)
   }
 
