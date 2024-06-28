@@ -1,16 +1,22 @@
 <script lang="ts">
   import AddonTooltipHud from './../Addons/AddonTooltipHud.svelte'
   import MobilePerk from './MobilePerk.svelte'
-  import { onDestroy, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import { perkStore, addonStore, showPerk, showAddon } from '../Stores/globals'
+  import { perkStore, addonStore } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
-  import type { Perk, Addon, PerkShowControl } from '../Stores/types'
+  import type {
+    Perk,
+    Addon,
+    PerkShowControl,
+    AddonShowControl
+  } from '../Stores/types'
   import type { Nullable } from '../types'
   import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
   import { appEnabledStore } from '../Stores/AppStateStore.svelte'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -25,15 +31,21 @@
   let landscapeMode = true
   let perkHudScale = 0.4
 
-  let showPerkLock = false
-  let hoveredPerk: Nullable<Perk> = null
-  let hoveredAddon: Nullable<Addon> = null
+  let perkAddonStore = showPerkAddonStore()
 
-  let containerRef: HTMLDivElement | undefined
+  let hoveredPerk: Nullable<Perk> = $derived(
+    $perkStore[perkAddonStore.hoveredPerk] || null
+  )
+  let hoveredAddon: Nullable<Addon> = $derived(
+    $addonStore[perkAddonStore.hoveredAddon]
+  )
+
+  let showPerkLock = $state(false)
+  let containerRef: HTMLDivElement | null = $state(null)
 
   const goBack = () => {
-    showAddon.update((_) => -1)
-    showPerk.update((_) => -1)
+    perkAddonStore.clearHoveredAddon()
+    perkAddonStore.clearHoveredPerk()
   }
 
   const handleResize = (height: number) => {
@@ -51,37 +63,37 @@
     return ''
   }
 
-  let waitingForData = true
+  let waitingForData = $derived($perkStore.every((x) => x === null))
 
-  $: {
-    waitingForData = $perkStore.every((x) => x === null)
-    console.log(`Waiting for data: ${waitingForData}`)
-  }
+  const perkHudStyle = $derived(
+    `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
+  )
 
-  $: {
-    if (!perkScreenOpen) {
-      showPerkLock = false
-    } else if (!showPerkLock) {
-      showPerkLock = true
-      hoveredPerk = $perkStore[$showPerk]
-      hoveredAddon = $addonStore[$showAddon]
-    }
-  }
-
-  $: perkHudStyle = `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
-
-  $: currentlyShowingPerk = $showPerk !== -1
-  $: currentlyShowingAddon = $showAddon !== -1
-  $: perkScreenOpen = currentlyShowingPerk || currentlyShowingAddon
+  const currentlyShowingAddon = $derived(perkAddonStore.hoveredAddon !== -1)
+  const currentlyShowingPerk = $derived(perkAddonStore.hoveredPerk !== -1)
+  const perkScreenOpen = $derived(currentlyShowingPerk || currentlyShowingAddon)
 
   const resizeObserver = new ResizeObserver((entries) =>
     handleResize(entries?.[0]?.contentRect?.height || 540)
   )
 
-  $: containerRef && resizeObserver.observe(containerRef)
+  $effect(() => {
+    if (!perkScreenOpen) {
+      showPerkLock = false
+    } else if (!showPerkLock) {
+      showPerkLock = true
+    }
+  })
+
+  $effect(() => {
+    if (containerRef) {
+      resizeObserver.observe(containerRef)
+    }
+
+    return () => resizeObserver.disconnect()
+  })
 
   const perksNumbers: PerkShowControl[] = [0, 1, 3, 2]
-  onDestroy(() => resizeObserver.disconnect())
 </script>
 
 {#if (waitingForData && !showPerkLock) || !appEnabledStore().value}
@@ -105,7 +117,7 @@
       </div>
       <div class="mobile_addon_hud">
         {#each $addonStore as _, i}
-          <MobileAddon number={i} />
+          <MobileAddon number={i as AddonShowControl} />
         {/each}
       </div>
       <a href="https://www.patreon.com/kikos" target="_blank">
@@ -117,8 +129,8 @@
     {:else}
       <div id="btn-wrapper">
         <span
-          on:click={goBack}
-          on:keyup={goBack}
+          onclick={goBack}
+          onkeyup={goBack}
           class="close warp black"
           style={landscapeMode ? fixSmallWidthStuff('close') : ''}
           role="button"

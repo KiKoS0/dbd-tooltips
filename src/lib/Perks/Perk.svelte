@@ -1,25 +1,29 @@
 <script lang="ts">
-  import {
-    perkStore,
-    showChangelogs,
-    showInfo,
-    showPerk
-  } from '../Stores/globals'
+  import { perkStore, showChangelogs, showInfo } from '../Stores/globals'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkShowControl } from '../Stores/types'
 
-  export let enabled = true
-  export let perkIdx: PerkShowControl
+  let {
+    perkIdx,
+    enabled = true
+  }: {
+    perkIdx: PerkShowControl
+    enabled: boolean
+  } = $props()
+
+  let perkAddonStore = showPerkAddonStore()
 
   function hoverOverPerk() {
     if (enabled) {
-      showPerk.update((_) => perkIdx)
+      perkAddonStore.setHoveredPerk(perkIdx)
       showInfo.update((_) => false)
     }
   }
 
   function hoverOutOfPerk() {
     if (enabled) {
-      showPerk.update((_) => -1)
+      perkAddonStore.clearHoveredPerk()
+
       showChangelogs.update((_) => false)
     }
   }
@@ -39,7 +43,7 @@
   on:keyup={onClick}
   class="diam"
   class:disabled={!$perkStore[perkIdx]}
-/>
+></div>
 
 <!-- eslint-enable svelte/valid-compile  -->
 

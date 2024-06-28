@@ -1,20 +1,23 @@
 <script lang="ts">
   /* eslint-disable svelte/valid-compile */
   import type { AddonShowControl } from '../Stores/types'
-  import { showAddon, addonStore, showInfo } from '../Stores/globals'
+  import { addonStore, showInfo } from '../Stores/globals'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
 
   export let enabled = true
   export let addonIdx: AddonShowControl
 
+  let perkAddonStore = showPerkAddonStore()
+
   const hoverOverAddon = () => {
     if (!enabled) return
-    showAddon.update(() => addonIdx)
+    perkAddonStore.setHoveredAddon(addonIdx)
     showInfo.update(() => false)
   }
 
   const hoverOutOfAddon = () => {
     if (!enabled) return
-    showAddon.update(() => -1)
+    perkAddonStore.setHoveredAddon(-1)
   }
 </script>
 
@@ -23,7 +26,7 @@
   on:mouseout={hoverOutOfAddon}
   class="diam"
   class:disabled={!$addonStore[addonIdx]}
-/>
+></div>
 
 <style>
   .diam {

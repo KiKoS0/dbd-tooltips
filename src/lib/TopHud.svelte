@@ -1,60 +1,29 @@
 <script lang="ts">
-  import {
-    showPerk,
-    showAddon,
-    perkStore,
-    addonStore,
-    showInfo
-  } from './Stores/globals'
-  import { onDestroy } from 'svelte'
+  import { perkStore, addonStore, showInfo } from './Stores/globals'
   import PerkToolTipHud from './Perks/PerkTootipHud.svelte'
   import AddonToolTipHud from './Addons/AddonTooltipHud.svelte'
   import { fade, fly } from 'svelte/transition'
   import { t } from './I18n'
   import type { Addon, Perk } from './Stores/types'
   import type { Nullable } from './types'
+  import { showPerkAddonStore } from './Stores/ShowPerkAddonStore.svelte'
 
-  $: addonsAvailable = $addonStore && ($addonStore[0] || $addonStore[1])
+  let { scale } = $props()
+  let addonsAvailable = $derived(
+    $addonStore && ($addonStore[0] || $addonStore[1])
+  )
 
-  let perk_tooltip_disabled = true
-  let addon_tooltip_disabled = true
-  let hoveredPerk: Nullable<Perk> = null
-  let hoveredAddon: Nullable<Addon> = null
+  let perkAddonStore = showPerkAddonStore()
 
-  export let scale = 1
+  let perkToolTipDisabled = $derived(!$perkStore[perkAddonStore.hoveredPerk])
+  let addonTooltipDisabled = $derived(!$addonStore[perkAddonStore.hoveredAddon])
 
-  const unsubscribe_perk = showPerk.subscribe((value) => {
-    if (value >= 0) {
-      const perk = $perkStore[value]
-      if (perk) {
-        perk_tooltip_disabled = false
-        hoveredPerk = $perkStore[value]
-      }
-    } else {
-      perk_tooltip_disabled = true
-    }
-  })
-
-  const unsubscribe_addon = showAddon.subscribe((value) => {
-    if (value >= 0) {
-      const addon = $addonStore[value]
-      if (addon) {
-        addon_tooltip_disabled = false
-        hoveredAddon = $addonStore[value]
-      }
-    } else {
-      addon_tooltip_disabled = true
-    }
-  })
-
-  // setInterval((x) => {
-  //   // Hack to always enable hud for debug
-  //   // hoveredAddon = true;
-  //   addon_tooltip_disabled = false;
-  // }, 100);
-
-  onDestroy(unsubscribe_perk)
-  onDestroy(unsubscribe_addon)
+  let hoveredPerk: Nullable<Perk> = $derived(
+    $perkStore[perkAddonStore.hoveredPerk] || null
+  )
+  let hoveredAddon: Nullable<Addon> = $derived(
+    $addonStore[perkAddonStore.hoveredAddon]
+  )
 </script>
 
 <div
@@ -76,8 +45,8 @@
     {/if}
   {/if}
 
-  <PerkToolTipHud disabled={perk_tooltip_disabled} {hoveredPerk} />
-  <AddonToolTipHud disabled={addon_tooltip_disabled} {hoveredAddon} />
+  <PerkToolTipHud disabled={perkToolTipDisabled} {hoveredPerk} />
+  <AddonToolTipHud disabled={addonTooltipDisabled} {hoveredAddon} />
 </div>
 
 <style>
