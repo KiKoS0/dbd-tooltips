@@ -19,7 +19,6 @@ export const perkStore: Writable<PerksLoadout> = writable([
 export const addonStore: Writable<AddonsLoadout> = writable([null, null])
 
 export const hudSize: Writable<DbdUIScale> = writable('100')
-export const hudSizeOptions = writable({})
 
 export const userData: Writable<UserData | null> = writable(null)
 
@@ -35,9 +34,7 @@ export const localizedKillerPerksData: Writable<LocalizedPerkEntries> =
 export const localizedSurvivorPerksData: Writable<LocalizedPerkEntries> =
   writable({})
 
-export const isMobile = writable(false)
 export const showInfo = writable(false)
-export const isConfig = writable(false)
 
 export const featureFlagsData: Writable<FeatureFlagEntries | undefined> =
   writable(undefined)

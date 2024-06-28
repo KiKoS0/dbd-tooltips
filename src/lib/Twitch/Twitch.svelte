@@ -12,14 +12,14 @@
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
   import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS, fetchData } from './utils'
-  import { appEnabledStore } from '../Stores/AppStateStore.svelte'
+  import { appStateStore } from '../Stores/AppStateStore.svelte'
   import type {
     DbdLoadoutPayload,
     TwitchAuthPayload,
     TwitchExtensionContext
   } from './types'
 
-  const appEnabled = appEnabledStore()
+  const appEnabled = appStateStore()
 
   let twitch = window.Twitch.ext
   let token = ''
@@ -76,7 +76,7 @@
     empty = true,
     doUpdate = false
   ) => {
-    if (appEnabled.value) {
+    if (appEnabled.enabled) {
       if (empty) {
         perkStore.update((_) => EMPTY_PERKS)
       }
@@ -209,7 +209,7 @@
     const gameIsDBD = game === gameName || import.meta.env.DEV
     const configMode = context.mode === 'config'
 
-    if (appEnabled.value) {
+    if (appEnabled.enabled) {
       if (!gameIsDBD) {
         console.log('Disabling app, game is not dbd')
         appEnabled.disable()

@@ -15,7 +15,7 @@
   import type { Nullable } from '../types'
   import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
-  import { appEnabledStore } from '../Stores/AppStateStore.svelte'
+  import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
 
   onMount(() => {
@@ -96,7 +96,7 @@
   const perksNumbers: PerkShowControl[] = [0, 1, 3, 2]
 </script>
 
-{#if (waitingForData && !showPerkLock) || !appEnabledStore().value}
+{#if (waitingForData && !showPerkLock) || !appStateStore().enabled}
   <div transition:fade class="status_info">
     <div class="status_info_logo"></div>
   </div>
