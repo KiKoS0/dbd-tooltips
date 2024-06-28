@@ -9,18 +9,12 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
-    "extraFileExtensions": [
-      ".svelte"
-    ]
+    "extraFileExtensions": [".svelte"]
   },
-  "plugins": [
-    "unused-imports"
-  ],
+  "plugins": ["unused-imports"],
   "overrides": [
     {
-      "files": [
-        "*.svelte"
-      ],
+      "files": ["*.svelte"],
       "parser": "svelte-eslint-parser",
       "parserOptions": {
         "parser": "@typescript-eslint/parser"
@@ -28,7 +22,7 @@
     }
   ],
   "rules": {
-    "unused-imports/no-unused-imports-ts": 2,
+    "unused-imports/no-unused-imports": 2,
     "@typescript-eslint/no-unused-vars": "off" // This behaves weirdly with svelte's onMount.
   },
   "env": {

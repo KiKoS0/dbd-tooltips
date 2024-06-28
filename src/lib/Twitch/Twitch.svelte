@@ -2,7 +2,6 @@
   import {
     perkStore,
     hudSize,
-    appEnabled,
     showInfo,
     userData,
     addonStore,
@@ -12,18 +11,20 @@
   import { locale, type Locale } from '../I18n'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
-  import { emptyAddons, emptyPerks, fetchData, log } from './utils'
+  import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS, fetchData } from './utils'
+  import { appStateStore } from '../Stores/AppStateStore.svelte'
   import type {
     DbdLoadoutPayload,
     TwitchAuthPayload,
     TwitchExtensionContext
   } from './types'
 
-  var twitch = window.Twitch.ext
-  var token = ''
-  var game = ''
-  var commsEnabled = false
-  var killSwitchOn = false
+  const appEnabled = appStateStore()
+
+  let twitch = window.Twitch.ext
+  let token = ''
+  let game = ''
+  let killSwitchOn = false
   let initialized = false
   let channelId = ''
   let lastUpdateTimestamp = 0
@@ -31,31 +32,43 @@
   let infoAnimationDelay = 5000
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
-  appEnabled.subscribe((val) => {
-    commsEnabled = val
-  })
-
   const apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/`
-  log(`EBS ENDPOINT: ${apiEndpoint}`)
+  console.log(`EBS ENDPOINT: ${apiEndpoint}`)
 
   export const queryPerks = () =>
     (async () => {
       if (!channelId) return undefined
-      const response = await fetch(apiEndpoint + 'pubsub/' + channelId, {
-        mode: 'cors',
-        method: 'get',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'X-KIK-LOAD': channelId
-        }
-      })
-      const json = (await response.json()) as DbdLoadoutPayload
+      // const response = await fetch(apiEndpoint + 'pubsub/' + channelId, {
+      //   mode: 'cors',
+      //   method: 'get',
+      //   headers: {
+      //     Authorization: 'Bearer ' + token,
+      //     'X-KIK-LOAD': channelId
+      //   }
+      // })
+      // const json = (await response.json()) as DbdLoadoutPayload
 
       // DEBUG ONLY
-      // const response = { "actor": "killer", "channel": "246771012", "extra": { "addons": ["Treated_Blade", "Dried_Horsemeat"], "killer": "Knight" }, "perks": ["Scourge_Hook:_Pain_Resonance", "Call_of_Brine", "Corrupt_Intervention", "Nowhere_to_Hide"], "rdm": 60000, "ttl": 1669161098672, "ui_scale": "100" }
+      const response = {
+        actor: 'killer',
+        channel: '246771012',
+        extra: {
+          addons: ['Treated_Blade', 'Dried_Horsemeat'],
+          killer: 'Knight'
+        },
+        perks: [
+          'Scourge_Hook:_Pain_Resonance',
+          'Call_of_Brine',
+          'Corrupt_Intervention',
+          'Nowhere_to_Hide'
+        ],
+        rdm: 60000,
+        ttl: 1669161098672,
+        ui_scale: '100'
+      }
       // const response = { "actor": "survivor", "channel": "246771012", "extra": null, "perks": ["Adrenaline", "Dead_Hard", "Decisive_Strike", "Off_the_Record"], "rdm": 60000, "ttl": 1665350648100, "ui_scale": "100" }
-      // const json = response
-      return json
+      const json = response
+      return json as DbdLoadoutPayload
     })()
 
   export const refreshPerks = (
@@ -63,12 +76,12 @@
     empty = true,
     doUpdate = false
   ) => {
-    if (commsEnabled) {
+    if (appEnabled.enabled) {
       if (empty) {
-        perkStore.update((_) => emptyPerks)
+        perkStore.update((_) => EMPTY_PERKS)
       }
 
-      log('SENDING refresh request')
+      console.log('SENDING refresh request')
       method()
         .then((data) => {
           if (doUpdate) {
@@ -76,8 +89,8 @@
           }
         })
         .catch((err) => {
-          log('Update request failed.')
-          log(err)
+          console.log('Update request failed.')
+          console.log(err)
           // Reset state
           updateApp()
         })
@@ -85,7 +98,7 @@
   }
 
   export const updateApp = (data?: DbdLoadoutPayload) => {
-    log(data)
+    console.log(data)
 
     if (data?.extra && data.actor == 'killer') {
       const killerId = data.extra.killer
@@ -95,7 +108,7 @@
 
       addonStore.update(() => addons)
     } else {
-      addonStore.update(() => emptyAddons)
+      addonStore.update(() => EMPTY_ADDONS)
     }
     if (data?.perks) {
       const perks = data.perks.map((perkId) =>
@@ -112,7 +125,7 @@
       }
     } else {
       // Force empty
-      perkStore.update((_) => emptyPerks)
+      perkStore.update((_) => EMPTY_PERKS)
     }
 
     if (data?.ttl) scheduleUpdate(data)
@@ -122,12 +135,12 @@
   let timer: ReturnType<typeof setTimeout>
 
   const scheduleUpdate = (data: DbdLoadoutPayload) => {
-    log('data' + data)
+    console.log('data' + data)
     var diff = getTimeout(data.ttl)
     const rdm = getRandom(data.rdm)
     clearTimeout(timer)
     timer = setTimeout(() => refreshPerks(queryPerks, false), diff + rdm)
-    log('Next call in ms: ' + diff + ' + ' + rdm)
+    console.log('Next call in ms: ' + diff + ' + ' + rdm)
   }
 
   const socketDispatch = (
@@ -135,30 +148,31 @@
     contentType: string,
     messagePayload: string
   ) => {
-    log('-- Received broadcast --')
-    log('target: ' + target)
-    log('contentType: ' + contentType)
+    console.log('-- Received broadcast --')
+    console.log('target: ' + target)
+    console.log('contentType: ' + contentType)
     const message = JSON.parse(messagePayload)
-    log('message-type: ' + message.type)
-    if (message.type === 'delay') {
-      log('Got delay broadcast')
-      const data = message.data
-      scheduleUpdate(data)
-    } else if (message.type === 'update') {
-      // Update request
-      const data = message.data
-      updateApp(data)
-    } else if (message.type === 'disable') {
-      // KillSwitch
-      killApp()
+    console.log('message-type: ' + message.type)
+
+    switch (message.type) {
+      case 'delay':
+        console.log('Got delay broadcast')
+        scheduleUpdate(message.data)
+        break
+      case 'update':
+        updateApp(message.data)
+        break
+      case 'disable':
+        killApp()
+        break
     }
   }
 
   // High load fail-safe
   const killApp = () => {
-    log('BYE BYE.')
+    console.log('BYE BYE.')
     killSwitchOn = true
-    appEnabled.update((_) => false)
+    appEnabled.disable()
   }
 
   const onAuthorized = (auth: TwitchAuthPayload) => {
@@ -167,10 +181,10 @@
       channelId = auth.channelId
       userData.update(() => ({ token, channelId }))
 
-      log('onAuthorized')
-      log('Token: ' + token)
-      log('Location: ' + window.location)
-      log(`CHANNELID: ${channelId}`)
+      console.log('onAuthorized')
+      console.log('Token: ' + token)
+      console.log('Location: ' + window.location)
+      console.log(`CHANNELID: ${channelId}`)
 
       if (!initialized) {
         refreshPerks(queryPerks, true, true)
@@ -181,30 +195,27 @@
 
   const onVisibilityChanged = (isVisible: boolean) => {
     if (isVisible) {
-      log('Visiblity on.')
+      console.log('Visiblity on.')
     } else {
-      log('Visiblity off. Disabling app.')
-      appEnabled.update((_) => false)
+      console.log('Visiblity off. Disabling app.')
+      appEnabled.disable()
     }
   }
 
   const onContext = (context: TwitchExtensionContext) => {
-    log('context:')
-    log(context)
     game = context.game
 
     const gameName = 'Dead by Daylight'
     const gameIsDBD = game === gameName || import.meta.env.DEV
     const configMode = context.mode === 'config'
 
-    if (commsEnabled) {
+    if (appEnabled.enabled) {
       if (!gameIsDBD) {
-        log('Disabling app, game is not dbd')
-        appEnabled.update((_) => false)
+        console.log('Disabling app, game is not dbd')
+        appEnabled.disable()
       }
     } else if (gameIsDBD && !configMode) {
-      appEnabled.update((_) => true)
-      commsEnabled = true
+      appEnabled.enable()
       if (token && !lessThanFourMinsAgo(lastUpdateTimestamp)) {
         // The app never calls home when not visible,
         // but it will update its state if it receives
@@ -219,7 +230,7 @@
 
   export const getConfig = () =>
     (async () => {
-      const response = await fetch(apiEndpoint + 'channels/config', {
+      const response = await fetch(API_ENDPOINT + 'channels/config', {
         mode: 'cors',
         method: 'get',
         headers: {
@@ -232,7 +243,7 @@
 
   export const postConfig = (data: unknown) =>
     (async () => {
-      const response = await fetch(apiEndpoint + 'channels/config', {
+      const response = await fetch(API_ENDPOINT + 'channels/config', {
         mode: 'cors',
         method: 'post',
         headers: {

@@ -3,10 +3,9 @@
   import {
     perkStore,
     killerPerksData,
-    survivorPerksData,
-    showPerk
+    survivorPerksData
   } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
 
@@ -18,6 +17,8 @@
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
 
+  let perkAddonStore = showPerkAddonStore()
+
   function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
 
@@ -28,8 +29,8 @@
   }
 
   const onPerkClick = () => {
-    log(`Perk ${number} clicked`)
-    showPerk.update((_) => number)
+    console.log(`Perk ${number} clicked`)
+    perkAddonStore.setHoveredPerk(number)
   }
 
   $: {
@@ -55,7 +56,7 @@
     on:keyup={onPerkClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->

@@ -2,17 +2,18 @@
   import { fade } from 'svelte/transition'
   import {
     addonStore,
-    killersData as killersStoreData,
-    showAddon
+    killersData as killersStoreData
   } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
 
-  export let number: number
+  export let number: AddonShowControl
 
   let addonData: Partial<AddonEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
+
+  let perkAddonStore = showPerkAddonStore()
 
   $: killersData = $killersStoreData
 
@@ -26,8 +27,8 @@
   }
 
   const onAddonClick = () => {
-    log(`Addon ${number} clicked`)
-    showAddon.update((_) => number as AddonShowControl)
+    console.log(`Addon ${number} clicked`)
+    perkAddonStore.setHoveredAddon(number)
   }
 
   $: {
@@ -57,7 +58,7 @@
     on:keyup={onAddonClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->

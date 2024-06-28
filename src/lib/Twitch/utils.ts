@@ -1,15 +1,8 @@
-const twitch = window.Twitch.ext
+export const EMPTY_PERKS = [null, null, null, null]
+export const EMPTY_ADDONS = [null, null]
 
-export function log(msg: unknown) {
-  if (import.meta.env.PROD) return
-  console.log(msg)
-  if (twitch && twitch.rig) {
-    twitch.rig.log(msg)
-  }
-}
-
-export const emptyPerks = [null, null, null, null]
-export const emptyAddons = [null, null]
+export const API_ENDPOINT = `${import.meta.env.VITE_API_URL}/api/v1/`
+console.log(`EBS ENDPOINT: ${API_ENDPOINT}`)
 
 export const fetchData = async <T>(
   url: string,
