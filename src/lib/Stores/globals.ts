@@ -43,7 +43,6 @@ export const showChangelogs = writable(false)
 export const isMobile = writable(false)
 export const showInfo = writable(false)
 export const isConfig = writable(false)
-export const appEnabled = writable(false)
 
 export const featureFlagsData: Writable<FeatureFlagEntries | undefined> =
   writable(undefined)

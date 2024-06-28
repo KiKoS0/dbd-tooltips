@@ -4,19 +4,14 @@
   import { onDestroy, onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import {
-    appEnabled,
-    perkStore,
-    addonStore,
-    showPerk,
-    showAddon
-  } from '../Stores/globals'
+  import { perkStore, addonStore, showPerk, showAddon } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
   import { log } from '../Twitch/utils'
   import type { Perk, Addon, PerkShowControl } from '../Stores/types'
   import type { Nullable } from '../types'
   import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
+  import { appEnabledStore } from '../Stores/AppStateStore.svelte'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -90,9 +85,9 @@
   onDestroy(() => resizeObserver.disconnect())
 </script>
 
-{#if (waitingForData && !showPerkLock) || !$appEnabled}
+{#if (waitingForData && !showPerkLock) || !appEnabledStore().value}
   <div transition:fade class="status_info">
-    <div class="status_info_logo" />
+    <div class="status_info_logo"></div>
   </div>
 {:else}
   <div
@@ -129,7 +124,8 @@
           style={landscapeMode ? fixSmallWidthStuff('close') : ''}
           role="button"
           tabindex="0"
-        />
+        >
+        </span>
       </div>
     {/if}
     <PerkTootipHud

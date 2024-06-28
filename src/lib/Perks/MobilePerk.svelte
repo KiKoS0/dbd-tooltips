@@ -55,7 +55,7 @@
     on:keyup={onPerkClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->

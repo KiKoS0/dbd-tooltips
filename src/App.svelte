@@ -1,8 +1,7 @@
 <script lang="ts">
   import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
-  import { onDestroy, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import {
-    appEnabled,
     isMobile,
     isConfig,
     killerPerksData,
@@ -16,9 +15,10 @@
   import TopHud from './lib/TopHud.svelte'
   import PerksAddonsView from './lib/PerksAddonsView.svelte'
   import { fetchData } from './lib/Twitch/utils'
+  import { appEnabledStore } from './lib/Stores/AppStateStore.svelte'
 
-  let scale = 1
-  let containerRef: HTMLDivElement | undefined
+  let scale = $state(1)
+  let containerRef: HTMLDivElement | null = $state(null)
 
   const initialize = () => {
     // Check if config mode
@@ -44,9 +44,13 @@
     scale = (entries?.[0]?.contentRect?.height || 540) / 1080
   })
 
-  $: containerRef && resizeObserver.observe(containerRef)
+  $effect(() => {
+    if (containerRef) {
+      resizeObserver.observe(containerRef)
+    }
 
-  onDestroy(() => resizeObserver.disconnect())
+    return () => resizeObserver.disconnect()
+  })
 </script>
 
 <Twitch />
@@ -54,7 +58,7 @@
   <ConfigurationHud>Loading configuration...</ConfigurationHud>
 {:else if $isMobile}
   <MobilePerkView />
-{:else if $appEnabled}
+{:else if appEnabledStore().value}
   <div bind:this={containerRef} class="auto-scale">
     <TopHud {scale} />
     <div class="dbd-app">

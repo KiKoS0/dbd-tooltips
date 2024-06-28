@@ -57,7 +57,7 @@
     on:keyup={onAddonClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->
