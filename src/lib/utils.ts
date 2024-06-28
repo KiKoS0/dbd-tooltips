@@ -22,8 +22,6 @@ export function checkForContainer(name: string): boolean {
   return document.getElementsByClassName(name).length > 0
 }
 
-export const isFirefox = () => /firefox/i.test(navigator.userAgent)
-
 export const EMPTY_PERK: PerkEntry = {
   gif: './images/empty_perk.png',
   name: 'Unknown Perk',

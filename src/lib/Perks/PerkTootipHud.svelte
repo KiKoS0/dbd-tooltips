@@ -17,9 +17,6 @@
     PerkEntry
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
-  import { FEATURE_FLAGS } from '../shared/flags'
-  import { isFirefox } from '../utils'
-  import { featureFlagEnabled } from '../Stores/flags'
 
   $: survivor_perks = $survivorPerksData
   $: killer_perks = $killerPerksData
@@ -119,12 +116,6 @@
     gifSrc = `https://${cdnHost}/${removeDataPrefixInPath(path)}`
     forceRerender = {}
   }
-
-  const disableFirefoxVideoFlag = featureFlagEnabled(
-    FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO
-  )
-
-  $: disableVideo = $disableFirefoxVideoFlag && isFirefox()
 </script>
 
 {#if !disabled}
@@ -163,21 +154,19 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            {#if !disableVideo}
-              <video
-                id="bg-vid-perk"
-                preload="auto"
-                playsinline
-                autoplay
-                muted
-                loop
-              >
-                <source
-                  src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
-                  type="video/mp4"
-                />
-              </video>
-            {/if}
+            <video
+              id="bg-vid-perk"
+              preload="auto"
+              playsinline
+              autoplay
+              muted
+              loop
+            >
+              <source
+                src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
+                type="video/mp4"
+              />
+            </video>
             <div class="perk_info_header_wrapper">
               <div
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
