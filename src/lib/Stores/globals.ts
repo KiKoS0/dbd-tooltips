@@ -35,7 +35,6 @@ export const localizedKillerPerksData: Writable<LocalizedPerkEntries> =
 export const localizedSurvivorPerksData: Writable<LocalizedPerkEntries> =
   writable({})
 
-export const showChangelogs = writable(false)
 export const isMobile = writable(false)
 export const showInfo = writable(false)
 export const isConfig = writable(false)

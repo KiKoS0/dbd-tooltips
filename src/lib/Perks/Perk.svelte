@@ -1,15 +1,12 @@
 <script lang="ts">
-  import { perkStore, showChangelogs, showInfo } from '../Stores/globals'
+  import { perkStore, showInfo } from '../Stores/globals'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkShowControl } from '../Stores/types'
 
-  let {
-    perkIdx,
-    enabled = true
-  }: {
+  let { perkIdx, enabled = true } = $props<{
     perkIdx: PerkShowControl
     enabled: boolean
-  } = $props()
+  }>()
 
   let perkAddonStore = showPerkAddonStore()
 
@@ -23,14 +20,13 @@
   function hoverOutOfPerk() {
     if (enabled) {
       perkAddonStore.clearHoveredPerk()
-
-      showChangelogs.update((_) => false)
+      perkAddonStore.hideChangelogs()
     }
   }
 
   function onClick() {
     if (enabled) {
-      showChangelogs.update((val) => !val)
+      perkAddonStore.toggleChangelogs()
     }
   }
 </script>

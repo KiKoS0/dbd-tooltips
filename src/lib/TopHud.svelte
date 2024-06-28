@@ -8,7 +8,7 @@
   import type { Nullable } from './types'
   import { showPerkAddonStore } from './Stores/ShowPerkAddonStore.svelte'
 
-  let { scale } = $props()
+  let { scale } = $props<{ scale: number }>()
   let addonsAvailable = $derived(
     $addonStore && ($addonStore[0] || $addonStore[1])
   )

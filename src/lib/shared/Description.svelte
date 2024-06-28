@@ -1,45 +1,56 @@
 <script lang="ts">
-  import { afterUpdate } from 'svelte'
   import { t } from '../I18n'
-  import { showChangelogs } from '../Stores/globals'
+  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
 
-  export let description = ''
-  export let changelogs: string | undefined = undefined
-  export let mobileMode = false
+  let {
+    description = '',
+    changelogs,
+    mobileMode = false
+  } = $props<{
+    description: string
+    changelogs?: string
+    mobileMode: boolean
+  }>()
 
   let containerRef: HTMLDivElement | undefined
 
+  let showChangelogs = $derived(showPerkAddonStore().changelogsShowing)
+
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
-  const ignoreLinkClick = () => false
+  const noop = () => false
 
   const disableLinks = () => {
-    const links = containerRef?.getElementsByTagName('a') || []
+    if (description || changelogs) {
+      const links = containerRef?.getElementsByTagName('a') || []
+      Array.from(links).forEach((l) => (l.onclick = noop))
 
-    Array.from(links).forEach((l) => {
-      l.onclick = ignoreLinkClick
-    })
-
-    console.log(`Disabled links: ${links.length}`)
+      console.debug(`Disabled links: ${links.length}`)
+    }
   }
 
   const redirectIconSrcsToCDN = () => {
-    const icons = containerRef?.getElementsByTagName('img') || []
+    if (description || changelogs) {
+      const icons = containerRef?.getElementsByTagName('img') || []
 
-    Array.from(icons).forEach((icon) => {
-      const iconSrc = icon.src
+      Array.from(icons).forEach((icon) => {
+        const iconSrc = icon.src
 
-      const match = /images\/icons\/.*/.exec(iconSrc)
-      const notGoingToCDNAlready = !iconSrc.includes(cdnHost)
+        const match = /images\/icons\/.*/.exec(iconSrc)
+        const notGoingToCDNAlready = !iconSrc.includes(cdnHost)
 
-      if (match && notGoingToCDNAlready) {
-        icon.src = `https://${cdnHost}/${match[0]}`
-      }
-    })
-    console.log(`Updated icons: ${icons.length}`)
+        if (match && notGoingToCDNAlready) {
+          icon.src = `https://${cdnHost}/${match[0]}`
+        }
+      })
+      console.debug(`Updated icons: ${icons.length}`)
+    }
   }
 
-  afterUpdate(() => (redirectIconSrcsToCDN(), disableLinks()))
+  $effect(() => {
+    redirectIconSrcsToCDN()
+    disableLinks()
+  })
 </script>
 
 <div bind:this={containerRef} class="description_container">
@@ -48,11 +59,11 @@
 
   {#if changelogs}
     <div
-      class:changelog-container={!$showChangelogs && !mobileMode}
-      class:changelog-container-expanded={$showChangelogs && !mobileMode}
+      class:changelog-container={!showChangelogs && !mobileMode}
+      class:changelog-container-expanded={showChangelogs && !mobileMode}
     >
       <hr class="new-hr" style="opacity:0.1" />
-      {#if !$showChangelogs && !mobileMode}
+      {#if !showChangelogs && !mobileMode}
         <h5 class="changelog-info">{$t('show.more')}</h5>
       {:else}
         <div class="new-changelogs-container">
