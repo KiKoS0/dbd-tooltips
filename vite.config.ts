@@ -6,21 +6,18 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const productionPlugins =
-    mode === 'production'
-      ? [
-          sentryVitePlugin({
-            org: 'kikos0',
-            project: 'dbd-tooltips',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            telemetry: false
-          })
-        ]
-      : []
-
   return {
     base: './',
-    plugins: [svelte({}), webpackStatsPlugin(), [...productionPlugins]],
+    plugins: [
+      svelte({}),
+      webpackStatsPlugin(),
+      sentryVitePlugin({
+        org: 'kikos0',
+        project: 'dbd-tooltips',
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        telemetry: false
+      })
+    ],
     envDir: './env',
     build: {
       sourcemap: mode !== 'development' ? 'hidden' : true,

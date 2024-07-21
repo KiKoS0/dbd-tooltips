@@ -8,12 +8,15 @@ import {
   browserProfilingIntegration
 } from '@sentry/svelte'
 
+const tracesSampleRate = import.meta.env.MODE === 'development' ? 1 : 0.1
+const profilesSampleRate = import.meta.env.MODE === 'development' ? 1 : 0.1
+
 init({
   dsn: 'https://cf4e5e31d67efd3fee13291158e779c6@o963300.ingest.sentry.io/4506361992314880',
   integrations: [browserTracingIntegration(), browserProfilingIntegration()],
-  tracePropagationTargets: ['localhost', /^https:\/\/api\.dbdtwitch\.com\/api/],
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0
+  tracesSampleRate,
+  profilesSampleRate,
+  environment: import.meta.env.MODE
 })
 
 const app = mount(App, { target: document.getElementById('app')! })
