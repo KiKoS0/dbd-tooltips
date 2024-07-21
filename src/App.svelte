@@ -1,13 +1,11 @@
 <script lang="ts">
   import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
   import { onMount } from 'svelte'
-  import { killerPerksData, survivorPerksData } from './lib/Stores/globals'
   import { checkForContainer } from './lib/utils'
   import { Twitch } from './lib/Twitch'
   import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
   import TopHud from './lib/TopHud.svelte'
   import PerksAddonsView from './lib/PerksAddonsView.svelte'
-  import { fetchData } from './lib/Twitch/utils'
   import { appStateStore } from './lib/Stores/AppStateStore.svelte'
 
   let scale = $state(1)
@@ -24,9 +22,6 @@
     if (checkForContainer('dbd_mobile_container')) {
       appState.setAppMode('mobile')
     }
-
-    fetchData('killers.json', killerPerksData.update)
-    fetchData('survivors.json', survivorPerksData.update)
   }
 
   onMount(() => initialize())

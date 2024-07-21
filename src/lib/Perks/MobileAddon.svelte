@@ -5,7 +5,7 @@
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
-  import { killersDataStore } from '../Stores/KillersDataStore.svelte'
+  import { mainGameStore } from '../Stores/mainGameStore'
 
   export let number: AddonShowControl
 
@@ -13,8 +13,7 @@
   let gifSrc: string | undefined = undefined
 
   let perkAddonStore = showPerkAddonStore()
-
-  const killersStore = killersDataStore()
+  const gameStore = mainGameStore()
 
   function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
@@ -33,8 +32,8 @@
   $: {
     let addon = $addonStore[number]
 
-    if (addon && killersStore.data) {
-      const addonDic = killersStore.data[addon.killerId].addons
+    if (addon && gameStore.killersMetadata) {
+      const addonDic = gameStore.killersMetadata[addon.killerId].addons
 
       addonData = addonDic[addon.id] ? addonDic[addon.id] : EMPTY_ADDON
 

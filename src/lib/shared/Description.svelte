@@ -7,9 +7,9 @@
     changelogs,
     mobileMode = false
   } = $props<{
-    description: string
+    description?: string
     changelogs?: string
-    mobileMode: boolean
+    mobileMode?: boolean
   }>()
 
   let containerRef: HTMLDivElement | undefined

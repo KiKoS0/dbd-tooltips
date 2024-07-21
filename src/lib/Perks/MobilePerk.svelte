@@ -1,21 +1,17 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    perkStore,
-    killerPerksData,
-    survivorPerksData
-  } from '../Stores/globals'
+  import { perkStore } from '../Stores/globals'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
+  import { mainGameStore } from '../Stores/mainGameStore'
 
   export let number: PerkShowControl
 
   let perkData: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
 
-  $: survivor_perks = $survivorPerksData
-  $: killer_perks = $killerPerksData
+  const gameStore = mainGameStore()
 
   let perkAddonStore = showPerkAddonStore()
 
@@ -36,8 +32,11 @@
   $: {
     let hPerk = $perkStore[number]
 
-    if (hPerk && survivor_perks && killer_perks) {
-      const perkDic = hPerk.actor === 'survivor' ? survivor_perks : killer_perks
+    if (hPerk && gameStore.survivorsData && gameStore.killersData) {
+      const perkDic =
+        hPerk.actor === 'survivor'
+          ? gameStore.survivorsData
+          : gameStore.killersData
 
       perkData = perkDic[hPerk.id] ? perkDic[hPerk.id] : EMPTY_PERK
       imageUpdate(perkData.gif as string, perkData.gif !== EMPTY_PERK.gif)

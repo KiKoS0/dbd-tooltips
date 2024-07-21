@@ -1,8 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
   import {
-    survivorPerksData,
-    killerPerksData,
     localizedSurvivorPerksData,
     localizedKillerPerksData,
     hudSize
@@ -17,9 +15,9 @@
     PerkEntry
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
+  import { mainGameStore } from '../Stores/mainGameStore'
 
-  $: survivor_perks = $survivorPerksData
-  $: killer_perks = $killerPerksData
+  const gameStore = mainGameStore()
 
   $: localized_survivor_perks = $localizedSurvivorPerksData
   $: localized_killer_perks = $localizedKillerPerksData
@@ -56,9 +54,11 @@
     let hPerk = hoveredPerk
     console.log(`Hovered perk: ${hPerk?.id}`)
 
-    if (hPerk && survivor_perks && killer_perks) {
+    if (hPerk && gameStore.survivorsData && gameStore.killersData) {
       const perk_dic =
-        hPerk.actor === 'survivor' ? survivor_perks : killer_perks
+        hPerk.actor === 'survivor'
+          ? gameStore.survivorsData
+          : gameStore.killersData
       const localized_perk_dic =
         hPerk.actor === 'survivor'
           ? localized_survivor_perks

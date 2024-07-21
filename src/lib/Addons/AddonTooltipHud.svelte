@@ -7,16 +7,16 @@
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
-  import { killersDataStore } from '../Stores/KillersDataStore.svelte'
+  import { mainGameStore } from '../Stores/mainGameStore'
 
-  const killersStore = killersDataStore()
+  const gameStore = mainGameStore()
 
   const unsubscribe = addonStore.subscribe((value) => {
     if (value && value.constructor === Array) {
       // Preloading perks gifs
       value.forEach((item) => {
-        if (item && killersStore.data) {
-          const addon_dic = killersStore.data[item.killerId]['addons']
+        if (item && gameStore.killersMetadata) {
+          const addon_dic = gameStore.killersMetadata[item.killerId]['addons']
 
           if (item.id in addon_dic) {
             // Preload only when it's available obviously
@@ -49,8 +49,8 @@
 
   $: {
     let hAddon = hoveredAddon
-    if (hAddon && killersStore.data) {
-      const perk_dic = killersStore.data
+    if (hAddon && gameStore.killersMetadata) {
+      const perk_dic = gameStore.killersMetadata
 
       if (perk_dic[hAddon.killerId]) {
         hoveredPerkInfo = {
