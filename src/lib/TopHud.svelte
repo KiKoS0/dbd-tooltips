@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { showInfo } from './Stores/globals'
   import PerkToolTipHud from './Perks/PerkTootipHud.svelte'
   import AddonToolTipHud from './Addons/AddonTooltipHud.svelte'
   import { fade, fly } from 'svelte/transition'
@@ -38,7 +37,7 @@
   class="global_hud"
   style={`transform: translate(-50%, -50%) scale(${scale})`}
 >
-  {#if $showInfo}
+  {#if visualState.helperInfoShowing}
     <div class="hover-over-perks" out:fade in:fly={{ y: -50, duration: 500 }}>
       {t('show.perks')} ⮞
     </div>

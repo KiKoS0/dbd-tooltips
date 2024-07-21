@@ -1,7 +1,6 @@
 <script lang="ts">
   /* eslint-disable svelte/valid-compile */
   import type { AddonShowControl } from '../Stores/types'
-  import { showInfo } from '../Stores/globals'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
@@ -14,7 +13,7 @@
   const hoverOverAddon = () => {
     if (!enabled) return
     visualState.setHoveredAddon(addonIdx)
-    showInfo.update(() => false)
+    visualState.hideHelperInfo()
   }
 
   const hoverOutOfAddon = () => {

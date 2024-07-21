@@ -1,6 +1,5 @@
 <script lang="ts">
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-  import { showInfo } from '../Stores/globals'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkShowControl } from '../Stores/types'
 
@@ -15,7 +14,7 @@
   function hoverOverPerk() {
     if (enabled) {
       visualState.setHoveredPerk(perkIdx)
-      showInfo.update((_) => false)
+      visualState.hideHelperInfo()
     }
   }
 

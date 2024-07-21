@@ -1,9 +1,11 @@
 <script context="module" lang="ts">
-  import { showInfo, userData } from '../Stores/globals'
+  import { userData } from '../Stores/globals'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
   import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS } from './utils'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import type {
     DbdLoadoutPayload,
     TwitchAuthPayload,
@@ -12,6 +14,7 @@
 
   const appEnabled = appStateStore()
   const currentGameState = currentGameStateStore()
+  const visualState = visualStore()
 
   let twitch = window.Twitch.ext
   let token = ''
@@ -21,7 +24,6 @@
   let channelId = ''
   let lastUpdateTimestamp = 0
   let isFirstUpdate = true
-  let infoAnimationDelay = 5000
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   const apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/`
@@ -112,12 +114,9 @@
 
       if (isFirstUpdate) {
         isFirstUpdate = false
-        showInfo.update((_) => true)
-        setTimeout(() => showInfo.update((_) => false), infoAnimationDelay)
-        // setTimeout(() => showPerk.update(_ => 1), 0); // DEBUG ONLY
+        visualState.showHelperInfo()
       }
     } else {
-      // Force empty
       currentGameState.setPerks(EMPTY_PERKS)
     }
 
@@ -252,7 +251,6 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   onMount(() => {
     // Register Twitch callbacks
