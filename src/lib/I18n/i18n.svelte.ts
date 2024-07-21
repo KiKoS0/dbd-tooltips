@@ -3,7 +3,7 @@ import type { Locale } from './types'
 import {
   defaultLocale,
   localizationStore
-} from '../Stores/localizationStore.svelte'
+} from '../Stores/LocalizationStore.svelte'
 
 export const locales: Locale[] = Object.keys(translations) as Locale[]
 

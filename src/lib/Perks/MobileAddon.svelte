@@ -4,7 +4,7 @@
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
-  import { mainGameStore } from '../Stores/mainGameStore'
+  import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let number: AddonShowControl

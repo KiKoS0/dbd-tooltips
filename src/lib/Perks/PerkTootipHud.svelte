@@ -10,8 +10,8 @@
     PerkEntry
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
-  import { mainGameStore } from '../Stores/mainGameStore'
-  import { localizationStore } from '../Stores/localizationStore.svelte'
+  import { mainGameStore } from '../Stores/MainGameStore'
+  import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   const gameStore = mainGameStore()

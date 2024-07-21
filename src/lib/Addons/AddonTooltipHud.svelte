@@ -5,7 +5,7 @@
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
-  import { mainGameStore } from '../Stores/mainGameStore'
+  import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   const gameStore = mainGameStore()

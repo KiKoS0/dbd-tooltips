@@ -3,7 +3,7 @@
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
-  import { mainGameStore } from '../Stores/mainGameStore'
+  import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let number: PerkShowControl
