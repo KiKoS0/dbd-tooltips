@@ -13,20 +13,25 @@
   import { mainGameStore } from '../Stores/MainGameStore'
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { EMPTY_PERK, removeDataPrefixInPath } from '../utils'
+
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
+
+  let {
+    disabled = false,
+    hoveredPerk = null,
+    mobileMode = false,
+    landscapeMode = false
+  } = $props<{
+    disabled?: boolean
+    hoveredPerk?: Nullable<Perk>
+    mobileMode?: boolean
+    landscapeMode?: boolean
+  }>()
 
   const gameStore = mainGameStore()
   const localization = localizationStore()
   const currentGameState = currentGameStateStore()
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
-
-  export let disabled = false
-  export let hoveredPerk: Nullable<Perk> = null
-  export let mobileMode = false
-  export let landscapeMode = false
-
-  let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
-  let gifSrc: string | undefined = undefined
 
   const localizePerk = (
     perkId: string,
@@ -45,38 +50,31 @@
     return { ...hoveredPerk, ...toUpdate } as PerkEntry
   }
 
-  $: {
-    let hPerk = hoveredPerk
-    console.log(`Hovered perk: ${hPerk?.id}`)
-
-    if (hPerk && gameStore.survivorsData && gameStore.killersData) {
-      const perk_dic =
-        hPerk.actor === 'survivor'
-          ? gameStore.survivorsData
-          : gameStore.killersData
-      const localizedPerkDic =
-        hPerk.actor === 'survivor'
-          ? localization.survivorsLocalizationData
-          : localization.killersLocalizationData
-
-      const perkId = hPerk.id
-      if (perk_dic[perkId]) {
-        hoveredPerkInfo = localizePerk(perkId, perk_dic, localizedPerkDic)
-
-        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
-      } else {
-        // No data for perk available, probably need to update the json files.
-        hoveredPerkInfo = {
-          gif: './images/empty_perk.png',
-          name: 'Unknown Perk',
-          description:
-            "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
-          character: 'Unknown'
-        }
-        imageUpdate(hoveredPerkInfo.gif as string)
-      }
+  const hoveredPerkInfo: Partial<PerkEntry> | undefined = $derived.by(() => {
+    if (!hoveredPerk || !gameStore.survivorsData || !gameStore.killersData) {
+      return undefined
     }
-  }
+
+    const perkDic =
+      hoveredPerk.actor === 'survivor'
+        ? gameStore.survivorsData
+        : gameStore.killersData
+    const localizedPerkDic =
+      hoveredPerk.actor === 'survivor'
+        ? localization.survivorsLocalizationData
+        : localization.killersLocalizationData
+
+    const perkId = hoveredPerk.id
+
+    return perkDic[perkId]
+      ? localizePerk(perkId, perkDic, localizedPerkDic)
+      : EMPTY_PERK
+  })
+
+  let gifSrc: string | undefined = $derived(
+    hoveredPerkInfo?.gif &&
+      `https://${cdnHost}/${removeDataPrefixInPath(hoveredPerkInfo?.gif)}`
+  )
 
   function perkOrGeneral(value?: string) {
     var res = value && value.toUpperCase()
@@ -102,15 +100,6 @@
       return `bottom: ${scaleToPositions[hudSize][0]}% !important; right: ${scaleToPositions[hudSize][1]}% !important;`
     } else return ''
   }
-
-  let forceRerender = {}
-
-  const removeDataPrefixInPath = (path: string) => path.replace(/^data\//, '')
-
-  function imageUpdate(path: string) {
-    gifSrc = `https://${cdnHost}/${removeDataPrefixInPath(path)}`
-    forceRerender = {}
-  }
 </script>
 
 {#if !disabled}
@@ -128,9 +117,7 @@
           class="perk_info_img"
           class:perk_info_img_lan={mobileMode && landscapeMode}
         >
-          {#key forceRerender}
-            <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
-          {/key}
+          <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
         </div>
 
         {#if mobileMode && landscapeMode}

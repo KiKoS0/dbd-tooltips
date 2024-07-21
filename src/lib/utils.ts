@@ -7,6 +7,9 @@ export function getTimeout(ttl: number | string | Date): number {
   return diff
 }
 
+export const removeDataPrefixInPath = (path: string) =>
+  path.replace(/^data\//, '')
+
 export function getRandom(max: number): number {
   return Math.random() * max
 }
