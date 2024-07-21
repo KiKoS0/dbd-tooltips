@@ -1,7 +1,7 @@
 <script lang="ts">
   import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
   import { onMount } from 'svelte'
-  import { checkForContainer } from './lib/utils'
+  import { checkForContainer } from './lib/utils.svelte'
   import { Twitch } from './lib/Twitch'
   import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
   import TopHud from './lib/TopHud.svelte'

@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition'
 
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
-  import { EMPTY_ADDON } from '../utils'
+  import { emptyAddon } from '../utils.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
@@ -36,11 +36,11 @@
     if (addon && gameStore.killersMetadata) {
       const addonDic = gameStore.killersMetadata[addon.killerId].addons
 
-      addonData = addonDic[addon.id] ? addonDic[addon.id] : EMPTY_ADDON
+      addonData = addonDic[addon.id] ? addonDic[addon.id] : emptyAddon()
 
       imageUpdate(
         addonData.img_path as string,
-        addonData.img_path !== EMPTY_ADDON.img_path
+        addonData.img_path !== emptyAddon().img_path
       )
     }
   }

@@ -13,7 +13,7 @@
   import { mainGameStore } from '../Stores/MainGameStore'
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-  import { EMPTY_PERK, removeDataPrefixInPath } from '../utils'
+  import { emptyPerk, removeDataPrefixInPath } from '../utils.svelte'
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
@@ -68,7 +68,7 @@
 
     return perkDic[perkId]
       ? localizePerk(perkId, perkDic, localizedPerkDic)
-      : EMPTY_PERK
+      : emptyPerk()
   })
 
   let gifSrc: string | undefined = $derived(

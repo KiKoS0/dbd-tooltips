@@ -7,7 +7,7 @@
   import type { Nullable } from '../types'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-  import { EMPTY_ADDON, removeDataPrefixInPath } from '../utils'
+  import { emptyAddon, removeDataPrefixInPath } from '../utils.svelte'
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
@@ -42,7 +42,7 @@
           character: killerMetadataDic[hoveredAddon.killerId].name,
           ...killerMetadataDic[hoveredAddon.killerId].addons[hoveredAddon.id]
         }
-      : EMPTY_ADDON
+      : emptyAddon()
   })
 
   let gifSrc: string | undefined = $derived(

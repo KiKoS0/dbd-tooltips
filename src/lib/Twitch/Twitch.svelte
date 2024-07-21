@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
+  import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils.svelte'
   import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS } from './utils'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'

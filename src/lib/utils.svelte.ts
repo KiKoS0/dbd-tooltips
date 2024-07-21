@@ -1,3 +1,4 @@
+import { t } from './I18n'
 import type { AddonEntry, PerkEntry } from './Stores/types'
 
 export function getTimeout(ttl: number | string | Date): number {
@@ -25,26 +26,27 @@ export function checkForContainer(name: string): boolean {
   return document.getElementsByClassName(name).length > 0
 }
 
-export const EMPTY_PERK: PerkEntry = {
+const EMPTY_PERK: PerkEntry = $derived({
   gif: './images/empty_perk.png',
-  name: 'Unknown Perk',
-  description:
-    "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
-  character: 'Unknown',
+  name: t('perk.unknown.name'),
+  description: t('perk.unknown.description'),
+  character: t('perk.unknown.character'),
   changelogs: '',
   frames: [],
   icon_alt: 'empty_perk.png',
   icon_src: '',
   link: '',
   locales: {}
-}
+})
 
-export const EMPTY_ADDON: AddonEntry = {
-  name: 'Unknown Perk',
-  description:
-    "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
+const EMPTY_ADDON: AddonEntry = $derived({
+  name: t('addon.unknown.name'),
+  description: t('addon.unknown.description'),
   img_alt: 'empty_perk.png',
   img_path: './images/empty_perk.png',
   img_src: './images/empty_perk.png',
   link: ''
-}
+})
+
+export const emptyPerk = () => EMPTY_PERK
+export const emptyAddon = () => EMPTY_ADDON

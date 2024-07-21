@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
-  import { EMPTY_PERK } from '../utils'
+  import { emptyPerk } from '../utils.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
@@ -39,8 +39,8 @@
           ? gameStore.survivorsData
           : gameStore.killersData
 
-      perkData = perkDic[hPerk.id] ? perkDic[hPerk.id] : EMPTY_PERK
-      imageUpdate(perkData.gif as string, perkData.gif !== EMPTY_PERK.gif)
+      perkData = perkDic[hPerk.id] ? perkDic[hPerk.id] : emptyPerk()
+      imageUpdate(perkData.gif as string, perkData.gif !== emptyPerk().gif)
     }
   }
 
