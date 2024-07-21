@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { perkStore, addonStore, showInfo } from './Stores/globals'
+  import { showInfo } from './Stores/globals'
   import PerkToolTipHud from './Perks/PerkTootipHud.svelte'
   import AddonToolTipHud from './Addons/AddonTooltipHud.svelte'
   import { fade, fly } from 'svelte/transition'
@@ -7,22 +7,30 @@
   import type { Addon, Perk } from './Stores/types'
   import type { Nullable } from './types'
   import { showPerkAddonStore } from './Stores/ShowPerkAddonStore.svelte'
+  import { currentGameStateStore } from './Stores/CurrentGameStateStore.svelte'
 
   let { scale } = $props<{ scale: number }>()
-  let addonsAvailable = $derived(
-    $addonStore && ($addonStore[0] || $addonStore[1])
-  )
 
   let perkAddonStore = showPerkAddonStore()
+  const currentGameState = currentGameStateStore()
 
-  let perkToolTipDisabled = $derived(!$perkStore[perkAddonStore.hoveredPerk])
-  let addonTooltipDisabled = $derived(!$addonStore[perkAddonStore.hoveredAddon])
+  let addonsAvailable = $derived(
+    currentGameState.addons &&
+      (currentGameState.addons[0] || currentGameState.addons[1])
+  )
+
+  let perkToolTipDisabled = $derived(
+    !currentGameState.perks[perkAddonStore.hoveredPerk]
+  )
+  let addonTooltipDisabled = $derived(
+    !currentGameState.addons[perkAddonStore.hoveredAddon]
+  )
 
   let hoveredPerk: Nullable<Perk> = $derived(
-    $perkStore[perkAddonStore.hoveredPerk] || null
+    currentGameState.perks[perkAddonStore.hoveredPerk] || null
   )
   let hoveredAddon: Nullable<Addon> = $derived(
-    $addonStore[perkAddonStore.hoveredAddon]
+    currentGameState.addons[perkAddonStore.hoveredAddon]
   )
 </script>
 

@@ -4,7 +4,6 @@
   import { onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import { perkStore, addonStore } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
   import type {
     Perk,
@@ -17,6 +16,7 @@
   import { t } from '../I18n'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -28,16 +28,18 @@
     // });
   })
 
+  const currentGameState = currentGameStateStore()
+
   let landscapeMode = true
   let perkHudScale = 0.4
 
   let perkAddonStore = showPerkAddonStore()
 
   let hoveredPerk: Nullable<Perk> = $derived(
-    $perkStore[perkAddonStore.hoveredPerk] || null
+    currentGameState.perks[perkAddonStore.hoveredPerk] || null
   )
   let hoveredAddon: Nullable<Addon> = $derived(
-    $addonStore[perkAddonStore.hoveredAddon]
+    currentGameState.addons[perkAddonStore.hoveredAddon]
   )
 
   let showPerkLock = $state(false)
@@ -63,7 +65,7 @@
     return ''
   }
 
-  let waitingForData = $derived($perkStore.every((x) => x === null))
+  let waitingForData = $derived(currentGameState.perks.every((x) => x === null))
 
   const perkHudStyle = $derived(
     `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
@@ -111,12 +113,12 @@
         {t('loadout')}
       </div>
       <div class="mobile_perk_hud" style={perkHudStyle}>
-        {#each $perkStore as _, i}
+        {#each currentGameState.perks as _, i}
           <MobilePerk number={perksNumbers[i]} />
         {/each}
       </div>
       <div class="mobile_addon_hud">
-        {#each $addonStore as _, i}
+        {#each currentGameState.addons as _, i}
           <MobileAddon number={i as AddonShowControl} />
         {/each}
       </div>

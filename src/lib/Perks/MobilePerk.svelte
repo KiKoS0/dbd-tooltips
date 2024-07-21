@@ -1,10 +1,10 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { perkStore } from '../Stores/globals'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
   import { mainGameStore } from '../Stores/mainGameStore'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let number: PerkShowControl
 
@@ -12,6 +12,7 @@
   let gifSrc: string | undefined = undefined
 
   const gameStore = mainGameStore()
+  const currentGameState = currentGameStateStore()
 
   let perkAddonStore = showPerkAddonStore()
 
@@ -30,7 +31,7 @@
   }
 
   $: {
-    let hPerk = $perkStore[number]
+    let hPerk = currentGameState.perks[number]
 
     if (hPerk && gameStore.survivorsData && gameStore.killersData) {
       const perkDic =
@@ -47,7 +48,7 @@
     `background-image: url("${gifSrc}");background-size: 220px;`
 </script>
 
-<div class:disabled={!$perkStore[number]} in:fade class="diam">
+<div class:disabled={!currentGameState.perks[number]} in:fade class="diam">
   <div
     class="image-container"
     style={gifSrc ? getImageStyle() : ''}

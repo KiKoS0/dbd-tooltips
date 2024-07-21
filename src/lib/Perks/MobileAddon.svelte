@@ -1,11 +1,11 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { addonStore } from '../Stores/globals'
 
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import { mainGameStore } from '../Stores/mainGameStore'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let number: AddonShowControl
 
@@ -14,6 +14,7 @@
 
   let perkAddonStore = showPerkAddonStore()
   const gameStore = mainGameStore()
+  const currentGameState = currentGameStateStore()
 
   function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
@@ -30,7 +31,7 @@
   }
 
   $: {
-    let addon = $addonStore[number]
+    let addon = currentGameState.addons[number]
 
     if (addon && gameStore.killersMetadata) {
       const addonDic = gameStore.killersMetadata[addon.killerId].addons
@@ -48,7 +49,7 @@
     `background-image: url("${gifSrc}");background-size: 20vh;`
 </script>
 
-<div class:disabled={!$addonStore[number]} in:fade class="diam">
+<div class:disabled={!currentGameState.addons[number]} in:fade class="diam">
   <div
     class="image-container"
     style={gifSrc ? getImageStyle() : ''}

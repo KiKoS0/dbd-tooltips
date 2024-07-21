@@ -1,11 +1,5 @@
 <script context="module" lang="ts">
-  import {
-    perkStore,
-    hudSize,
-    showInfo,
-    userData,
-    addonStore
-  } from '../Stores/globals'
+  import { showInfo, userData } from '../Stores/globals'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
   import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS } from './utils'
@@ -17,6 +11,7 @@
   } from './types'
 
   const appEnabled = appStateStore()
+  const currentGameState = currentGameStateStore()
 
   let twitch = window.Twitch.ext
   let token = ''
@@ -75,7 +70,7 @@
   ) => {
     if (appEnabled.enabled) {
       if (empty) {
-        perkStore.update((_) => EMPTY_PERKS)
+        currentGameState.setPerks(EMPTY_PERKS)
       }
 
       console.log('SENDING refresh request')
@@ -103,17 +98,18 @@
         addonId ? { killerId, id: addonId } : null
       )
 
-      addonStore.update(() => addons)
+      currentGameState.setAddons(addons)
     } else {
-      addonStore.update(() => EMPTY_ADDONS)
+      currentGameState.setAddons(EMPTY_ADDONS)
     }
     if (data?.perks) {
       const perks = data.perks.map((perkId) =>
         perkId ? { actor: data.actor, id: perkId } : null
       )
-      perkStore.update(() => perks)
 
-      hudSize.update(() => data.ui_scale)
+      currentGameState.setPerks(perks)
+      currentGameState.setHudSize(data.ui_scale)
+
       if (isFirstUpdate) {
         isFirstUpdate = false
         showInfo.update((_) => true)
@@ -122,7 +118,7 @@
       }
     } else {
       // Force empty
-      perkStore.update((_) => EMPTY_PERKS)
+      currentGameState.setPerks(EMPTY_PERKS)
     }
 
     if (data?.ttl) scheduleUpdate(data)
@@ -256,6 +252,7 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   onMount(() => {
     // Register Twitch callbacks

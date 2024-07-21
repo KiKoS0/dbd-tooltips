@@ -1,14 +1,16 @@
 <script lang="ts">
-  import { perkStore, showInfo } from '../Stores/globals'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { showInfo } from '../Stores/globals'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
   import type { PerkShowControl } from '../Stores/types'
 
   let { perkIdx, enabled = true } = $props<{
     perkIdx: PerkShowControl
-    enabled: boolean
+    enabled?: boolean
   }>()
 
   let perkAddonStore = showPerkAddonStore()
+  const currentGameState = currentGameStateStore()
 
   function hoverOverPerk() {
     if (enabled) {
@@ -38,7 +40,7 @@
   on:click={onClick}
   on:keyup={onClick}
   class="diam"
-  class:disabled={!$perkStore[perkIdx]}
+  class:disabled={!currentGameState.perks[perkIdx]}
 ></div>
 
 <!-- eslint-enable svelte/valid-compile  -->

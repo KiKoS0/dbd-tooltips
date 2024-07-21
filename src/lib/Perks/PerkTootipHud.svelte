@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { hudSize } from '../Stores/globals'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
   import type { Nullable } from '../types'
@@ -13,9 +12,11 @@
   import type { DbdUIScale } from '../Twitch/types'
   import { mainGameStore } from '../Stores/mainGameStore'
   import { localizationStore } from '../Stores/localizationStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   const gameStore = mainGameStore()
   const localization = localizationStore()
+  const currentGameState = currentGameStateStore()
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
@@ -114,7 +115,7 @@
 
 {#if !disabled}
   <div
-    style={overridePosScale($hudSize)}
+    style={overridePosScale(currentGameState.hudSize)}
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
   >

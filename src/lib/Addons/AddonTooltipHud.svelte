@@ -1,37 +1,15 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { addonStore, hudSize } from '../Stores/globals'
-  import { onDestroy } from 'svelte'
 
   import Description from '../shared/Description.svelte'
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
   import { mainGameStore } from '../Stores/mainGameStore'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   const gameStore = mainGameStore()
-
-  const unsubscribe = addonStore.subscribe((value) => {
-    if (value && value.constructor === Array) {
-      // Preloading perks gifs
-      value.forEach((item) => {
-        if (item && gameStore.killersMetadata) {
-          const addon_dic = gameStore.killersMetadata[item.killerId]['addons']
-
-          if (item.id in addon_dic) {
-            // Preload only when it's available obviously
-            const img = addon_dic[item.id].img_path
-            const newImage = new Image()
-            newImage.src = img
-            // @ts-expect-error: // TODO: Find a better way to preload the image.
-            window[img] = newImage
-          }
-        }
-      })
-    }
-  })
-
-  onDestroy(unsubscribe)
+  const currentGameState = currentGameStateStore()
 
   export let hoveredAddon: Nullable<Addon> = null
   export let mobileMode = false
@@ -100,7 +78,7 @@
 
 {#if !disabled}
   <div
-    style={overridePosScale($hudSize)}
+    style={overridePosScale(currentGameState.hudSize)}
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
   >
