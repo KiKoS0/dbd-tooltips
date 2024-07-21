@@ -1,11 +1,10 @@
 <script context="module" lang="ts">
-  import { userData } from '../Stores/globals'
-
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
   import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS } from './utils'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
+  import { userDataStore } from '../Stores/UserStore.svelte'
   import type {
     DbdLoadoutPayload,
     TwitchAuthPayload,
@@ -15,6 +14,7 @@
   const appEnabled = appStateStore()
   const currentGameState = currentGameStateStore()
   const visualState = visualStore()
+  const userState = userDataStore()
 
   let twitch = window.Twitch.ext
   let token = ''
@@ -171,7 +171,7 @@
     if (!killSwitchOn) {
       token = auth.token
       channelId = auth.channelId
-      userData.update(() => ({ token, channelId }))
+      userState.setUserData({ token, channelId })
 
       console.log('onAuthorized')
       console.log('Token: ' + token)

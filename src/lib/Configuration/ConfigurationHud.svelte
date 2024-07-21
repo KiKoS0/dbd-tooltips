@@ -1,17 +1,21 @@
 <script lang="ts">
+  import { userDataStore } from '../Stores/UserStore.svelte'
   import { getConfig, postConfig } from '../Twitch'
-  import { userData } from '../Stores/globals'
 
-  let initialized = false
-  let isUnavailable = false
-  let isLoading = true
-  let configEnabledByEBS = false
+  let { initialized, isUnavailable, isLoading, configEnabledByEBS } = $props<{
+    initialized?: boolean
+    isUnavailable?: boolean
+    isLoading?: boolean
+    configEnabledByEBS?: boolean
+  }>()
 
   let scale: number | undefined = undefined
   let savedConfig = false
 
-  $: {
-    if ($userData && !initialized) {
+  const userState = userDataStore()
+
+  $effect(() => {
+    if (userState.userData && !initialized) {
       getConfig()
         .then((data) => {
           console.log(`Configuration: ${JSON.stringify(data)}`)
@@ -25,7 +29,7 @@
           isUnavailable = true
         })
     }
-  }
+  })
 
   function submitConfig() {
     savedConfig = false
