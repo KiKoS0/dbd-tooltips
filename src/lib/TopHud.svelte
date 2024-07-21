@@ -32,7 +32,7 @@
 >
   {#if $showInfo}
     <div class="hover-over-perks" out:fade in:fly={{ y: -50, duration: 500 }}>
-      {$t('show.perks')} ⮞
+      {t('show.perks')} ⮞
     </div>
     {#if addonsAvailable}
       <div
@@ -40,7 +40,7 @@
         out:fade
         in:fly={{ y: -50, duration: 500 }}
       >
-        ⮜ {$t('show.addons')}
+        ⮜ {t('show.addons')}
       </div>
     {/if}
   {/if}

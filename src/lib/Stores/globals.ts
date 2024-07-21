@@ -1,11 +1,6 @@
 import { writable, type Writable } from 'svelte/store'
 import type { DbdUIScale } from '../Twitch/types'
-import type {
-  AddonsLoadout,
-  LocalizedPerkEntries,
-  PerksLoadout,
-  UserData
-} from './types'
+import type { AddonsLoadout, PerksLoadout, UserData } from './types'
 
 export const perkStore: Writable<PerksLoadout> = writable([
   null,
@@ -18,10 +13,5 @@ export const addonStore: Writable<AddonsLoadout> = writable([null, null])
 export const hudSize: Writable<DbdUIScale> = writable('100')
 
 export const userData: Writable<UserData | null> = writable(null)
-
-export const localizedKillerPerksData: Writable<LocalizedPerkEntries> =
-  writable({})
-export const localizedSurvivorPerksData: Writable<LocalizedPerkEntries> =
-  writable({})
 
 export const showInfo = writable(false)

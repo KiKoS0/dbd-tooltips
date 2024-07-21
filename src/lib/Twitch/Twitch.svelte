@@ -4,14 +4,11 @@
     hudSize,
     showInfo,
     userData,
-    addonStore,
-    localizedSurvivorPerksData,
-    localizedKillerPerksData
+    addonStore
   } from '../Stores/globals'
-  import { locale, type Locale } from '../I18n'
 
   import { getRandom, getTimeout, lessThanFourMinsAgo } from '../utils'
-  import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS, fetchData } from './utils'
+  import { API_ENDPOINT, EMPTY_ADDONS, EMPTY_PERKS } from './utils'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import type {
     DbdLoadoutPayload,
@@ -255,31 +252,6 @@
       const channelPerks = await response.json()
       return channelPerks
     })()
-
-  export const updateAppLocale = async (requestedLocale: Locale) => {
-    const response = await fetch(`https://${cdnHost}/supported_locales.json`)
-    let data = (await response.json()) as string[]
-
-    const lang = data.includes(requestedLocale) ? requestedLocale : 'en'
-    initLocale(lang)
-  }
-
-  const initLocale = (lang: Locale) => {
-    locale.update(() => lang)
-    if (lang !== 'en') {
-      fetchData(
-        `locales/survivors_${lang}.json`,
-        localizedSurvivorPerksData.update
-      )
-      fetchData(`locales/killers_${lang}.json`, localizedKillerPerksData.update)
-    } else {
-      localizedSurvivorPerksData.update(() => ({}))
-      localizedKillerPerksData.update(() => ({}))
-    }
-  }
-
-  const urlParams = new URLSearchParams(window.location.search)
-  updateAppLocale((urlParams.get('language') || 'en') as Locale)
 </script>
 
 <script lang="ts">

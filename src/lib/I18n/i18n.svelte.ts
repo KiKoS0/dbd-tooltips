@@ -1,20 +1,20 @@
-import { derived, writable, type Writable } from 'svelte/store'
 import translations from './translations'
-
-export type Locale = 'en' | 'fr' | 'es' // Add more supported locales if needed
-
-const defaultLocale: Locale = 'en'
-
-export const locale: Writable<Locale> = writable(defaultLocale)
+import type { Locale } from './types'
+import {
+  defaultLocale,
+  localizationStore
+} from '../Stores/localizationStore.svelte'
 
 export const locales: Locale[] = Object.keys(translations) as Locale[]
+
+const localeStore = localizationStore()
 
 function translate(
   locale: Locale,
   key: string,
   vars: Record<string, string>
 ): string {
-  if (!key) throw new Error('no key provided to $t()')
+  if (!key) throw new Error('no key provided to t()')
   if (!locale) throw new Error(`no translation for key "${key}"`)
 
   // Grab the translation from the translations object.
@@ -32,9 +32,5 @@ function translate(
   return text
 }
 
-export const t = derived(
-  locale,
-  ($locale: Locale) =>
-    (key: string, vars: Record<string, string> = {}): string =>
-      translate($locale, key, vars)
-)
+export const t = (key: string, vars: Record<string, string> = {}) =>
+  translate(localeStore.locale, key, vars)

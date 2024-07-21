@@ -1,10 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    localizedSurvivorPerksData,
-    localizedKillerPerksData,
-    hudSize
-  } from '../Stores/globals'
+  import { hudSize } from '../Stores/globals'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
   import type { Nullable } from '../types'
@@ -16,11 +12,10 @@
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import { mainGameStore } from '../Stores/mainGameStore'
+  import { localizationStore } from '../Stores/localizationStore.svelte'
 
   const gameStore = mainGameStore()
-
-  $: localized_survivor_perks = $localizedSurvivorPerksData
-  $: localized_killer_perks = $localizedKillerPerksData
+  const localization = localizationStore()
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 
@@ -31,17 +26,16 @@
 
   let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
-  let disableVideo = false
 
   const localizePerk = (
     perkId: string,
     enDic: PerkEntries,
-    localizedDic: LocalizedPerkEntries
+    localizedDic?: LocalizedPerkEntries
   ) => {
     const hoveredPerk = Object.assign({}, enDic[perkId])
     let toUpdate = {}
     if (localizedDic && localizedDic[perkId]) {
-      // Fallback to english
+      // It wouldn't override them for english so we can use the english as a fallback.
       toUpdate = {
         description: localizedDic[perkId].desc || hoveredPerk.description,
         name: localizedDic[perkId].name || hoveredPerk.name
@@ -59,14 +53,14 @@
         hPerk.actor === 'survivor'
           ? gameStore.survivorsData
           : gameStore.killersData
-      const localized_perk_dic =
+      const localizedPerkDic =
         hPerk.actor === 'survivor'
-          ? localized_survivor_perks
-          : localized_killer_perks
+          ? localization.survivorsLocalizationData
+          : localization.killersLocalizationData
 
       const perkId = hPerk.id
       if (perk_dic[perkId]) {
-        hoveredPerkInfo = localizePerk(perkId, perk_dic, localized_perk_dic)
+        hoveredPerkInfo = localizePerk(perkId, perk_dic, localizedPerkDic)
 
         if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
       } else {
@@ -86,7 +80,7 @@
   function perkOrGeneral(value?: string) {
     var res = value && value.toUpperCase()
     if (res == 'ALL') {
-      return $t('general')
+      return t('general')
     } else if (res) {
       return res
     }
@@ -177,7 +171,7 @@
               <div
                 class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               >
-                {$t('perk.tooltip.subtitle', {
+                {t('perk.tooltip.subtitle', {
                   actor: perkOrGeneral(hoveredPerkInfo.character)
                 })}
               </div>

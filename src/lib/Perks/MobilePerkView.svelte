@@ -108,7 +108,7 @@
   >
     {#if !perkScreenOpen}
       <div in:fly={{ y: -50, duration: 500 }} class="main_screen_header">
-        {$t('loadout')}
+        {t('loadout')}
       </div>
       <div class="mobile_perk_hud" style={perkHudStyle}>
         {#each $perkStore as _, i}
@@ -122,7 +122,7 @@
       </div>
       <a href="https://www.patreon.com/kikos" target="_blank">
         <div in:fly={{ x: 50, duration: 500 }} class="support-us">
-          <div style="margin-bottom: 3px;">{$t('support')}</div>
+          <div style="margin-bottom: 3px;">{t('support')}</div>
           <img src="images/patreon.png" alt="Support us" />
         </div>
       </a>

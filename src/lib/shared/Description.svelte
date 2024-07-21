@@ -64,14 +64,14 @@
     >
       <hr class="new-hr" style="opacity:0.1" />
       {#if !showChangelogs && !mobileMode}
-        <h5 class="changelog-info">{$t('show.more')}</h5>
+        <h5 class="changelog-info">{t('show.more')}</h5>
       {:else}
         <div class="new-changelogs-container">
           <!-- eslint-disable-next-line svelte/no-at-html-tags -->
           {@html changelogs}
           <hr class="new-hr" style="opacity:0.1" />
           <div class="wiki-info">
-            {$t('show.wikiInfo')} <span>Dead by Daylight Wiki</span>
+            {t('show.wikiInfo')} <span>Dead by Daylight Wiki</span>
           </div>
         </div>
       {/if}
