@@ -7,9 +7,7 @@
   import type { Nullable } from '../types'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-  import { emptyAddon, removeDataPrefixInPath } from '../utils.svelte'
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
+  import { emptyAddon, generateGifSrc } from '../utils.svelte'
 
   const gameStore = mainGameStore()
   const currentGameState = currentGameStateStore()
@@ -46,8 +44,7 @@
   })
 
   let gifSrc: string | undefined = $derived(
-    hoveredAddonInfo?.img_path &&
-      `https://${cdnHost}/${removeDataPrefixInPath(hoveredAddonInfo?.img_path)}`
+    generateGifSrc(hoveredAddonInfo?.img_path)
   )
 
   const scaleToPositions = {

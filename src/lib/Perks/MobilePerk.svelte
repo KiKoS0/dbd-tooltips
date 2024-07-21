@@ -2,11 +2,9 @@
   import { fade } from 'svelte/transition'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
-  import { emptyPerk, removeDataPrefixInPath } from '../utils.svelte'
+  import { emptyPerk, generateGifSrc } from '../utils.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   let { number } = $props<{ number: PerkShowControl }>()
 
@@ -35,10 +33,7 @@
     return perkDic[hPerk.id] ? perkDic[hPerk.id] : emptyPerk()
   })
 
-  let gifSrc: string | undefined = $derived(
-    perkData?.gif &&
-      `https://${cdnHost}/${removeDataPrefixInPath(perkData.gif)}`
-  )
+  let gifSrc: string | undefined = $derived(generateGifSrc(perkData?.gif))
 
   const getImageStyle = () =>
     `background-image: url("${gifSrc}");background-size: 220px;`

@@ -2,12 +2,10 @@
   import { fade } from 'svelte/transition'
 
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
-  import { emptyAddon, removeDataPrefixInPath } from '../utils.svelte'
+  import { emptyAddon, generateGifSrc } from '../utils.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   let { number } = $props<{ number: AddonShowControl }>()
 
@@ -31,10 +29,7 @@
     return addonDic[addon.id] ? addonDic[addon.id] : emptyAddon()
   })
 
-  let gifSrc: string | undefined = $derived(
-    addonData?.img_path &&
-      `https://${cdnHost}/${removeDataPrefixInPath(addonData?.img_path)}`
-  )
+  let gifSrc: string | undefined = $derived(generateGifSrc(addonData?.img_path))
 
   const getImageStyle = () =>
     `background-image: url("${gifSrc}");background-size: 20vh;`

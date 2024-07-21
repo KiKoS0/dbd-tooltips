@@ -8,9 +8,6 @@ export function getTimeout(ttl: number | string | Date): number {
   return diff
 }
 
-export const removeDataPrefixInPath = (path: string) =>
-  path.replace(/^data\//, '')
-
 export function getRandom(max: number): number {
   return Math.random() * max
 }
@@ -50,3 +47,7 @@ const EMPTY_ADDON: AddonEntry = $derived({
 
 export const emptyPerk = () => EMPTY_PERK
 export const emptyAddon = () => EMPTY_ADDON
+
+export const generateGifSrc = (relativePath?: string) =>
+  relativePath &&
+  `https://${import.meta.env?.VITE_CDN_HOST}/${relativePath.replace(/^data\//, '')}`

@@ -13,9 +13,7 @@
   import { mainGameStore } from '../Stores/MainGameStore'
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
-  import { emptyPerk, removeDataPrefixInPath } from '../utils.svelte'
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
+  import { emptyPerk, generateGifSrc } from '../utils.svelte'
 
   let {
     disabled = false,
@@ -72,8 +70,7 @@
   })
 
   let gifSrc: string | undefined = $derived(
-    hoveredPerkInfo?.gif &&
-      `https://${cdnHost}/${removeDataPrefixInPath(hoveredPerkInfo?.gif)}`
+    generateGifSrc(hoveredPerkInfo?.gif)
   )
 
   function perkOrGeneral(value?: string) {
