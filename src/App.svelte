@@ -4,8 +4,7 @@
   import {
     killerPerksData,
     survivorPerksData,
-    killersData,
-    featureFlagsData
+    killersData
   } from './lib/Stores/globals'
   import { checkForContainer } from './lib/utils'
   import { Twitch } from './lib/Twitch'
@@ -33,7 +32,6 @@
     fetchData('killers.json', killerPerksData.update)
     fetchData('survivors.json', survivorPerksData.update)
     fetchData('powers.json', killersData.update)
-    fetchData('feature_flags.json', featureFlagsData.update)
   }
 
   onMount(() => initialize())
