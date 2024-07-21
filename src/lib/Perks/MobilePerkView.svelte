@@ -15,7 +15,7 @@
   import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   onMount(() => {
@@ -33,21 +33,21 @@
   let landscapeMode = true
   let perkHudScale = 0.4
 
-  let perkAddonStore = showPerkAddonStore()
+  let visualState = visualStore()
 
   let hoveredPerk: Nullable<Perk> = $derived(
-    currentGameState.perks[perkAddonStore.hoveredPerk] || null
+    currentGameState.perks[visualState.hoveredPerk] || null
   )
   let hoveredAddon: Nullable<Addon> = $derived(
-    currentGameState.addons[perkAddonStore.hoveredAddon]
+    currentGameState.addons[visualState.hoveredAddon]
   )
 
   let showPerkLock = $state(false)
   let containerRef: HTMLDivElement | null = $state(null)
 
   const goBack = () => {
-    perkAddonStore.clearHoveredAddon()
-    perkAddonStore.clearHoveredPerk()
+    visualState.clearHoveredAddon()
+    visualState.clearHoveredPerk()
   }
 
   const handleResize = (height: number) => {
@@ -71,8 +71,8 @@
     `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
   )
 
-  const currentlyShowingAddon = $derived(perkAddonStore.hoveredAddon !== -1)
-  const currentlyShowingPerk = $derived(perkAddonStore.hoveredPerk !== -1)
+  const currentlyShowingAddon = $derived(visualState.hoveredAddon !== -1)
+  const currentlyShowingPerk = $derived(visualState.hoveredPerk !== -1)
   const perkScreenOpen = $derived(currentlyShowingPerk || currentlyShowingAddon)
 
   const resizeObserver = new ResizeObserver((entries) =>

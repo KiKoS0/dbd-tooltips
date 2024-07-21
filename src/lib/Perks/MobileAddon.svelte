@@ -3,7 +3,7 @@
 
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
@@ -12,7 +12,7 @@
   let addonData: Partial<AddonEntry> | undefined = undefined
   let gifSrc: string | undefined = undefined
 
-  let perkAddonStore = showPerkAddonStore()
+  let visualState = visualStore()
   const gameStore = mainGameStore()
   const currentGameState = currentGameStateStore()
 
@@ -27,7 +27,7 @@
 
   const onAddonClick = () => {
     console.log(`Addon ${number} clicked`)
-    perkAddonStore.setHoveredAddon(number)
+    visualState.setHoveredAddon(number)
   }
 
   $: {

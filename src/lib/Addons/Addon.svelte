@@ -2,24 +2,24 @@
   /* eslint-disable svelte/valid-compile */
   import type { AddonShowControl } from '../Stores/types'
   import { showInfo } from '../Stores/globals'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let enabled = true
   export let addonIdx: AddonShowControl
 
-  let perkAddonStore = showPerkAddonStore()
+  let visualState = visualStore()
   const currentGameState = currentGameStateStore()
 
   const hoverOverAddon = () => {
     if (!enabled) return
-    perkAddonStore.setHoveredAddon(addonIdx)
+    visualState.setHoveredAddon(addonIdx)
     showInfo.update(() => false)
   }
 
   const hoverOutOfAddon = () => {
     if (!enabled) return
-    perkAddonStore.setHoveredAddon(-1)
+    visualState.setHoveredAddon(-1)
   }
 </script>
 

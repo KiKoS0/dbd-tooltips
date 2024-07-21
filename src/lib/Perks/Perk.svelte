@@ -1,7 +1,7 @@
 <script lang="ts">
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { showInfo } from '../Stores/globals'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkShowControl } from '../Stores/types'
 
   let { perkIdx, enabled = true } = $props<{
@@ -9,26 +9,26 @@
     enabled?: boolean
   }>()
 
-  let perkAddonStore = showPerkAddonStore()
+  let visualState = visualStore()
   const currentGameState = currentGameStateStore()
 
   function hoverOverPerk() {
     if (enabled) {
-      perkAddonStore.setHoveredPerk(perkIdx)
+      visualState.setHoveredPerk(perkIdx)
       showInfo.update((_) => false)
     }
   }
 
   function hoverOutOfPerk() {
     if (enabled) {
-      perkAddonStore.clearHoveredPerk()
-      perkAddonStore.hideChangelogs()
+      visualState.clearHoveredPerk()
+      visualState.hideChangelogs()
     }
   }
 
   function onClick() {
     if (enabled) {
-      perkAddonStore.toggleChangelogs()
+      visualState.toggleChangelogs()
     }
   }
 </script>

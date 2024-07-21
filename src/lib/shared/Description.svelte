@@ -1,6 +1,6 @@
 <script lang="ts">
   import { t } from '../I18n'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
 
   let {
     description = '',
@@ -14,7 +14,7 @@
 
   let containerRef: HTMLDivElement | undefined
 
-  let showChangelogs = $derived(showPerkAddonStore().changelogsShowing)
+  let showChangelogs = $derived(visualStore().changelogsShowing)
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
 

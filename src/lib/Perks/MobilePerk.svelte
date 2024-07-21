@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
   import { EMPTY_PERK } from '../utils'
   import { mainGameStore } from '../Stores/MainGameStore'
@@ -14,7 +14,7 @@
   const gameStore = mainGameStore()
   const currentGameState = currentGameStateStore()
 
-  let perkAddonStore = showPerkAddonStore()
+  let visualState = visualStore()
 
   function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
@@ -27,7 +27,7 @@
 
   const onPerkClick = () => {
     console.log(`Perk ${number} clicked`)
-    perkAddonStore.setHoveredPerk(number)
+    visualState.setHoveredPerk(number)
   }
 
   $: {
