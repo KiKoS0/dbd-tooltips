@@ -1,11 +1,7 @@
 <script lang="ts">
   import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
   import { onMount } from 'svelte'
-  import {
-    killerPerksData,
-    survivorPerksData,
-    killersData
-  } from './lib/Stores/globals'
+  import { killerPerksData, survivorPerksData } from './lib/Stores/globals'
   import { checkForContainer } from './lib/utils'
   import { Twitch } from './lib/Twitch'
   import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
@@ -31,7 +27,6 @@
 
     fetchData('killers.json', killerPerksData.update)
     fetchData('survivors.json', survivorPerksData.update)
-    fetchData('powers.json', killersData.update)
   }
 
   onMount(() => initialize())

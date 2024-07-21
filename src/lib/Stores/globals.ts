@@ -2,7 +2,6 @@ import { writable, type Writable } from 'svelte/store'
 import type { DbdUIScale } from '../Twitch/types'
 import type {
   AddonsLoadout,
-  KillerEntries,
   LocalizedPerkEntries,
   PerkEntries,
   PerksLoadout,
@@ -21,8 +20,6 @@ export const hudSize: Writable<DbdUIScale> = writable('100')
 
 export const userData: Writable<UserData | null> = writable(null)
 
-export const killersData: Writable<KillerEntries | undefined> =
-  writable(undefined)
 export const killerPerksData: Writable<PerkEntries | undefined> =
   writable(undefined)
 export const survivorPerksData: Writable<PerkEntries | undefined> =

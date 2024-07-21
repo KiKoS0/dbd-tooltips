@@ -1,21 +1,22 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import { addonStore, hudSize, killersData } from '../Stores/globals'
+  import { addonStore, hudSize } from '../Stores/globals'
   import { onDestroy } from 'svelte'
 
   import Description from '../shared/Description.svelte'
   import type { Addon, AddonEntry } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
   import type { Nullable } from '../types'
+  import { killersDataStore } from '../Stores/KillersDataStore.svelte'
 
-  $: killers_data = $killersData
+  const killersStore = killersDataStore()
 
   const unsubscribe = addonStore.subscribe((value) => {
     if (value && value.constructor === Array) {
       // Preloading perks gifs
       value.forEach((item) => {
-        if (item && killers_data) {
-          const addon_dic = killers_data[item.killerId]['addons']
+        if (item && killersStore.data) {
+          const addon_dic = killersStore.data[item.killerId]['addons']
 
           if (item.id in addon_dic) {
             // Preload only when it's available obviously
@@ -48,8 +49,8 @@
 
   $: {
     let hAddon = hoveredAddon
-    if (hAddon && killers_data) {
-      const perk_dic = killers_data
+    if (hAddon && killersStore.data) {
+      const perk_dic = killersStore.data
 
       if (perk_dic[hAddon.killerId]) {
         hoveredPerkInfo = {

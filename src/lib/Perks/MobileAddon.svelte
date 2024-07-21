@@ -1,12 +1,11 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    addonStore,
-    killersData as killersStoreData
-  } from '../Stores/globals'
+  import { addonStore } from '../Stores/globals'
+
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
   import { EMPTY_ADDON } from '../utils'
   import { showPerkAddonStore } from '../Stores/ShowPerkAddonStore.svelte'
+  import { killersDataStore } from '../Stores/KillersDataStore.svelte'
 
   export let number: AddonShowControl
 
@@ -15,7 +14,7 @@
 
   let perkAddonStore = showPerkAddonStore()
 
-  $: killersData = $killersStoreData
+  const killersStore = killersDataStore()
 
   function imageUpdate(path: string, absolute = true) {
     const imageRelativePath = path.replace(/^data\//, '')
@@ -34,8 +33,8 @@
   $: {
     let addon = $addonStore[number]
 
-    if (addon && killersData) {
-      const addonDic = killersData[addon.killerId].addons
+    if (addon && killersStore.data) {
+      const addonDic = killersStore.data[addon.killerId].addons
 
       addonData = addonDic[addon.id] ? addonDic[addon.id] : EMPTY_ADDON
 
