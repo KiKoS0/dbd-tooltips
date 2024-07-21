@@ -7,50 +7,48 @@
   import type { Nullable } from '../types'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { EMPTY_ADDON, removeDataPrefixInPath } from '../utils'
+
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   const gameStore = mainGameStore()
   const currentGameState = currentGameStateStore()
 
-  export let hoveredAddon: Nullable<Addon> = null
-  export let mobileMode = false
-  export let landscapeMode = false
-  export let disabled = false
+  let {
+    disabled = false,
+    hoveredAddon = null,
+    mobileMode = false,
+    landscapeMode = false
+  } = $props<{
+    disabled?: boolean
+    hoveredAddon?: Nullable<Addon>
+    mobileMode?: boolean
+    landscapeMode?: boolean
+  }>()
 
-  let hoveredPerkInfo:
+  let hoveredAddonInfo:
     | (Partial<AddonEntry> & {
         character?: string
         gif?: string
         icon_alt?: string
       })
-    | undefined = undefined
-  let gifSrc: string | undefined = undefined
-
-  $: {
-    let hAddon = hoveredAddon
-    if (hAddon && gameStore.killersMetadata) {
-      const perk_dic = gameStore.killersMetadata
-
-      if (perk_dic[hAddon.killerId]) {
-        hoveredPerkInfo = {
-          character: perk_dic[hAddon.killerId].name,
-          ...perk_dic[hAddon.killerId].addons[hAddon.id]
-        }
-
-        if (hoveredPerkInfo?.img_path) imageUpdate(hoveredPerkInfo.img_path)
-      } else {
-        // No data for perk available, probably need to update the json files.
-        hoveredPerkInfo = {
-          gif: './images/empty_perk.png',
-          name: 'Unknown Addon',
-          description:
-            "Oups I don't actually know what addon is that, please force refresh the page or contact the developers if that doesn't help.",
-          character: 'Unknown'
-        }
-        imageUpdate(hoveredPerkInfo.gif as string)
-        console.log(hoveredPerkInfo)
-      }
+    | undefined = $derived.by(() => {
+    if (!hoveredAddon || !gameStore.killersMetadata) {
+      return undefined
     }
-  }
+    const killerMetadataDic = gameStore.killersMetadata
+    return killerMetadataDic[hoveredAddon.killerId]
+      ? {
+          character: killerMetadataDic[hoveredAddon.killerId].name,
+          ...killerMetadataDic[hoveredAddon.killerId].addons[hoveredAddon.id]
+        }
+      : EMPTY_ADDON
+  })
+
+  let gifSrc: string | undefined = $derived(
+    hoveredAddonInfo?.img_path &&
+      `https://${cdnHost}/${removeDataPrefixInPath(hoveredAddonInfo?.img_path)}`
+  )
 
   const scaleToPositions = {
     '70': [12, 7.5],
@@ -66,14 +64,6 @@
       return `bottom: ${scaleToPositions[hudSize][0]}% !important; left: ${scaleToPositions[hudSize][1]}% !important;`
     } else return ''
   }
-
-  function imageUpdate(path: string) {
-    const imageRelativePath = path.replace(/^data\//, '')
-    gifSrc = `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
-    forceRerender = {}
-  }
-
-  let forceRerender = {}
 </script>
 
 {#if !disabled}
@@ -82,7 +72,7 @@
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
   >
-    {#if hoveredPerkInfo}
+    {#if hoveredAddonInfo}
       <div
         class={mobileMode ? 'perk_info_meta_mobile' : 'perk_info_meta'}
         class:perk_info_meta_mobile_lan={mobileMode && landscapeMode}
@@ -91,9 +81,7 @@
           class="perk_info_img"
           class:perk_info_img_lan={mobileMode && landscapeMode}
         >
-          {#key forceRerender}
-            <img src={gifSrc} alt={hoveredPerkInfo?.icon_alt} />
-          {/key}
+          <img src={gifSrc} alt={hoveredAddonInfo?.icon_alt} />
         </div>
 
         {#if mobileMode && landscapeMode}
@@ -101,13 +89,13 @@
             <div
               class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
             >
-              {hoveredPerkInfo.name}
+              {hoveredAddonInfo.name}
             </div>
             <div
               class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               class:perk_info_sub_mobile_lan={mobileMode && landscapeMode}
             >
-              {hoveredPerkInfo.character} Addon
+              {hoveredAddonInfo.character} Addon
             </div>
           </div>
         {:else}
@@ -130,12 +118,12 @@
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
                 class:perk_info_name_mobile_lan={mobileMode && landscapeMode}
               >
-                {hoveredPerkInfo.name}
+                {hoveredAddonInfo.name}
               </div>
               <div
                 class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               >
-                {hoveredPerkInfo.character} Addon
+                {hoveredAddonInfo.character} Addon
               </div>
             </div>
           </div>
@@ -145,7 +133,7 @@
         class={mobileMode ? 'perk_info_desc_mobile' : 'perk_info_desc'}
         class:perk_info_desc_mobile_lan={mobileMode && landscapeMode}
       >
-        <Description description={hoveredPerkInfo.description} />
+        <Description description={hoveredAddonInfo.description} />
       </div>
     {/if}
   </div>
