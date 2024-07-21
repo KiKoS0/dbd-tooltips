@@ -2,48 +2,39 @@
   import { fade } from 'svelte/transition'
 
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
-  import { emptyAddon } from '../utils.svelte'
+  import { emptyAddon, removeDataPrefixInPath } from '../utils.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { mainGameStore } from '../Stores/MainGameStore'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
-  export let number: AddonShowControl
+  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
-  let addonData: Partial<AddonEntry> | undefined = undefined
-  let gifSrc: string | undefined = undefined
+  let { number } = $props<{ number: AddonShowControl }>()
 
   let visualState = visualStore()
   const gameStore = mainGameStore()
   const currentGameState = currentGameStateStore()
-
-  function imageUpdate(path: string, absolute = true) {
-    const imageRelativePath = path.replace(/^data\//, '')
-
-    const updated = absolute
-      ? `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
-      : imageRelativePath
-    gifSrc = updated
-  }
 
   const onAddonClick = () => {
     console.log(`Addon ${number} clicked`)
     visualState.setHoveredAddon(number)
   }
 
-  $: {
+  let addonData: Partial<AddonEntry> | undefined = $derived.by(() => {
     let addon = currentGameState.addons[number]
 
-    if (addon && gameStore.killersMetadata) {
-      const addonDic = gameStore.killersMetadata[addon.killerId].addons
-
-      addonData = addonDic[addon.id] ? addonDic[addon.id] : emptyAddon()
-
-      imageUpdate(
-        addonData.img_path as string,
-        addonData.img_path !== emptyAddon().img_path
-      )
+    if (!addon || !gameStore.killersMetadata) {
+      return undefined
     }
-  }
+
+    const addonDic = gameStore.killersMetadata[addon.killerId].addons
+    return addonDic[addon.id] ? addonDic[addon.id] : emptyAddon()
+  })
+
+  let gifSrc: string | undefined = $derived(
+    addonData?.img_path &&
+      `https://${cdnHost}/${removeDataPrefixInPath(addonData?.img_path)}`
+  )
 
   const getImageStyle = () =>
     `background-image: url("${gifSrc}");background-size: 20vh;`
@@ -53,8 +44,8 @@
   <div
     class="image-container"
     style={gifSrc ? getImageStyle() : ''}
-    on:click={onAddonClick}
-    on:keyup={onAddonClick}
+    onclick={onAddonClick}
+    onkeyup={onAddonClick}
     role="button"
     tabindex="0"
   ></div>
