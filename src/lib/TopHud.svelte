@@ -1,69 +1,45 @@
 <script lang="ts">
-  import {
-    showPerk,
-    showAddon,
-    perkStore,
-    addonStore,
-    showInfo
-  } from './Stores/globals'
-  import { onDestroy } from 'svelte'
   import PerkToolTipHud from './Perks/PerkTootipHud.svelte'
   import AddonToolTipHud from './Addons/AddonTooltipHud.svelte'
   import { fade, fly } from 'svelte/transition'
   import { t } from './I18n'
   import type { Addon, Perk } from './Stores/types'
   import type { Nullable } from './types'
+  import { visualStore } from './Stores/VisualStore.svelte'
+  import { currentGameStateStore } from './Stores/CurrentGameStateStore.svelte'
 
-  $: addonsAvailable = $addonStore && ($addonStore[0] || $addonStore[1])
+  let { scale } = $props<{ scale: number }>()
 
-  let perk_tooltip_disabled = true
-  let addon_tooltip_disabled = true
-  let hoveredPerk: Nullable<Perk> = null
-  let hoveredAddon: Nullable<Addon> = null
+  let visualState = visualStore()
+  const currentGameState = currentGameStateStore()
 
-  export let scale = 1
+  let addonsAvailable = $derived(
+    currentGameState.addons &&
+      (currentGameState.addons[0] || currentGameState.addons[1])
+  )
 
-  const unsubscribe_perk = showPerk.subscribe((value) => {
-    if (value >= 0) {
-      const perk = $perkStore[value]
-      if (perk) {
-        perk_tooltip_disabled = false
-        hoveredPerk = $perkStore[value]
-      }
-    } else {
-      perk_tooltip_disabled = true
-    }
-  })
+  let perkToolTipDisabled = $derived(
+    !currentGameState.perks[visualState.hoveredPerk]
+  )
+  let addonTooltipDisabled = $derived(
+    !currentGameState.addons[visualState.hoveredAddon]
+  )
 
-  const unsubscribe_addon = showAddon.subscribe((value) => {
-    if (value >= 0) {
-      const addon = $addonStore[value]
-      if (addon) {
-        addon_tooltip_disabled = false
-        hoveredAddon = $addonStore[value]
-      }
-    } else {
-      addon_tooltip_disabled = true
-    }
-  })
-
-  // setInterval((x) => {
-  //   // Hack to always enable hud for debug
-  //   // hoveredAddon = true;
-  //   addon_tooltip_disabled = false;
-  // }, 100);
-
-  onDestroy(unsubscribe_perk)
-  onDestroy(unsubscribe_addon)
+  let hoveredPerk: Nullable<Perk> = $derived(
+    currentGameState.perks[visualState.hoveredPerk] || null
+  )
+  let hoveredAddon: Nullable<Addon> = $derived(
+    currentGameState.addons[visualState.hoveredAddon]
+  )
 </script>
 
 <div
   class="global_hud"
   style={`transform: translate(-50%, -50%) scale(${scale})`}
 >
-  {#if $showInfo}
+  {#if visualState.helperInfoShowing}
     <div class="hover-over-perks" out:fade in:fly={{ y: -50, duration: 500 }}>
-      {$t('show.perks')} ⮞
+      {t('show.perks')} ⮞
     </div>
     {#if addonsAvailable}
       <div
@@ -71,13 +47,13 @@
         out:fade
         in:fly={{ y: -50, duration: 500 }}
       >
-        ⮜ {$t('show.addons')}
+        ⮜ {t('show.addons')}
       </div>
     {/if}
   {/if}
 
-  <PerkToolTipHud disabled={perk_tooltip_disabled} {hoveredPerk} />
-  <AddonToolTipHud disabled={addon_tooltip_disabled} {hoveredAddon} />
+  <PerkToolTipHud disabled={perkToolTipDisabled} {hoveredPerk} />
+  <AddonToolTipHud disabled={addonTooltipDisabled} {hoveredAddon} />
 </div>
 
 <style>

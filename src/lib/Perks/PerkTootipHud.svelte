@@ -1,15 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    survivorPerksData,
-    killerPerksData,
-    localizedSurvivorPerksData,
-    localizedKillerPerksData,
-    hudSize
-  } from '../Stores/globals'
   import { t } from '../I18n'
   import Description from '../shared/Description.svelte'
-  import { log } from '../Twitch/utils'
   import type { Nullable } from '../types'
   import type {
     LocalizedPerkEntries,
@@ -18,36 +10,36 @@
     PerkEntry
   } from '../Stores/types'
   import type { DbdUIScale } from '../Twitch/types'
-  import { FEATURE_FLAGS } from '../shared/flags'
-  import { isFirefox } from '../utils'
-  import { featureFlagEnabled } from '../Stores/flags'
+  import { mainGameStore } from '../Stores/MainGameStore'
+  import { localizationStore } from '../Stores/LocalizationStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { emptyPerk, generateGifSrc } from '../utils.svelte'
 
-  $: survivor_perks = $survivorPerksData
-  $: killer_perks = $killerPerksData
+  let {
+    disabled = false,
+    hoveredPerk = null,
+    mobileMode = false,
+    landscapeMode = false
+  } = $props<{
+    disabled?: boolean
+    hoveredPerk?: Nullable<Perk>
+    mobileMode?: boolean
+    landscapeMode?: boolean
+  }>()
 
-  $: localized_survivor_perks = $localizedSurvivorPerksData
-  $: localized_killer_perks = $localizedKillerPerksData
-
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
-
-  export let disabled = false
-  export let hoveredPerk: Nullable<Perk> = null
-  export let mobileMode = false
-  export let landscapeMode = false
-
-  let hoveredPerkInfo: Partial<PerkEntry> | undefined = undefined
-  let gifSrc: string | undefined = undefined
-  let disableVideo = false
+  const gameStore = mainGameStore()
+  const localization = localizationStore()
+  const currentGameState = currentGameStateStore()
 
   const localizePerk = (
     perkId: string,
     enDic: PerkEntries,
-    localizedDic: LocalizedPerkEntries
+    localizedDic?: LocalizedPerkEntries
   ) => {
     const hoveredPerk = Object.assign({}, enDic[perkId])
     let toUpdate = {}
     if (localizedDic && localizedDic[perkId]) {
-      // Fallback to english
+      // It wouldn't override them for english so we can use the english as a fallback.
       toUpdate = {
         description: localizedDic[perkId].desc || hoveredPerk.description,
         name: localizedDic[perkId].name || hoveredPerk.name
@@ -56,41 +48,35 @@
     return { ...hoveredPerk, ...toUpdate } as PerkEntry
   }
 
-  $: {
-    let hPerk = hoveredPerk
-    log(`Hovered perk: ${hPerk?.id}`)
-
-    if (hPerk && survivor_perks && killer_perks) {
-      const perk_dic =
-        hPerk.actor === 'survivor' ? survivor_perks : killer_perks
-      const localized_perk_dic =
-        hPerk.actor === 'survivor'
-          ? localized_survivor_perks
-          : localized_killer_perks
-
-      const perkId = hPerk.id
-      if (perk_dic[perkId]) {
-        hoveredPerkInfo = localizePerk(perkId, perk_dic, localized_perk_dic)
-
-        if (hoveredPerkInfo?.gif) imageUpdate(hoveredPerkInfo.gif)
-      } else {
-        // No data for perk available, probably need to update the json files.
-        hoveredPerkInfo = {
-          gif: './images/empty_perk.png',
-          name: 'Unknown Perk',
-          description:
-            "Oups I don't actually know what perk is that, please force refresh the page or contact the developers if that doesn't help.",
-          character: 'Unknown'
-        }
-        imageUpdate(hoveredPerkInfo.gif as string)
-      }
+  const hoveredPerkInfo: Partial<PerkEntry> | undefined = $derived.by(() => {
+    if (!hoveredPerk || !gameStore.survivorsData || !gameStore.killersData) {
+      return undefined
     }
-  }
+
+    const perkDic =
+      hoveredPerk.actor === 'survivor'
+        ? gameStore.survivorsData
+        : gameStore.killersData
+    const localizedPerkDic =
+      hoveredPerk.actor === 'survivor'
+        ? localization.survivorsLocalizationData
+        : localization.killersLocalizationData
+
+    const perkId = hoveredPerk.id
+
+    return perkDic[perkId]
+      ? localizePerk(perkId, perkDic, localizedPerkDic)
+      : emptyPerk()
+  })
+
+  let gifSrc: string | undefined = $derived(
+    generateGifSrc(hoveredPerkInfo?.gif)
+  )
 
   function perkOrGeneral(value?: string) {
     var res = value && value.toUpperCase()
     if (res == 'ALL') {
-      return $t('general')
+      return t('general')
     } else if (res) {
       return res
     }
@@ -111,26 +97,11 @@
       return `bottom: ${scaleToPositions[hudSize][0]}% !important; right: ${scaleToPositions[hudSize][1]}% !important;`
     } else return ''
   }
-
-  let forceRerender = {}
-
-  const removeDataPrefixInPath = (path: string) => path.replace(/^data\//, '')
-
-  function imageUpdate(path: string) {
-    gifSrc = `https://${cdnHost}/${removeDataPrefixInPath(path)}`
-    forceRerender = {}
-  }
-
-  const disableFirefoxVideoFlag = featureFlagEnabled(
-    FEATURE_FLAGS.DISABLE_FIREFOX_VIDEO
-  )
-
-  $: disableVideo = $disableFirefoxVideoFlag && isFirefox()
 </script>
 
 {#if !disabled}
   <div
-    style={overridePosScale($hudSize)}
+    style={overridePosScale(currentGameState.hudSize)}
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
   >
@@ -143,9 +114,7 @@
           class="perk_info_img"
           class:perk_info_img_lan={mobileMode && landscapeMode}
         >
-          {#key forceRerender}
-            <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
-          {/key}
+          <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
         </div>
 
         {#if mobileMode && landscapeMode}
@@ -164,21 +133,19 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            {#if !disableVideo}
-              <video
-                id="bg-vid-perk"
-                preload="auto"
-                playsinline
-                autoplay
-                muted
-                loop
-              >
-                <source
-                  src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
-                  type="video/mp4"
-                />
-              </video>
-            {/if}
+            <video
+              id="bg-vid-perk"
+              preload="auto"
+              playsinline
+              autoplay
+              muted
+              loop
+            >
+              <source
+                src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
+                type="video/mp4"
+              />
+            </video>
             <div class="perk_info_header_wrapper">
               <div
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
@@ -189,7 +156,7 @@
               <div
                 class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               >
-                {$t('perk.tooltip.subtitle', {
+                {t('perk.tooltip.subtitle', {
                   actor: perkOrGeneral(hoveredPerkInfo.character)
                 })}
               </div>

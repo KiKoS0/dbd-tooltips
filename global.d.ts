@@ -1,3 +1,3 @@
-interface Window {
-  Twitch: any
-}
+// interface Window {
+//   Twitch: any
+// }

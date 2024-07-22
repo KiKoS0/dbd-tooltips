@@ -1,19 +1,21 @@
 <script lang="ts">
   import Perk from './Perks/Perk.svelte'
   import Addon from './Addons/Addon.svelte'
-  import { hudSize } from './Stores/globals'
   import type { PerkShowControl, AddonShowControl } from './Stores/types'
+  import { currentGameStateStore } from './Stores/CurrentGameStateStore.svelte'
+
+  const currentGameState = currentGameStateStore()
 
   const perksIdxs: PerkShowControl[] = [0, 1, 3, 2]
   const addonsIdxs: AddonShowControl[] = [0, 1]
 </script>
 
-<div class="perks_hud {`perks_hud_${$hudSize}`}">
+<div class="perks_hud {`perks_hud_${currentGameState.hudSize}`}">
   {#each perksIdxs as i}
     <Perk perkIdx={i} />
   {/each}
 </div>
-<div class="addons_hud {`addons_hud_${$hudSize}`}">
+<div class="addons_hud {`addons_hud_${currentGameState.hudSize}`}">
   {#each addonsIdxs as i}
     <Addon addonIdx={i} />
   {/each}

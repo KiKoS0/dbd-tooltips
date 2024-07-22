@@ -1,61 +1,53 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    perkStore,
-    killerPerksData,
-    survivorPerksData,
-    showPerk
-  } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import type { PerkEntry, PerkShowControl } from '../Stores/types'
-  import { EMPTY_PERK } from '../utils'
+  import { emptyPerk, generateGifSrc } from '../utils.svelte'
+  import { mainGameStore } from '../Stores/MainGameStore'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
-  export let number: PerkShowControl
+  let { number } = $props<{ number: PerkShowControl }>()
 
-  let perkData: Partial<PerkEntry> | undefined = undefined
-  let gifSrc: string | undefined = undefined
+  const gameStore = mainGameStore()
+  const currentGameState = currentGameStateStore()
 
-  $: survivor_perks = $survivorPerksData
-  $: killer_perks = $killerPerksData
-
-  function imageUpdate(path: string, absolute = true) {
-    const imageRelativePath = path.replace(/^data\//, '')
-
-    const updated = absolute
-      ? `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
-      : imageRelativePath
-    gifSrc = updated
-  }
+  let visualState = visualStore()
 
   const onPerkClick = () => {
-    log(`Perk ${number} clicked`)
-    showPerk.update((_) => number)
+    console.log(`Perk ${number} clicked`)
+    visualState.setHoveredPerk(number)
   }
 
-  $: {
-    let hPerk = $perkStore[number]
+  let perkData: Partial<PerkEntry> | undefined = $derived.by(() => {
+    let hPerk = currentGameState.perks[number]
 
-    if (hPerk && survivor_perks && killer_perks) {
-      const perkDic = hPerk.actor === 'survivor' ? survivor_perks : killer_perks
-
-      perkData = perkDic[hPerk.id] ? perkDic[hPerk.id] : EMPTY_PERK
-      imageUpdate(perkData.gif as string, perkData.gif !== EMPTY_PERK.gif)
+    if (!hPerk || !gameStore.survivorsData || !gameStore.killersData) {
+      return undefined
     }
-  }
+
+    const perkDic =
+      hPerk.actor === 'survivor'
+        ? gameStore.survivorsData
+        : gameStore.killersData
+
+    return perkDic[hPerk.id] ? perkDic[hPerk.id] : emptyPerk()
+  })
+
+  let gifSrc: string | undefined = $derived(generateGifSrc(perkData?.gif))
 
   const getImageStyle = () =>
     `background-image: url("${gifSrc}");background-size: 220px;`
 </script>
 
-<div class:disabled={!$perkStore[number]} in:fade class="diam">
+<div class:disabled={!currentGameState.perks[number]} in:fade class="diam">
   <div
     class="image-container"
     style={gifSrc ? getImageStyle() : ''}
-    on:click={onPerkClick}
-    on:keyup={onPerkClick}
+    onclick={onPerkClick}
+    onkeyup={onPerkClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->

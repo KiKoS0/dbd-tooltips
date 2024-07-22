@@ -1,22 +1,22 @@
 <script lang="ts">
   import AddonTooltipHud from './../Addons/AddonTooltipHud.svelte'
   import MobilePerk from './MobilePerk.svelte'
-  import { onDestroy, onMount } from 'svelte'
+  import { onMount } from 'svelte'
   import PerkTootipHud from './PerkTootipHud.svelte'
 
-  import {
-    appEnabled,
-    perkStore,
-    addonStore,
-    showPerk,
-    showAddon
-  } from '../Stores/globals'
   import { fade, fly } from 'svelte/transition'
-  import { log } from '../Twitch/utils'
-  import type { Perk, Addon, PerkShowControl } from '../Stores/types'
+  import type {
+    Perk,
+    Addon,
+    PerkShowControl,
+    AddonShowControl
+  } from '../Stores/types'
   import type { Nullable } from '../types'
   import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
+  import { appStateStore } from '../Stores/AppStateStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -28,23 +28,31 @@
     // });
   })
 
+  const currentGameState = currentGameStateStore()
+
   let landscapeMode = true
   let perkHudScale = 0.4
 
-  let showPerkLock = false
-  let hoveredPerk: Nullable<Perk> = null
-  let hoveredAddon: Nullable<Addon> = null
+  let visualState = visualStore()
 
-  let containerRef: HTMLDivElement | undefined
+  let hoveredPerk: Nullable<Perk> = $derived(
+    currentGameState.perks[visualState.hoveredPerk] || null
+  )
+  let hoveredAddon: Nullable<Addon> = $derived(
+    currentGameState.addons[visualState.hoveredAddon]
+  )
+
+  let showPerkLock = $state(false)
+  let containerRef: HTMLDivElement | null = $state(null)
 
   const goBack = () => {
-    showAddon.update((_) => -1)
-    showPerk.update((_) => -1)
+    visualState.clearHoveredAddon()
+    visualState.clearHoveredPerk()
   }
 
   const handleResize = (height: number) => {
     perkHudScale = (height / 534) * 0.4
-    log(`perkHudScale: ${perkHudScale}`)
+    console.log(`perkHudScale: ${perkHudScale}`)
   }
 
   const cssFixes: { [k: string]: string } = {
@@ -57,42 +65,42 @@
     return ''
   }
 
-  let waitingForData = true
+  let waitingForData = $derived(currentGameState.perks.every((x) => x === null))
 
-  $: {
-    waitingForData = $perkStore.every((x) => x === null)
-    log(`Waiting for data: ${waitingForData}`)
-  }
+  const perkHudStyle = $derived(
+    `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
+  )
 
-  $: {
-    if (!perkScreenOpen) {
-      showPerkLock = false
-    } else if (!showPerkLock) {
-      showPerkLock = true
-      hoveredPerk = $perkStore[$showPerk]
-      hoveredAddon = $addonStore[$showAddon]
-    }
-  }
-
-  $: perkHudStyle = `transform: translate(-50%, -50%) rotate(45deg) scale(${perkHudScale});`
-
-  $: currentlyShowingPerk = $showPerk !== -1
-  $: currentlyShowingAddon = $showAddon !== -1
-  $: perkScreenOpen = currentlyShowingPerk || currentlyShowingAddon
+  const currentlyShowingAddon = $derived(visualState.hoveredAddon !== -1)
+  const currentlyShowingPerk = $derived(visualState.hoveredPerk !== -1)
+  const perkScreenOpen = $derived(currentlyShowingPerk || currentlyShowingAddon)
 
   const resizeObserver = new ResizeObserver((entries) =>
     handleResize(entries?.[0]?.contentRect?.height || 540)
   )
 
-  $: containerRef && resizeObserver.observe(containerRef)
+  $effect(() => {
+    if (!perkScreenOpen) {
+      showPerkLock = false
+    } else if (!showPerkLock) {
+      showPerkLock = true
+    }
+  })
+
+  $effect(() => {
+    if (containerRef) {
+      resizeObserver.observe(containerRef)
+    }
+
+    return () => resizeObserver.disconnect()
+  })
 
   const perksNumbers: PerkShowControl[] = [0, 1, 3, 2]
-  onDestroy(() => resizeObserver.disconnect())
 </script>
 
-{#if (waitingForData && !showPerkLock) || !$appEnabled}
+{#if (waitingForData && !showPerkLock) || !appStateStore().enabled}
   <div transition:fade class="status_info">
-    <div class="status_info_logo" />
+    <div class="status_info_logo"></div>
   </div>
 {:else}
   <div
@@ -102,34 +110,35 @@
   >
     {#if !perkScreenOpen}
       <div in:fly={{ y: -50, duration: 500 }} class="main_screen_header">
-        {$t('loadout')}
+        {t('loadout')}
       </div>
       <div class="mobile_perk_hud" style={perkHudStyle}>
-        {#each $perkStore as _, i}
+        {#each currentGameState.perks as _, i}
           <MobilePerk number={perksNumbers[i]} />
         {/each}
       </div>
       <div class="mobile_addon_hud">
-        {#each $addonStore as _, i}
-          <MobileAddon number={i} />
+        {#each currentGameState.addons as _, i}
+          <MobileAddon number={i as AddonShowControl} />
         {/each}
       </div>
       <a href="https://www.patreon.com/kikos" target="_blank">
         <div in:fly={{ x: 50, duration: 500 }} class="support-us">
-          <div style="margin-bottom: 3px;">{$t('support')}</div>
+          <div style="margin-bottom: 3px;">{t('support')}</div>
           <img src="images/patreon.png" alt="Support us" />
         </div>
       </a>
     {:else}
       <div id="btn-wrapper">
         <span
-          on:click={goBack}
-          on:keyup={goBack}
+          onclick={goBack}
+          onkeyup={goBack}
           class="close warp black"
           style={landscapeMode ? fixSmallWidthStuff('close') : ''}
           role="button"
           tabindex="0"
-        />
+        >
+        </span>
       </div>
     {/if}
     <PerkTootipHud

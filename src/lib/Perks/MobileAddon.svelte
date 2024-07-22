@@ -1,63 +1,49 @@
 <script lang="ts">
   import { fade } from 'svelte/transition'
-  import {
-    addonStore,
-    killersData as killersStoreData,
-    showAddon
-  } from '../Stores/globals'
-  import { log } from '../Twitch/utils'
+
   import type { AddonEntry, AddonShowControl } from '../Stores/types'
-  import { EMPTY_ADDON } from '../utils'
+  import { emptyAddon, generateGifSrc } from '../utils.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
+  import { mainGameStore } from '../Stores/MainGameStore'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
-  export let number: number
+  let { number } = $props<{ number: AddonShowControl }>()
 
-  let addonData: Partial<AddonEntry> | undefined = undefined
-  let gifSrc: string | undefined = undefined
-
-  $: killersData = $killersStoreData
-
-  function imageUpdate(path: string, absolute = true) {
-    const imageRelativePath = path.replace(/^data\//, '')
-
-    const updated = absolute
-      ? `https://${import.meta.env?.VITE_CDN_HOST}/${imageRelativePath}`
-      : imageRelativePath
-    gifSrc = updated
-  }
+  let visualState = visualStore()
+  const gameStore = mainGameStore()
+  const currentGameState = currentGameStateStore()
 
   const onAddonClick = () => {
-    log(`Addon ${number} clicked`)
-    showAddon.update((_) => number as AddonShowControl)
+    console.log(`Addon ${number} clicked`)
+    visualState.setHoveredAddon(number)
   }
 
-  $: {
-    let addon = $addonStore[number]
+  let addonData: Partial<AddonEntry> | undefined = $derived.by(() => {
+    let addon = currentGameState.addons[number]
 
-    if (addon && killersData) {
-      const addonDic = killersData[addon.killerId].addons
-
-      addonData = addonDic[addon.id] ? addonDic[addon.id] : EMPTY_ADDON
-
-      imageUpdate(
-        addonData.img_path as string,
-        addonData.img_path !== EMPTY_ADDON.img_path
-      )
+    if (!addon || !gameStore.killersMetadata) {
+      return undefined
     }
-  }
+
+    const addonDic = gameStore.killersMetadata[addon.killerId].addons
+    return addonDic[addon.id] ? addonDic[addon.id] : emptyAddon()
+  })
+
+  let gifSrc: string | undefined = $derived(generateGifSrc(addonData?.img_path))
 
   const getImageStyle = () =>
     `background-image: url("${gifSrc}");background-size: 20vh;`
 </script>
 
-<div class:disabled={!$addonStore[number]} in:fade class="diam">
+<div class:disabled={!currentGameState.addons[number]} in:fade class="diam">
   <div
     class="image-container"
     style={gifSrc ? getImageStyle() : ''}
-    on:click={onAddonClick}
-    on:keyup={onAddonClick}
+    onclick={onAddonClick}
+    onkeyup={onAddonClick}
     role="button"
     tabindex="0"
-  />
+  ></div>
 </div>
 
 <!-- eslint-disable svelte/valid-compile  -->

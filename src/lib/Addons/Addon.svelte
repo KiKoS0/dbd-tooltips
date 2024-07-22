@@ -1,20 +1,24 @@
 <script lang="ts">
   /* eslint-disable svelte/valid-compile */
   import type { AddonShowControl } from '../Stores/types'
-  import { showAddon, addonStore, showInfo } from '../Stores/globals'
+  import { visualStore } from '../Stores/VisualStore.svelte'
+  import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
 
   export let enabled = true
   export let addonIdx: AddonShowControl
 
+  let visualState = visualStore()
+  const currentGameState = currentGameStateStore()
+
   const hoverOverAddon = () => {
     if (!enabled) return
-    showAddon.update(() => addonIdx)
-    showInfo.update(() => false)
+    visualState.setHoveredAddon(addonIdx)
+    visualState.hideHelperInfo()
   }
 
   const hoverOutOfAddon = () => {
     if (!enabled) return
-    showAddon.update(() => -1)
+    visualState.setHoveredAddon(-1)
   }
 </script>
 
@@ -22,8 +26,8 @@
   on:mouseover={hoverOverAddon}
   on:mouseout={hoverOutOfAddon}
   class="diam"
-  class:disabled={!$addonStore[addonIdx]}
-/>
+  class:disabled={!currentGameState.addons[addonIdx]}
+></div>
 
 <style>
   .diam {

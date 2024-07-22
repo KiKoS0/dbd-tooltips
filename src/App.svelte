@@ -1,41 +1,27 @@
 <script lang="ts">
   import ConfigurationHud from './lib/Configuration/ConfigurationHud.svelte'
-  import { onDestroy, onMount } from 'svelte'
-  import {
-    appEnabled,
-    isMobile,
-    isConfig,
-    killerPerksData,
-    survivorPerksData,
-    killersData,
-    featureFlagsData
-  } from './lib/Stores/globals'
-  import { checkForContainer } from './lib/utils'
+  import { onMount } from 'svelte'
+  import { checkForContainer } from './lib/utils.svelte'
   import { Twitch } from './lib/Twitch'
   import MobilePerkView from './lib/Perks/MobilePerkView.svelte'
   import TopHud from './lib/TopHud.svelte'
   import PerksAddonsView from './lib/PerksAddonsView.svelte'
-  import { fetchData } from './lib/Twitch/utils'
+  import { appStateStore } from './lib/Stores/AppStateStore.svelte'
 
-  let scale = 1
-  let containerRef: HTMLDivElement | undefined
+  let scale = $state(1)
+  let containerRef: HTMLDivElement | null = $state(null)
+
+  let appState = appStateStore()
 
   const initialize = () => {
-    // Check if config mode
     if (checkForContainer('dbd_config_container')) {
-      isConfig.update(() => true)
+      appState.setAppMode('config')
       return
     }
 
-    // Check if mobile mode
     if (checkForContainer('dbd_mobile_container')) {
-      isMobile.update(() => true)
+      appState.setAppMode('mobile')
     }
-
-    fetchData('killers.json', killerPerksData.update)
-    fetchData('survivors.json', survivorPerksData.update)
-    fetchData('powers.json', killersData.update)
-    fetchData('feature_flags.json', featureFlagsData.update)
   }
 
   onMount(() => initialize())
@@ -44,17 +30,21 @@
     scale = (entries?.[0]?.contentRect?.height || 540) / 1080
   })
 
-  $: containerRef && resizeObserver.observe(containerRef)
+  $effect(() => {
+    if (containerRef) {
+      resizeObserver.observe(containerRef)
+    }
 
-  onDestroy(() => resizeObserver.disconnect())
+    return () => resizeObserver.disconnect()
+  })
 </script>
 
 <Twitch />
-{#if $isConfig}
+{#if appState.isConfig}
   <ConfigurationHud>Loading configuration...</ConfigurationHud>
-{:else if $isMobile}
+{:else if appState.isMobile}
   <MobilePerkView />
-{:else if $appEnabled}
+{:else if appState.enabled}
   <div bind:this={containerRef} class="auto-scale">
     <TopHud {scale} />
     <div class="dbd-app">
