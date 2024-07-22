@@ -1,4 +1,4 @@
-import { useApi } from '../Api/useSWR.svelte'
+import { useApi } from '../Api/useApi.svelte'
 import { getDataUrl } from '../Twitch/utils'
 import type { FeatureFlagEntries } from './types'
 

@@ -1,4 +1,4 @@
-import { useApi } from '../Api/useSWR.svelte'
+import { useApi } from '../Api/useApi.svelte'
 import type { Locale } from '../I18n/types'
 import { getDataUrl } from '../Twitch/utils'
 import type { LocalizedPerkEntries } from './types'

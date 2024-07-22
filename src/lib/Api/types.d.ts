@@ -1,1 +1,1 @@
-export type SWRKey = string
+export type ApiPathKey = string
