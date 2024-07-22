@@ -1,1 +1,3 @@
-export type Locale = 'en' | 'fr' | 'es' // Add more supported locales as needed
+import type { translations } from './translations'
+export type Locale = keyof typeof translations
+export type TranslationKey = keyof (typeof translations)[Locale]

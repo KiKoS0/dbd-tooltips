@@ -1,5 +1,5 @@
-import translations from './translations'
-import type { Locale } from './types'
+import { translations } from './translations'
+import type { Locale, TranslationKey } from './types'
 import {
   defaultLocale,
   localizationStore
@@ -11,7 +11,7 @@ const localeStore = localizationStore()
 
 function translate(
   locale: Locale,
-  key: string,
+  key: TranslationKey,
   vars: Record<string, string>
 ): string {
   if (!key) throw new Error('no key provided to t()')
@@ -32,5 +32,5 @@ function translate(
   return text
 }
 
-export const t = (key: string, vars: Record<string, string> = {}) =>
+export const t = (key: TranslationKey, vars: Record<string, string> = {}) =>
   translate(localeStore.locale, key, vars)

@@ -1,8 +1,4 @@
-interface Translations {
-  [key: string]: { [key: string]: string }
-}
-
-const translations: Translations = {
+export const translations = {
   en: {
     'show.more': "Click to expand the perk's changelogs",
     'show.wikiInfo': 'Descriptions are from the',
@@ -54,6 +50,4 @@ const translations: Translations = {
     loadout: 'Compétences actuelles',
     support: 'Nous soutenir'
   }
-}
-
-export default translations
+} as const
