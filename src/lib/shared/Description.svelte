@@ -65,7 +65,10 @@
       {#if !showChangelogs && !mobileMode}
         <h5 class="changelog-info">{t('show.more')}</h5>
       {:else}
-        <div class="new-changelogs-container">
+        <div
+          class="new-changelogs-container"
+          data-testid="description.changelogs"
+        >
           <!-- eslint-disable-next-line svelte/no-at-html-tags -->
           {@html changelogs}
           <hr class="new-hr" style="opacity:0.1" />

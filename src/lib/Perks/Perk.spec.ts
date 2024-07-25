@@ -8,7 +8,12 @@ import { visualStore } from '../Stores/VisualStore.svelte'
 
 const perkIdx = 0
 
-const activePerks = [{ id: 'Adrenaline', actor: 'Survivor' }, null, null, null]
+const activePerks = [
+  { id: 'Adrenaline', actor: 'survivor' } as const,
+  null,
+  null,
+  null
+]
 
 describe('Perk', () => {
   it('activates when a perk is assigned to the assigned perk index', async () => {

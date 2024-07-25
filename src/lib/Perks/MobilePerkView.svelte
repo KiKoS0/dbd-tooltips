@@ -2,7 +2,7 @@
   import AddonTooltipHud from './../Addons/AddonTooltipHud.svelte'
   import MobilePerk from './MobilePerk.svelte'
   import { onMount } from 'svelte'
-  import PerkTootipHud from './PerkTootipHud.svelte'
+  import PerkTootipHud from './PerkTooltipHud.svelte'
 
   import { fade, fly } from 'svelte/transition'
   import type {
