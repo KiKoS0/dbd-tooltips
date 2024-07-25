@@ -3,7 +3,7 @@ import type { Nullable } from '../types'
 type AddonShowControl = -1 | 0 | 1
 type PerkShowControl = -1 | 0 | 1 | 2 | 3
 
-export type Perk = { id: string; actor: string }
+export type Perk = { id: string; actor: 'survivor' | 'killer' }
 export type Addon = { id: string; killerId: string }
 
 export type AddonsLoadout = Nullable<Addon>[]

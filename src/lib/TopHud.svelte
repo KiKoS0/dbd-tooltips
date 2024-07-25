@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PerkToolTipHud from './Perks/PerkTootipHud.svelte'
+  import PerkToolTipHud from './Perks/PerkTooltipHud.svelte'
   import AddonToolTipHud from './Addons/AddonTooltipHud.svelte'
   import { fade, fly } from 'svelte/transition'
   import { t } from './I18n'

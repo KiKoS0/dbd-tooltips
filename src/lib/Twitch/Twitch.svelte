@@ -24,7 +24,6 @@
   let channelId = ''
   let lastUpdateTimestamp = 0
   let isFirstUpdate = true
-  const cdnHost = import.meta.env?.VITE_CDN_HOST
 
   const apiEndpoint = `${import.meta.env.VITE_API_URL}/api/v1/`
   console.log(`EBS ENDPOINT: ${apiEndpoint}`)

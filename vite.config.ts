@@ -21,6 +21,13 @@ export default defineConfig(({ mode }) => {
       })
     ],
     envDir: './env',
+    esbuild: {
+      pure:
+        mode === 'production'
+          ? ['console.log', 'console.info', 'console.warn', 'console.trace']
+          : undefined,
+      drop: mode === 'production' ? ['console', 'debugger'] : ['debugger']
+    },
     build: {
       sourcemap: mode !== 'development' ? 'hidden' : true,
       rollupOptions: {
