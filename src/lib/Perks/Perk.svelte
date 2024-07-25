@@ -40,6 +40,7 @@
   on:keyup={onClick}
   class="diam"
   class:disabled={!currentGameState.perks[perkIdx]}
+  data-testid={`perk-${perkIdx}`}
 ></div>
 
 <!-- eslint-enable svelte/valid-compile  -->
