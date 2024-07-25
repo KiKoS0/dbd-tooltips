@@ -19,11 +19,11 @@ describe('Description', () => {
   it('rewrites icon url to CDN`s', () => {
     render(Description, { ...perk })
 
-    const img = screen.getByRole<HTMLImageElement>('img')
-
-    expect(img.src).toBe(
-      `https://${import.meta.env.VITE_CDN_HOST}/images/icons/IconHelp_addons.png`
-    )
+    waitFor(() => {
+      expect(screen.getByRole<HTMLImageElement>('img')).toBe(
+        `https://${import.meta.env.VITE_CDN_HOST}/images/icons/IconHelp_addons.png`
+      )
+    })
   })
 
   it('shows changelogs when triggered', async () => {

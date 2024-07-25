@@ -29,6 +29,8 @@
             nodejs_22
             yarn-berry
             nixpkgs-fmt
+
+            git-cliff
           ];
         };
       });
