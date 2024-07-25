@@ -41,7 +41,8 @@
   },
   "packageManager": "yarn@4.3.1",
   "lint-staged": {
-    "*": "prettier --write --ignore-unknown"
+    "*": "prettier --write --ignore-unknown",
+    "*.nix": "nixpkgs-fmt"
   },
   "dependencies": {
     "@sentry/svelte": "^8.13.0"
