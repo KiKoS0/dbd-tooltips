@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '../I18n'
   import { visualStore } from '../Stores/VisualStore.svelte'
+  import { noop } from '../utils.svelte'
 
   let {
     description = '',
@@ -17,8 +18,6 @@
   let showChangelogs = $derived(visualStore().changelogsShowing)
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
-
-  const noop = () => false
 
   const disableLinks = () => {
     if (description || changelogs) {

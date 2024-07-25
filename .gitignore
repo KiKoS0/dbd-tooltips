@@ -39,3 +39,6 @@ dist-ssr
 ### direnv ###
 .direnv
 .envrc
+
+# Vitest
+coverage

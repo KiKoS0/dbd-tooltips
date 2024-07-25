@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { svelteTesting } from '@testing-library/svelte/vite'
 import { resolve } from 'path'
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
@@ -10,6 +11,7 @@ export default defineConfig(({ mode }) => {
     base: './',
     plugins: [
       svelte({}),
+      svelteTesting(),
       webpackStatsPlugin(),
       sentryVitePlugin({
         org: 'kikos0',
@@ -32,6 +34,21 @@ export default defineConfig(({ mode }) => {
           chunkFileNames: 'assets/[name].[hash].js',
           entryFileNames: 'assets/[name].[hash].js'
         }
+      }
+    },
+    test: {
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+      environment: 'happy-dom',
+      alias: [
+        {
+          find: '@testing-library/svelte',
+          replacement: '@testing-library/svelte/svelte5'
+        }
+      ],
+      setupFiles: ['./vitest-setup.ts'],
+      coverage: {
+        provider: 'v8',
+        include: ['src/**']
       }
     }
   }

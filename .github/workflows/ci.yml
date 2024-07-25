@@ -11,7 +11,7 @@ on:
 
 jobs:
   linter:
-    name: Linter
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.7
@@ -27,6 +27,9 @@ jobs:
 
       - name: Linting & Build
         run: make lint build
+
+      - name: Run tests
+        run: make test
 
       - name: Send bundle stats to RelativeCI
         uses: relative-ci/agent-action@v2
