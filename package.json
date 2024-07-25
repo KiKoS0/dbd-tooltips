@@ -16,28 +16,35 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint -c .eslintrc.json './src/**/*.{ts,ts,svelte}'",
     "tc": "tsc --build",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "test": "vitest --coverage --typecheck"
   },
   "devDependencies": {
     "@sentry/vite-plugin": "^2.21.1",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/svelte": "^5.2.0",
+    "@testing-library/user-event": "^14.5.2",
     "@tsconfig/svelte": "^5.0.4",
     "@types/node": "^20.14.11",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
+    "@vitest/coverage-v8": "^2.0.4",
     "eslint": "^8.57.0",
     "eslint-plugin-svelte": "^2.43.0",
     "eslint-plugin-unused-imports": "^4.0.0",
+    "happy-dom": "^14.12.3",
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.6",
     "rollup-plugin-webpack-stats": "^1.0.1",
-    "svelte": "^5.0.0-next.192",
+    "svelte": "^5.0.0-next.198",
     "svelte-check": "^3.8.4",
     "tslib": "^2.6.3",
     "typescript": "^5.5.3",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5",
+    "vitest": "^2.0.4"
   },
   "packageManager": "yarn@4.3.1",
   "lint-staged": {

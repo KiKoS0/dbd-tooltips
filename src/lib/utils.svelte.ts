@@ -7,6 +7,7 @@ export function getTimeout(ttl: number | string | Date): number {
   const diff: number = ttlDate.getTime() - now.getTime()
   return diff
 }
+export const noop = () => false
 
 export function getRandom(max: number): number {
   return Math.random() * max

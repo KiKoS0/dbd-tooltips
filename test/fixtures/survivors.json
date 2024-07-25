@@ -1,0 +1,27 @@
+{
+  "Adrenaline": {
+    "changelogs": "<span class=\"mw-headline\" id=\"Patch_7.7.0\">\n <a class=\"mw-redirect\" href=\"/wiki/Patch_7.7.0\" style=\"text-decoration: none;color: #e2ce97;\" title=\"Patch 7.7.0\">\n  Patch 7.7.0\n </a>\n</span>\n<ul>\n <li>\n  <i>\n   <b>\n    <span class=\"luaClr clr clr8\" style=\"color: #d41c1c;\">\n     Nerf\n    </span>\n    :\n   </b>\n  </i>\n  no longer pauses if its user is disabled at the moment of activation.\n </li>\n <li>\n  <i>\n   <b>\n    <span class=\"luaClr clr clr8\" style=\"color: #d41c1c;\">\n     Nerf\n    </span>\n    :\n   </b>\n  </i>\n  no longer wakes Survivors inside the\n  <b>\n   Dream World\n  </b>\n  .\n  <ul>\n   <li>\n    This change brings\n    <b>\n     Adrenaline\n    </b>\n    in line with the general shift away from effects that target specific Killer Powers.\n   </li>\n  </ul>\n </li>\n <li>\n  <i>\n   <b>\n    <span class=\"luaClr clr clr8\" style=\"color: #d41c1c;\">\n     Nerf\n    </span>\n    :\n   </b>\n  </i>\n  reduced the\n  <i>\n   <b>\n    Haste\n   </b>\n  </i>\n  duration from\n  <b>\n   <span class=\"luaClr clr clr2\" style=\"color: #e8c252;\">\n    5 seconds\n   </span>\n  </b>\n  to\n  <b>\n   <span class=\"luaClr clr clr6\" style=\"color: #ff8800;\">\n    3 seconds\n   </span>\n  </b>\n  .\n </li>\n</ul>\n",
+    "character": "Meg Thomas",
+    "description": "<div>You are fuelled by unexpecting energy when on the verge of escape<img alt=\"IconHelp addons\" data-relevant=\"0\" decoding=\"async\" height=\"32\" src=\"images/icons/IconHelp_addons.png\" width=\"32\"/></div>",
+    "frames": [
+      "data/images/perks/survivors/adrenaline/frame_0.png",
+      "data/images/perks/survivors/adrenaline/frame_1.png",
+      "data/images/perks/survivors/adrenaline/frame_2.png"
+    ],
+    "gif": "data/images/perks/survivors/adrenaline/Adrenaline.gif",
+    "icon": "data/images/perks/survivors/adrenaline/Adrenaline.png",
+    "icon_alt": "Adrenaline",
+    "icon_src": "https://static.wikia.nocookie.net/deadbydaylight_gamepedia_en/images/f/f7/IconPerks_adrenaline.png/revision/latest?cb=20160605204801",
+    "link": "/wiki/Adrenaline",
+    "locales": {
+      "de": "https://deadbydaylight.fandom.com/de/wiki/Adrenalin",
+      "es": "https://deadbydaylight.fandom.com/es/wiki/Adrenalina",
+      "fr": "https://deadbydaylight.fandom.com/fr/wiki/Adr%C3%A9naline",
+      "it": "https://deadbydaylight.fandom.com/it/wiki/Adrenalina",
+      "pl": "https://deadbydaylight.fandom.com/pl/wiki/Adrenalina",
+      "pt": "https://deadbydaylight.fandom.com/pt/wiki/Adrenalina",
+      "zh": "https://deadbydaylight.fandom.com/zh/wiki/%E8%85%8E%E4%B8%8A%E8%85%BA%E7%B4%A0"
+    },
+    "name": "Adrenaline"
+  }
+}

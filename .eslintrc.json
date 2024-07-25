@@ -32,6 +32,6 @@
     "node_modules",
     "dist",
     "vite.config.ts",
-    "svelte.config.js"
+    "vitest-setup.ts"
   ]
 }

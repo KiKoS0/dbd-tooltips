@@ -16,6 +16,10 @@ lint:
 	yarn tc
 	yarn lint
 
+.PHONY: test
+test:
+	yarn test
+
 .PHONY: build
 build:
 	yarn build

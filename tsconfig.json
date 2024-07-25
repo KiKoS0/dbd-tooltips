@@ -11,7 +11,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["@testing-library/jest-dom"]
   },
   "include": [
     "src/**/*.d.ts",
@@ -20,8 +21,5 @@
     "src/**/*.svelte",
     "global.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
