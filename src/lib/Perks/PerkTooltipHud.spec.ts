@@ -7,7 +7,7 @@ import { visualStore } from '../Stores/VisualStore.svelte'
 
 const perkIdx = 0
 
-const activePerks = [
+const currentPerks = [
   { id: 'Adrenaline', actor: 'survivor' } as const,
   null,
   null,
@@ -31,7 +31,7 @@ describe('PerkTooltipHud', () => {
 
     await rerender({
       disabled: false,
-      hoveredPerk: activePerks[perkIdx]
+      hoveredPerk: currentPerks[perkIdx]
     })
 
     expect(screen.getByAltText('Adrenaline')).toBeInTheDocument()
@@ -56,7 +56,7 @@ describe('PerkTooltipHud', () => {
   it("shows changelogs of the perk when it's toggled", async () => {
     render(PerkTooltipHud, {
       disabled: false,
-      hoveredPerk: activePerks[perkIdx]
+      hoveredPerk: currentPerks[perkIdx]
     })
 
     expect(screen.queryByTestId('description.changelogs')).toBeNull()

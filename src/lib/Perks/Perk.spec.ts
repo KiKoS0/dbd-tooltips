@@ -8,7 +8,7 @@ import { visualStore } from '../Stores/VisualStore.svelte'
 
 const perkIdx = 0
 
-const activePerks = [
+const currentPerks = [
   { id: 'Adrenaline', actor: 'survivor' } as const,
   null,
   null,
@@ -23,7 +23,7 @@ describe('Perk', () => {
     render(Perk, { perkIdx })
     expect(screen.getByTestId(`perk-${perkIdx}`)).toHaveClass('disabled')
 
-    currentGameState.setPerks(activePerks)
+    currentGameState.setPerks(currentPerks)
 
     await waitFor(() => {
       expect(screen.getByTestId(`perk-${perkIdx}`)).not.toHaveClass('disabled')
@@ -34,7 +34,7 @@ describe('Perk', () => {
     const currentGameState = currentGameStateStore()
     const visualState = visualStore()
 
-    currentGameState.setPerks(activePerks)
+    currentGameState.setPerks(currentPerks)
     render(Perk, { perkIdx, enabled: true })
     const perk = screen.getByTestId(`perk-${perkIdx}`)
 
