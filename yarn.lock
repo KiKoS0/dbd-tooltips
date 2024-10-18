@@ -4820,8 +4820,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0-next.198":
-  version: 5.0.0-next.268
-  resolution: "svelte@npm:5.0.0-next.268"
+  version: 5.0.0-next.269
+  resolution: "svelte@npm:5.0.0-next.269"
   dependencies:
     "@ampproject/remapping": "npm:^2.3.0"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -4836,7 +4836,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/74a954cffe2a70259a1d1d2a834e9615d3f393429ac8cc1e15bfdc66b8bbe5dc449a8289370631b29023bca51aa451d1906f570b3761de4c235ea731913ee1b2
+  checksum: 10c0/727ad46d87135b7ebe9c1d2560350579beb1f6629255216bed7e5083c41697ba17ca6cb1ae4224a42eb56a51e3d4875d674ae2904830eebe4a9b4283fad62f75
   languageName: node
   linkType: hard
 
