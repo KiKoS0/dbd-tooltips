@@ -2868,13 +2868,13 @@ __metadata:
   linkType: hard
 
 "happy-dom@npm:^15.0.0":
-  version: 15.11.2
-  resolution: "happy-dom@npm:15.11.2"
+  version: 15.11.4
+  resolution: "happy-dom@npm:15.11.4"
   dependencies:
     entities: "npm:^4.5.0"
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10c0/94de85617988acc75e062e5d9bb36d220ff8cb5672c0d4bc5e35135f2fcaa8735242284d56a9831911628972837e544188db3fb915e11b7e2d96eba9e82398ad
+  checksum: 10c0/8c19f2d672131f5225db8ba3a5fc32cca7f1e800f3596a4e8a6de755fc5809f026cf1738e2df716969cc5cf1797d1101e4bed74e9b8b061e1b81db6098040aad
   languageName: node
   linkType: hard
 
