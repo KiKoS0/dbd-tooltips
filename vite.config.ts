@@ -17,7 +17,10 @@ export default defineConfig(({ mode }) => {
         org: 'kikos0',
         project: 'dbd-tooltips',
         authToken: process.env.SENTRY_AUTH_TOKEN,
-        telemetry: false
+        telemetry: false,
+        bundleSizeOptimizations: {
+          excludeDebugStatements: mode === 'production' ? true : false
+        }
       })
     ],
     envDir: './env',
