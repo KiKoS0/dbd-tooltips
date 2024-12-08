@@ -2,8 +2,8 @@ import { render, screen, waitFor } from '@testing-library/svelte'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import PerkTooltipHud from './PerkTooltipHud.svelte'
-import { mainGameStore } from '../Stores/MainGameStore'
 import { visualStore } from '../Stores/VisualStore.svelte'
+import { waitForResources } from '../../test/helpers'
 
 const perkIdx = 0
 
@@ -15,14 +15,7 @@ const currentPerks = [
 ]
 
 describe('PerkTooltipHud', () => {
-  const gameStore = mainGameStore()
-
-  beforeAll(async () => {
-    await waitFor(() => {
-      expect(gameStore.killersData).toBeTruthy()
-      expect(gameStore.survivorsData).toBeTruthy()
-    })
-  })
+  beforeAll(waitForResources)
 
   it('renders correctly when a hovered perk is set', async () => {
     const { rerender } = render(PerkTooltipHud, {})

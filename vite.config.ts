@@ -46,6 +46,9 @@ export default defineConfig(({ mode }) => {
     test: {
       include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
       environment: 'happy-dom',
+      environmentOptions: {
+        happyDOM: { settings: { fetch: { disableSameOriginPolicy: true } } }
+      },
       alias: [
         {
           find: '@testing-library/svelte',

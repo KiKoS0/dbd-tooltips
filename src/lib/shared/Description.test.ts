@@ -1,13 +1,16 @@
 import { render, screen, waitFor } from '@testing-library/svelte'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import Description from './Description.svelte'
 import perks from '../../../tests/fixtures/survivors.json'
 import { visualStore } from '../Stores/VisualStore.svelte'
+import { waitForResources } from '../../test/helpers'
 
 const perk = perks['Adrenaline']
 
 describe('Description', () => {
+  beforeAll(waitForResources)
+
   it('renders correctly', () => {
     const expected =
       'You are fuelled by unexpecting energy when on the verge of escape'
@@ -16,11 +19,11 @@ describe('Description', () => {
     expect(screen.getByText(expected)).toBeInTheDocument()
   })
 
-  it('rewrites icon url to CDN`s', () => {
+  it('rewrites icon url to CDN`s', async () => {
     render(Description, { ...perk })
 
-    waitFor(() => {
-      expect(screen.getByRole<HTMLImageElement>('img')).toBe(
+    await waitFor(() => {
+      expect(screen.getByRole<HTMLImageElement>('img')['src']).toBe(
         `https://${import.meta.env.VITE_CDN_HOST}/images/icons/IconHelp_addons.png`
       )
     })

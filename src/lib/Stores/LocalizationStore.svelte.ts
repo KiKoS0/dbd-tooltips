@@ -33,6 +33,9 @@ export const localizationStore = () => {
     get locale() {
       return locale
     },
+    get supportedLocales() {
+      return supportedLocales?.data
+    },
     get killersLocalizationData() {
       return killersLocalizationData.data
     },

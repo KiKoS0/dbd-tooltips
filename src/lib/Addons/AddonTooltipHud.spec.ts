@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/svelte'
+import { render, screen } from '@testing-library/svelte'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import AddonTooltipHud from './AddonTooltipHud.svelte'
-import { mainGameStore } from '../Stores/MainGameStore'
 import type { Addon } from '../Stores/types'
 import type { Nullable } from '../types'
+import { waitForResources } from '../../test/helpers'
 
 const addonIdx = 0
 
@@ -14,13 +14,7 @@ const currentAddons: [Nullable<Addon>, Nullable<Addon>] = [
 ]
 
 describe('AddonTooltipHud', () => {
-  const gameStore = mainGameStore()
-
-  beforeAll(async () => {
-    await waitFor(() => {
-      expect(gameStore.killersMetadata).toBeTruthy()
-    })
-  })
+  beforeAll(waitForResources)
 
   it('renders correctly when a hovered addon is set', async () => {
     const { rerender } = render(AddonTooltipHud, {})
