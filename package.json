@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@sentry/vite-plugin": "^2.21.1",
-    "@sveltejs/vite-plugin-svelte": "5.0.2",
+    "@sveltejs/vite-plugin-svelte": "5.0.3",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/svelte": "^5.2.0",
     "@testing-library/user-event": "^14.5.2",
