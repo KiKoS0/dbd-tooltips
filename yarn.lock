@@ -1155,7 +1155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:1.0.6, @types/estree@npm:^1.0.0, @types/estree@npm:^1.0.1, @types/estree@npm:^1.0.5, @types/estree@npm:^1.0.6":
+"@types/estree@npm:1.0.6, @types/estree@npm:^1.0.0, @types/estree@npm:^1.0.5, @types/estree@npm:^1.0.6":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
   checksum: 10c0/cdfd751f6f9065442cd40957c07fd80361c962869aa853c1c2fd03e101af8b9389d8ff4955a43a6fcfa223dd387a089937f95be0f3eec21ca527039fd2d9859a
@@ -2328,13 +2328,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esrap@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "esrap@npm:1.2.3"
+"esrap@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "esrap@npm:1.3.2"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
-    "@types/estree": "npm:^1.0.1"
-  checksum: 10c0/409f6b6f9759444ee581892738d313f5040c2ee21606363746f3d1f9d94a55665bdf96349d976791ceb3b2facc6796f2aecd6a9e5b61b30f57041f1bfb5aee3c
+  checksum: 10c0/0d79db203ae439b4601cede1d885c5d36f5184b8055683c128cc99a832aa72586a11d8ee0ff4013a37d0c9d4857bb1ecc6b835fa4c2276538b684183423445a2
   languageName: node
   linkType: hard
 
@@ -4272,8 +4271,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0":
-  version: 5.14.1
-  resolution: "svelte@npm:5.14.1"
+  version: 5.15.0
+  resolution: "svelte@npm:5.15.0"
   dependencies:
     "@ampproject/remapping": "npm:^2.3.0"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -4283,12 +4282,12 @@ __metadata:
     aria-query: "npm:^5.3.1"
     axobject-query: "npm:^4.1.0"
     esm-env: "npm:^1.2.1"
-    esrap: "npm:^1.2.3"
+    esrap: "npm:^1.3.2"
     is-reference: "npm:^3.0.3"
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/2a7997d9d41ef2faf2014a1077f83c22e6bf0e04e5a4c37c681b174417fb2117eece51a2c839a0b34ff6462e20302ba0d877039a2d61a77aff440e951f6d3d7d
+  checksum: 10c0/715423922f4a5aa59abd0cf8ea84fc3514d62ac01ae5e592bc57f805e31be4babca78377ac68e64a17e504f31b19c612ded979e22773776e36e10f69e36a3213
   languageName: node
   linkType: hard
 
