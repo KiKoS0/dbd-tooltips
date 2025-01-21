@@ -38,7 +38,7 @@
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.6",
-    "rollup-plugin-webpack-stats": "^1.0.1",
+    "rollup-plugin-webpack-stats": "^2.0.0",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "tslib": "^2.6.3",
