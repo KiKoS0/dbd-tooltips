@@ -3924,13 +3924,13 @@ __metadata:
   linkType: hard
 
 "rollup-plugin-webpack-stats@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "rollup-plugin-webpack-stats@npm:2.0.0"
+  version: 2.0.1
+  resolution: "rollup-plugin-webpack-stats@npm:2.0.1"
   dependencies:
     rollup-plugin-stats: "npm:1.3.2"
   peerDependencies:
     rollup: ^3.0.0 || ^4.0.0
-  checksum: 10c0/3e41749db4c977ab59f255c50564cb561cc801357fec15c3090fc3c41a173261e7e9b877dd4e293d2de93db7e1a777e199f8ba1a68e9a1caaa547a9a4eaf4dfd
+  checksum: 10c0/66ae9ff521e68d1658fcc0091fef604eb0caac4851fd54cf3b96cf75d8003373b5ecf21a7bba37955104bfdab83bacea5567c4ee81206914aa0b6be072000f70
   languageName: node
   linkType: hard
 
