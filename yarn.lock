@@ -3914,23 +3914,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-stats@npm:1.3.2":
-  version: 1.3.2
-  resolution: "rollup-plugin-stats@npm:1.3.2"
+"rollup-plugin-stats@npm:1.3.3":
+  version: 1.3.3
+  resolution: "rollup-plugin-stats@npm:1.3.3"
   peerDependencies:
     rollup: ^3.0.0 || ^4.0.0
-  checksum: 10c0/58826c8cd61f4512e13dcf5b3558fd82b7c5f5319956c093c4b81a2b2490933b2af2c29679b23835d7b89826b6c18bdc688fd4b6f8f6ef76e40021142bde796e
+  checksum: 10c0/a8470a29a9f5658ed98d15c6c1919e855328f0e9a42bb623d3dc3b36c057d5cf683159f5832d0a1047abfd05664aea537b82f2ab5373e31a822e9caae9498cf2
   languageName: node
   linkType: hard
 
 "rollup-plugin-webpack-stats@npm:^2.0.0":
-  version: 2.0.1
-  resolution: "rollup-plugin-webpack-stats@npm:2.0.1"
+  version: 2.0.2
+  resolution: "rollup-plugin-webpack-stats@npm:2.0.2"
   dependencies:
-    rollup-plugin-stats: "npm:1.3.2"
+    rollup-plugin-stats: "npm:1.3.3"
   peerDependencies:
     rollup: ^3.0.0 || ^4.0.0
-  checksum: 10c0/66ae9ff521e68d1658fcc0091fef604eb0caac4851fd54cf3b96cf75d8003373b5ecf21a7bba37955104bfdab83bacea5567c4ee81206914aa0b6be072000f70
+  checksum: 10c0/95d4f0505850e6b8166432a99d6d28c56435b6e8587b89d7a3b92102d46181883ef6be940022c072276b2eed30e3d6c7f10d8606605f130a46cf9aad8a9c8e8a
   languageName: node
   linkType: hard
 
