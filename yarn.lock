@@ -747,10 +747,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/babel-plugin-component-annotate@npm:3.2.1":
-  version: 3.2.1
-  resolution: "@sentry/babel-plugin-component-annotate@npm:3.2.1"
-  checksum: 10c0/26ec2e7f8c0f46be4b78d109310cf07b218e6b288cf8dd19dd55226396f531beead93362bd2bf9e942a142d5db2bb9c4c0c4d202975ae620088d8b86b6ab5f50
+"@sentry/babel-plugin-component-annotate@npm:3.2.2":
+  version: 3.2.2
+  resolution: "@sentry/babel-plugin-component-annotate@npm:3.2.2"
+  checksum: 10c0/96835b165b6f7904eb74d117fed137f724490bc919940c740113eb2d8836de6ccd977b7ec056a0ca20712e6cdb19c30a9f515ec0028ecac70c7880f0a6b9a58d
   languageName: node
   linkType: hard
 
@@ -767,19 +767,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/bundler-plugin-core@npm:3.2.1":
-  version: 3.2.1
-  resolution: "@sentry/bundler-plugin-core@npm:3.2.1"
+"@sentry/bundler-plugin-core@npm:3.2.2":
+  version: 3.2.2
+  resolution: "@sentry/bundler-plugin-core@npm:3.2.2"
   dependencies:
     "@babel/core": "npm:^7.18.5"
-    "@sentry/babel-plugin-component-annotate": "npm:3.2.1"
+    "@sentry/babel-plugin-component-annotate": "npm:3.2.2"
     "@sentry/cli": "npm:2.42.2"
     dotenv: "npm:^16.3.1"
     find-up: "npm:^5.0.0"
     glob: "npm:^9.3.2"
     magic-string: "npm:0.30.8"
     unplugin: "npm:1.0.1"
-  checksum: 10c0/e88fea801534bde21d60cf325abb9933e0c2d2a992a918a331c684917416ace91eebc82a50f4f4dbe367d5094d57a09ba4da753dbdd2e16254f117d9f16e36d4
+  checksum: 10c0/b028bfb8f1535bccac1c3d3f335c1e960dc28b17804f85fdc89b5ac8b42029bd989fd24da6b7a5620adb86891273b9e6ac5bb4d787b20af85c736ddea01a1acb
   languageName: node
   linkType: hard
 
@@ -890,12 +890,12 @@ __metadata:
   linkType: hard
 
 "@sentry/vite-plugin@npm:^3.0.0":
-  version: 3.2.1
-  resolution: "@sentry/vite-plugin@npm:3.2.1"
+  version: 3.2.2
+  resolution: "@sentry/vite-plugin@npm:3.2.2"
   dependencies:
-    "@sentry/bundler-plugin-core": "npm:3.2.1"
+    "@sentry/bundler-plugin-core": "npm:3.2.2"
     unplugin: "npm:1.0.1"
-  checksum: 10c0/7a85945d24d2c1bc1ecd52daa275c149087201166732cdd2836764ab41b1e0a58b7e1c49f51e6baff606a91be3b032544e95dbca9cf604e740e0d421794ac6cb
+  checksum: 10c0/351f7587e3c094664d28679408f7995f8294aa5dce8b93d1bb5ebd19cc0ce980bd99ff23346a610e63fefc89a354eb6462a9f67bb8c182425a6477f78a588900
   languageName: node
   linkType: hard
 
