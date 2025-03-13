@@ -961,8 +961,8 @@ __metadata:
   linkType: hard
 
 "@testing-library/svelte@npm:^5.2.0":
-  version: 5.2.6
-  resolution: "@testing-library/svelte@npm:5.2.6"
+  version: 5.2.7
+  resolution: "@testing-library/svelte@npm:5.2.7"
   dependencies:
     "@testing-library/dom": "npm:^10.0.0"
   peerDependencies:
@@ -974,7 +974,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/0da19b7c54a7fd6252d64e13204ef2bb480edc8019e83bdb8fde5dd7d84640ae8b1e0f7627b788858b5eb9193044903a91fd604ea7b650e3520f7ad42dc3a61e
+  checksum: 10c0/9bcfd86316688e6f1eee335ec3073875d9b081ff4dd0e56d707b00a895f2321f308a68e2a1e086b031cc43e90b3681df5a905ad3d77ae16759932712d58ccb12
   languageName: node
   linkType: hard
 
