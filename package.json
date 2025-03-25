@@ -52,6 +52,6 @@
     "*.nix": "nixpkgs-fmt"
   },
   "dependencies": {
-    "@sentry/svelte": "^8.13.0"
+    "@sentry/svelte": "^9.0.0"
   }
 }
