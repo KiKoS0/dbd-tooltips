@@ -46,7 +46,7 @@
     "vite": "^6.0.3",
     "vitest": "^3.0.0"
   },
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.7.0",
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
     "*.nix": "nixpkgs-fmt"
