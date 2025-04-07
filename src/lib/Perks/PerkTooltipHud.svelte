@@ -97,6 +97,8 @@
       return `bottom: ${scaleToPositions[hudSize][0]}% !important; right: ${scaleToPositions[hudSize][1]}% !important;`
     } else return ''
   }
+
+  $inspect(hoveredPerk)
 </script>
 
 {#if !disabled}
