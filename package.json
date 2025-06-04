@@ -60,7 +60,7 @@
     "vite": "^6.0.3",
     "vitest": "^3.0.0"
   },
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.9.2",
   "lint-staged": {
     "*": "prettier --write --ignore-unknown",
     "*.nix": "nixpkgs-fmt"
