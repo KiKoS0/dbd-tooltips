@@ -22,7 +22,7 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^3",
+    "@chromatic-com/storybook": "^4.0.0",
     "@sentry/vite-plugin": "^3.0.0",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-svelte-csf": "^5.0.0-next.0",
