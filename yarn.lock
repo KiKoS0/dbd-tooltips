@@ -3152,12 +3152,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esrap@npm:^1.2.2, esrap@npm:^1.4.6":
+"esrap@npm:^1.2.2":
   version: 1.4.6
   resolution: "esrap@npm:1.4.6"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
   checksum: 10c0/3fb4fcc301c0d8d97e5b2fed0154b3da57b33325f783b8ed893c3082b835d83cb25b079156d659769862e803b8c22f59094e3ccf97972bb52cfba51528fec27d
+  languageName: node
+  linkType: hard
+
+"esrap@npm:^1.4.8":
+  version: 1.4.9
+  resolution: "esrap@npm:1.4.9"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+  checksum: 10c0/21b4c58f358360ada596ea46b8dbf47771c6d7734277add55e7cd1d5655126dea25591788712452ed8575a99acd388eae756bf941bab31d7b9fb424620c10c40
   languageName: node
   linkType: hard
 
@@ -5722,8 +5731,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0":
-  version: 5.33.14
-  resolution: "svelte@npm:5.33.14"
+  version: 5.34.3
+  resolution: "svelte@npm:5.34.3"
   dependencies:
     "@ampproject/remapping": "npm:^2.3.0"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -5734,12 +5743,12 @@ __metadata:
     axobject-query: "npm:^4.1.0"
     clsx: "npm:^2.1.1"
     esm-env: "npm:^1.2.1"
-    esrap: "npm:^1.4.6"
+    esrap: "npm:^1.4.8"
     is-reference: "npm:^3.0.3"
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/4eaeebe497c5b6b03bc9bf74701fb986ca1bdea7170a4f73d39aa43c101e248840011454923cfadf2a67f02d5a8b577fc11ee0c1ae82c6cc729989ab6f7d5c38
+  checksum: 10c0/78f7befb176bc5a9cb24343d644b8cb7f2d02d78e6ed6a2410760fca3019b31ded1dd70b2bc8fc6805435dce3a36787308c1730974d0511cc3aaf0d80cd471d2
   languageName: node
   linkType: hard
 
