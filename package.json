@@ -45,7 +45,7 @@
     "eslint-plugin-storybook": "^9.0.0",
     "eslint-plugin-svelte": "^2.43.0",
     "eslint-plugin-unused-imports": "^4.0.0",
-    "happy-dom": "^17.0.0",
+    "happy-dom": "^18.0.0",
     "husky": "^9.1.1",
     "lint-staged": "^16.0.0",
     "playwright": "^1.51.1",
