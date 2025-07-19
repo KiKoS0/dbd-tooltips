@@ -1299,9 +1299,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@sveltejs/vite-plugin-svelte@npm:5.1.0"
+"@sveltejs/vite-plugin-svelte@npm:5.1.1":
+  version: 5.1.1
+  resolution: "@sveltejs/vite-plugin-svelte@npm:5.1.1"
   dependencies:
     "@sveltejs/vite-plugin-svelte-inspector": "npm:^4.0.1"
     debug: "npm:^4.4.1"
@@ -1312,7 +1312,7 @@ __metadata:
   peerDependencies:
     svelte: ^5.0.0
     vite: ^6.0.0
-  checksum: 10c0/7402d90e3f81cffc80dd31bb8d7d277548121c03ba29ead9409800f6849a0b068a42b0ef294ab5eb1eaa033e9f4d53864e4e163b36e6bccb2d9e130ba8e47f10
+  checksum: 10c0/a8ca872c07180ac0676d54243ba0bd47690ad07933abe5c02732bdd286b31a27370e1ed67f07b4de012aea0b7c8d12d67a3c48d0567b18af67dc5adebea6859a
   languageName: node
   linkType: hard
 
@@ -2369,7 +2369,7 @@ __metadata:
     "@storybook/svelte": "npm:^9.0.0"
     "@storybook/svelte-vite": "npm:^9.0.0"
     "@storybook/test": "npm:^8.6.12"
-    "@sveltejs/vite-plugin-svelte": "npm:5.1.0"
+    "@sveltejs/vite-plugin-svelte": "npm:5.1.1"
     "@testing-library/jest-dom": "npm:^6.4.8"
     "@testing-library/svelte": "npm:^5.2.0"
     "@testing-library/user-event": "npm:^14.5.2"
