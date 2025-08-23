@@ -1079,8 +1079,8 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-svelte-csf@npm:^5.0.0-next.0":
-  version: 5.0.7
-  resolution: "@storybook/addon-svelte-csf@npm:5.0.7"
+  version: 5.0.8
+  resolution: "@storybook/addon-svelte-csf@npm:5.0.8"
   dependencies:
     "@storybook/csf": "npm:^0.1.13"
     dedent: "npm:^1.5.3"
@@ -1090,12 +1090,12 @@ __metadata:
     svelte-ast-print: "npm:^0.4.0"
     zimmerframe: "npm:^1.1.2"
   peerDependencies:
-    "@storybook/svelte": ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0
+    "@storybook/svelte": ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0 || ^10.0.0-0
     "@sveltejs/vite-plugin-svelte": ^4.0.0 || ^5.0.0 || ^6.0.0
-    storybook: ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0
+    storybook: ^0.0.0-0 || ^8.2.0 || ^9.0.0 || ^9.1.0-0 || ^10.0.0-0
     svelte: ^5.0.0
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10c0/0a797254829d585ca5f0c0aad713e189cea6826b880b326e5a27495f635736f63ecfbab5a069139f0cd0c90afb709611606138ac02795819f951f7d631c14986
+  checksum: 10c0/563eee2174b5eefbc9902998ba29a4b774cb52230e80c51df409570f5843a7e77fc4f899ea5a26077b3bbd5649286e2cace54d0824d68970bd19ae58f808ae07
   languageName: node
   linkType: hard
 
