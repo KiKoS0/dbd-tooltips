@@ -502,6 +502,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jridgewell/remapping@npm:^2.3.4":
+  version: 2.3.5
+  resolution: "@jridgewell/remapping@npm:2.3.5"
+  dependencies:
+    "@jridgewell/gen-mapping": "npm:^0.3.5"
+    "@jridgewell/trace-mapping": "npm:^0.3.24"
+  checksum: 10c0/3de494219ffeb2c5c38711d0d7bb128097edf91893090a2dbc8ee0b55d092bb7347b1fd0f478486c5eab010e855c73927b1666f2107516d472d24a73017d1194
+  languageName: node
+  linkType: hard
+
 "@jridgewell/resolve-uri@npm:^3.1.0":
   version: 3.1.2
   resolution: "@jridgewell/resolve-uri@npm:3.1.2"
@@ -5128,10 +5138,10 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0":
-  version: 5.36.16
-  resolution: "svelte@npm:5.36.16"
+  version: 5.38.2
+  resolution: "svelte@npm:5.38.2"
   dependencies:
-    "@ampproject/remapping": "npm:^2.3.0"
+    "@jridgewell/remapping": "npm:^2.3.4"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/estree": "npm:^1.0.5"
@@ -5145,7 +5155,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/55b7031948640dd8c526a1bee323ca6007c59aef6ea1df8b493d27dfadd332d38db6ae47a96dfbf3697209dcfa7ca0d11fd4e3ec310de0a758f4d675915bac0f
+  checksum: 10c0/be7d245d99f00294984a99d2c75eb4f2badaf06235b53b335b15a544aadd6fa304177c0e216754305abd737127473068fae5398cc0c5bac3974aa3a82610075c
   languageName: node
   linkType: hard
 
