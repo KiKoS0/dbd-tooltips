@@ -5150,8 +5150,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0":
-  version: 5.38.6
-  resolution: "svelte@npm:5.38.6"
+  version: 5.38.10
+  resolution: "svelte@npm:5.38.10"
   dependencies:
     "@jridgewell/remapping": "npm:^2.3.4"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -5167,7 +5167,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/0643cc4f29de3585c4d0eb55117091d0fdbd51de0d75020db6fdf733c37a3dca3be43ee237b623c492b5cea52eecbe06dfd369f800cdbb62371827852b78df43
+  checksum: 10c0/817a2f2c56ed78312f6bd747eec3e63f7895988fb3a27f6ed5dc4342e095e64ed6339b30fda81e27ada918fcb7afd2106803a0587663d6194c8e43679c692543
   languageName: node
   linkType: hard
 
