@@ -378,9 +378,60 @@
     z-index: 2;
   }
   .perk_info_meta_mobile {
-    position: fixed;
     display: flex;
     flex-direction: row;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  .perk_info_meta_mobile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      #1a1a1a 0%,
+      #2a2a2a 25%,
+      #1a1a1a 50%,
+      #2a2a2a 75%,
+      #1a1a1a 100%
+    );
+    z-index: 0;
+  }
+  .perk_info_meta_mobile::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      ellipse at var(--breath-x) var(--breath-y),
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          var(--breath-opacity)
+        )
+        0%,
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          calc(var(--breath-opacity) * 0.5)
+        )
+        40%,
+      transparent 70%
+    );
+    transition: background 0.1s linear;
+    z-index: 1;
+  }
+  .perk_info_meta_mobile > * {
+    position: relative;
+    z-index: 2;
   }
   .perk_info_img {
     padding: 16px;
@@ -448,7 +499,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 20%;
     background-image:
       linear-gradient(
         180deg,
@@ -459,6 +510,13 @@
             calc(var(--breath-opacity) * 0.4)
           )
           0%,
+        rgba(
+            var(--breath-r),
+            var(--breath-g),
+            var(--breath-b),
+            calc(var(--breath-opacity) * 0.2)
+          )
+          50%,
         transparent 100%
       ),
       repeating-linear-gradient(
@@ -478,17 +536,55 @@
   }
 
   .perk_info_desc_mobile {
-    background-color: #0b0b0b;
+    position: relative;
+    background-color: #1a1520;
     border: 1px solid #1f1f1f;
     padding: 17px;
-
     color: #aaa9a9;
     font-size: 16px;
-
-    margin-top: 105px;
     overflow-y: auto;
-    margin-bottom: 100px;
-    height: calc(100% - 210px);
     width: 100%;
+    flex: 1;
+  }
+  .perk_info_desc_mobile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(
+            var(--breath-r),
+            var(--breath-g),
+            var(--breath-b),
+            calc(var(--breath-opacity) * 0.4)
+          )
+          0%,
+        rgba(
+            var(--breath-r),
+            var(--breath-g),
+            var(--breath-b),
+            calc(var(--breath-opacity) * 0.2)
+          )
+          50%,
+        transparent 100%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      );
+    transition: background-image 0.1s linear;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .perk_info_desc_mobile > * {
+    position: relative;
+    z-index: 1;
   }
 </style>
