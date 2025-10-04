@@ -8,7 +8,7 @@ import { waitForResources } from '../../test/helpers'
 const perkIdx = 0
 
 const currentPerks = [
-  { id: 'Dance_With_Me', actor: 'survivor' } as const,
+  { id: 'Babysitter', actor: 'survivor' } as const,
   null,
   null,
   null
@@ -20,15 +20,15 @@ describe('PerkTooltipHud', () => {
   it('renders correctly when a hovered perk is set', async () => {
     const { rerender } = render(PerkTooltipHud, {})
 
-    expect(screen.queryByAltText('Dancewithme')).toBeNull()
+    expect(screen.queryByAltText('Babysitter')).toBeNull()
 
     await rerender({
       disabled: false,
       hoveredPerk: currentPerks[perkIdx]
     })
 
-    expect(screen.getByAltText('Dancewithme')).toBeInTheDocument()
-    expect(screen.getByText('KATE DENSON PERK')).toBeInTheDocument()
+    expect(screen.getByAltText('Babysitter')).toBeInTheDocument()
+    expect(screen.getByText('STEVE HARRINGTON PERK')).toBeInTheDocument()
   })
 
   it('renders correctly for killers', async () => {
