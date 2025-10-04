@@ -126,7 +126,11 @@
     const breathEase = Math.sin(breathProgress * Math.PI)
     const opacity = 0.2 + breathEase * 0.3
 
-    return { r, g, b, opacity }
+    // Moving gradient position
+    const xPos = 30 + breathEase * 40  // moves from 30% to 70%
+    const yPos = 40 + breathEase * 20  // moves from 40% to 60%
+
+    return { r, g, b, opacity, xPos, yPos }
   }
 
   const animatedColor = $derived(getCurrentColor())
@@ -135,6 +139,8 @@
     --breath-g: ${animatedColor.g};
     --breath-b: ${animatedColor.b};
     --breath-opacity: ${animatedColor.opacity};
+    --breath-x: ${animatedColor.xPos}%;
+    --breath-y: ${animatedColor.yPos}%;
   `)
 
   $effect(() => {
@@ -339,7 +345,7 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(
-      ellipse at 50% 50%,
+      ellipse at var(--breath-x) var(--breath-y),
       rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity)) 0%,
       rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 40%,
       transparent 70%
