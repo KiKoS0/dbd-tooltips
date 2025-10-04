@@ -33,6 +33,7 @@ jobs:
         run: make lint build
 
       - name: Run Chromatic
+        if: github.ref == 'refs/heads/master'
         run: yarn chromatic
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
