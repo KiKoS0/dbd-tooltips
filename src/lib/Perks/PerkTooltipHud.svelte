@@ -108,6 +108,7 @@
   let colorIndex = $state(0)
   let breathProgress = $state(0)
   let breathDirection = $state(1)
+  let chaosOffset = $state(0)
 
   function lerp(a: number, b: number, t: number) {
     return a + (b - a) * t
@@ -126,9 +127,13 @@
     const breathEase = Math.sin(breathProgress * Math.PI)
     const opacity = 0.2 + breathEase * 0.3
 
-    // Moving gradient position
-    const xPos = 30 + breathEase * 40  // moves from 30% to 70%
-    const yPos = 40 + breathEase * 20  // moves from 40% to 60%
+    // Add some chaos to the movement with secondary waves
+    const chaosX = Math.sin(chaosOffset * 2.3) * 15
+    const chaosY = Math.cos(chaosOffset * 1.7) * 10
+
+    // Moving gradient position - left to right with chaos
+    const xPos = 20 + breathEase * 60 + chaosX  // moves from 20% to 80% with variation
+    const yPos = 50 + chaosY  // oscillates around center
 
     return { r, g, b, opacity, xPos, yPos }
   }
@@ -153,6 +158,9 @@
 
       // Faster breathing: 0.3 = ~3.3 seconds per breath cycle
       breathProgress += delta * 0.3 * breathDirection
+
+      // Update chaos offset at different speed
+      chaosOffset += delta * 0.8
 
       if (breathProgress >= 1) {
         breathProgress = 1
