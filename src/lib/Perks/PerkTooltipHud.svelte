@@ -276,7 +276,7 @@
       rgba(60, 30, 120, 0.3) 100%
     );
     background-size: 300% 300%;
-    animation: breathe 8s ease-in-out infinite;
+    animation: breathe 24s ease-in-out infinite;
     z-index: 1;
   }
   .perk_info_meta > * {
@@ -284,18 +284,110 @@
     z-index: 2;
   }
 
+      background: linear-gradient(135deg,
+        rgba(60, 30, 120, 0.3) 0%,
+        rgba(100, 60, 180, 0.35) 25%,
+        rgba(140, 90, 220, 0.45) 50%,
+        rgba(100, 60, 180, 0.35) 75%,
+        rgba(60, 30, 120, 0.3) 100%
+      );
+      background-size: 300% 300%;
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
+    8% {
+      background-position: 50% 70%;
+      opacity: 0.8;
+    }
+    16% {
+      background-position: 100% 30%;
+      opacity: 1;
+    }
+    25% {
+      background: linear-gradient(135deg,
+        rgba(60, 30, 120, 0.3) 0%,
+        rgba(100, 60, 180, 0.35) 25%,
+        rgba(140, 90, 220, 0.45) 50%,
+        rgba(100, 60, 180, 0.35) 75%,
+        rgba(60, 30, 120, 0.3) 100%
+      );
+      background-size: 300% 300%;
   @keyframes breathe {
     0% {
       background-position: 0% 50%;
       opacity: 0.5;
+      background: linear-gradient(135deg,
+        rgba(60, 120, 80, 0.3) 0%,
+        rgba(80, 160, 100, 0.35) 25%,
+        rgba(100, 200, 120, 0.45) 50%,
+        rgba(80, 160, 100, 0.35) 75%,
+        rgba(60, 120, 80, 0.3) 100%
+      );
+      background-size: 300% 300%;
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
+    41% {
     }
     33% {
       background-position: 50% 70%;
+    49% {
+      background-position: 100% 30%;
+      opacity: 1;
+    }
+    58% {
+      background: linear-gradient(135deg,
+        rgba(60, 120, 80, 0.3) 0%,
+        rgba(80, 160, 100, 0.35) 25%,
+        rgba(100, 200, 120, 0.45) 50%,
+        rgba(80, 160, 100, 0.35) 75%,
+        rgba(60, 120, 80, 0.3) 100%
+      );
+      background-size: 300% 300%;
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
       opacity: 0.8;
+      background: linear-gradient(135deg,
+        rgba(30, 60, 120, 0.3) 0%,
+        rgba(60, 100, 180, 0.35) 25%,
+        rgba(90, 140, 220, 0.45) 50%,
+        rgba(60, 100, 180, 0.35) 75%,
+        rgba(30, 60, 120, 0.3) 100%
+      );
+      background-size: 300% 300%;
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
+    74% {
+      background-position: 50% 70%;
+      opacity: 0.8;
+    }
+    82% {
     }
     66% {
       background-position: 100% 30%;
+    91% {
+      background: linear-gradient(135deg,
+        rgba(30, 60, 120, 0.3) 0%,
+        rgba(60, 100, 180, 0.35) 25%,
+        rgba(90, 140, 220, 0.45) 50%,
+        rgba(60, 100, 180, 0.35) 75%,
+        rgba(30, 60, 120, 0.3) 100%
+      );
+      background-size: 300% 300%;
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
       opacity: 1;
+      background: linear-gradient(135deg,
+        rgba(60, 30, 120, 0.3) 0%,
+        rgba(100, 60, 180, 0.35) 25%,
+        rgba(140, 90, 220, 0.45) 50%,
+        rgba(100, 60, 180, 0.35) 75%,
+        rgba(60, 30, 120, 0.3) 100%
+      );
+      background-size: 300% 300%;
     }
     100% {
       background-position: 0% 50%;
@@ -390,6 +482,7 @@
         rgba(255, 255, 255, 0.03) 4px
       );
     pointer-events: none;
+    animation: descShadow 24s ease-in-out infinite;
     z-index: 0;
   }
   .perk_info_desc > * {
@@ -397,6 +490,192 @@
     z-index: 1;
   }
   .perk_info_desc_mobile {
+
+  @keyframes descShadow {
+    0% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(140, 90, 220, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    8% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(140, 90, 220, 0.25) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    16% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(140, 90, 220, 0.3) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    25% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(140, 90, 220, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    33% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(100, 200, 120, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    41% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(100, 200, 120, 0.25) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    49% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(100, 200, 120, 0.3) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    58% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(100, 200, 120, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    66% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(90, 140, 220, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    74% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(90, 140, 220, 0.25) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    82% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(90, 140, 220, 0.3) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    91% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(90, 140, 220, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    100% {
+      background-image:
+        linear-gradient(180deg,
+          rgba(140, 90, 220, 0.2) 0%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+  }
+
     background-color: #0b0b0b;
     border: 1px solid #1f1f1f;
     padding: 17px;
