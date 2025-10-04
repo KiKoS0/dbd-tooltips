@@ -31,6 +31,11 @@ jobs:
       - name: Linting & Build
         run: make lint build
 
+      - name: Run Chromatic
+        run: yarn chromatic
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
       - name: Send bundle stats to RelativeCI
         uses: relative-ci/agent-action@v3
         with:

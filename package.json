@@ -19,7 +19,8 @@
     "postinstall": "husky install",
     "test": "vitest --coverage --typecheck",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --exit-zero-on-changes"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
