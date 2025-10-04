@@ -100,9 +100,9 @@
 
   // Color breathing animation state
   const colors = [
-    { r: 140, g: 90, b: 220 },  // Purple
-    { r: 100, g: 200, b: 120 }, // Green
-    { r: 90, g: 140, b: 220 }   // Blue
+    { r: 99, g: 46, b: 115 },   // Purple #632E73
+    { r: 30, g: 111, b: 35 },   // Green #1E6F23
+    { r: 47, g: 83, b: 132 }    // Blue #2F5384
   ]
 
   let colorIndex = $state(0)
@@ -116,15 +116,20 @@
   function getCurrentColor() {
     const currentColor = colors[colorIndex]
     const nextColor = colors[(colorIndex + 1) % colors.length]
-    const transitionPhase = Math.max(0, (breathProgress - 0.7) / 0.3)
+    const transitionPhase = Math.max(0, (breathProgress - 0.85) / 0.15)
 
     const r = lerp(currentColor.r, nextColor.r, transitionPhase)
     const g = lerp(currentColor.g, nextColor.g, transitionPhase)
     const b = lerp(currentColor.b, nextColor.b, transitionPhase)
 
-    const opacity = 0.3 + breathProgress * 0.15
+    // Breathing opacity: oscillate between 0.2 and 0.6 with sine easing
+    const breathEase = Math.sin(breathProgress * Math.PI)
+    const opacity = 0.2 + breathEase * 0.4
 
-    return { r, g, b, opacity }
+    // Breathing position for gradient movement
+    const breathPosition = 50 + breathEase * 30
+
+    return { r, g, b, opacity, position: breathPosition }
   }
 
   const animatedColor = $derived(getCurrentColor())
@@ -133,6 +138,7 @@
     --breath-g: ${animatedColor.g};
     --breath-b: ${animatedColor.b};
     --breath-opacity: ${animatedColor.opacity};
+    --breath-position: ${animatedColor.position}%;
   `)
 
   $effect(() => {
@@ -143,7 +149,8 @@
       const delta = (currentTime - lastTime) / 1000
       lastTime = currentTime
 
-      breathProgress += delta * 0.25 * breathDirection
+      // Slower breathing: 0.125 = 8 seconds per breath cycle
+      breathProgress += delta * 0.125 * breathDirection
 
       if (breathProgress >= 1) {
         breathProgress = 1
@@ -336,7 +343,8 @@
     right: 0;
     bottom: 0;
     background: rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity));
-    transition: background 0.3s ease-out;
+    filter: blur(40px);
+    transition: background 0.1s linear, filter 0.1s linear;
     z-index: 1;
   }
   .perk_info_meta > * {
@@ -422,7 +430,7 @@
     right: 0;
     height: 80px;
     background-image:
-      linear-gradient(180deg, rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 0%, transparent 100%),
+      linear-gradient(180deg, rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.4)) 0%, transparent 100%),
       repeating-linear-gradient(
         0deg,
         transparent,
@@ -430,7 +438,7 @@
         rgba(255, 255, 255, 0.03) 2px,
         rgba(255, 255, 255, 0.03) 4px
       );
-    transition: background-image 0.3s ease-out;
+    transition: background-image 0.1s linear;
     pointer-events: none;
     z-index: 0;
   }
