@@ -106,6 +106,10 @@
     style={overridePosScale(currentGameState.hudSize)}
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
+    role="tooltip"
+    onmouseenter={() => {
+      // Keep tooltip open when hovering over it
+    }}
   >
     {#if hoveredPerkInfo}
       <div
@@ -135,19 +139,6 @@
           </div>
         {:else}
           <div class="perk_info_header">
-            <video
-              id="bg-vid-perk"
-              preload="auto"
-              playsinline
-              autoplay
-              muted
-              loop
-            >
-              <source
-                src={mobileMode ? 'smoke_mobile.mp4' : 'videos/smoke.mp4'}
-                type="video/mp4"
-              />
-            </video>
             <div class="perk_info_header_wrapper">
               <div
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
@@ -216,24 +207,11 @@
     height: auto !important;
   }
 
-  video::-webkit-media-controls {
-    display: none !important;
-    opacity: 0 !important;
-  }
-  #bg-vid-perk {
-    appearance: none;
-    background: black;
-  }
   .perk_info_desc :global(img) {
     vertical-align: middle !important;
   }
   .perk_info_desc_mobile :global(img) {
     vertical-align: middle !important;
-  }
-  .perk_info_header video {
-    width: 500px !important;
-    height: 104px !important;
-    position: absolute;
   }
   .perk_info_hud_mobile {
     height: inherit;
@@ -244,25 +222,85 @@
     background-color: black;
   }
   .perk_info_hud {
-    /* background-color: rgba(241, 208, 18, 0.897); */
-    /* width: 25%;
-    height: 25%; */
-    /* width: 600px; */
     bottom: 25%;
     right: 8%;
     position: absolute;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     max-width: 600px;
     width: 600px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-    background-color: black;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
   }
   .perk_info_meta {
     display: flex;
     flex-direction: row;
-    /* background-color: rgba(221, 18, 18, 0.897); */
+    position: relative;
+    overflow: hidden;
+  }
+  .perk_info_meta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      #1a1a1a 0%,
+      #2a2a2a 25%,
+      #1a1a1a 50%,
+      #2a2a2a 75%,
+      #1a1a1a 100%
+    );
+    z-index: 0;
+  }
+  .perk_info_meta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(60, 30, 120, 0.3) 0%,
+      rgba(100, 60, 180, 0.35) 25%,
+      rgba(140, 90, 220, 0.45) 50%,
+      rgba(100, 60, 180, 0.35) 75%,
+      rgba(60, 30, 120, 0.3) 100%
+    );
+    background-size: 300% 300%;
+    animation: breathe 8s ease-in-out infinite;
+    z-index: 1;
+  }
+  .perk_info_meta > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  @keyframes breathe {
+    0% {
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
+    33% {
+      background-position: 50% 70%;
+      opacity: 0.8;
+    }
+    66% {
+      background-position: 100% 30%;
+      opacity: 1;
+    }
+    100% {
+      background-position: 0% 50%;
+      opacity: 0.5;
+    }
   }
   .perk_info_meta_mobile {
     position: fixed;
@@ -270,32 +308,45 @@
     flex-direction: row;
   }
   .perk_info_img {
-    /* background-color: rgba(52, 18, 241, 0.897); */
-    background: #000000 url('../images/img_bg.jpg') left;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .perk_info_img img {
-    transition: opacity 0.2s ease-out;
+    transition: all 0.3s ease;
     cursor: pointer;
     width: 100px;
     height: 100px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  .perk_info_img img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
   }
 
   .perk_info_header_wrapper {
     flex: 1 0;
     font-family: 'Open Sans', sans-serif;
-    padding: 0 20px;
+    padding: 20px 24px;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
     position: relative;
+    z-index: 1;
   }
   .perk_info_header {
     width: 100%;
     display: flex;
+    position: relative;
+    overflow: hidden;
   }
   .perk_info_name {
-    font-size: 1.7rem;
+    font-size: 2rem;
     font-weight: 600 !important;
   }
   .perk_info_name_mobile {
@@ -303,7 +354,7 @@
     font-weight: 600 !important;
   }
   .perk_info_sub {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 500 !important;
     color: rgb(255, 255, 255);
   }
@@ -314,12 +365,36 @@
   }
 
   .perk_info_desc {
-    background-color: #0b0b0b;
-    border: 1px solid #1f1f1f;
-    padding: 17px;
-
-    color: #aaa9a9;
-    font-size: 16px;
+    position: relative;
+    background-color: #1a1520;
+    padding: 20px;
+    color: #c0c0c0;
+    font-size: 15px;
+    line-height: 1.4;
+    overflow: hidden;
+  }
+  .perk_info_desc::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background-image:
+      linear-gradient(180deg, rgba(120, 80, 200, 0.15) 0%, transparent 100%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .perk_info_desc > * {
+    position: relative;
+    z-index: 1;
   }
   .perk_info_desc_mobile {
     background-color: #0b0b0b;
