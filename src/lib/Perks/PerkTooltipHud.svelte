@@ -14,12 +14,6 @@
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { emptyPerk, generateGifSrc } from '../utils.svelte'
-  import {
-    calculateCurrentColor,
-    updateAnimationState,
-    getCSSVariables,
-    type AnimationState
-  } from './breathingAnimation.svelte'
 
   let {
     disabled = false,
@@ -104,36 +98,6 @@
     } else return ''
   }
 
-  // Breathing animation state
-  let animationState = $state<AnimationState>({
-    colorIndex: 0,
-    breathProgress: 0,
-    breathDirection: 1,
-    chaosOffset: 0
-  })
-
-  const animatedColor = $derived(calculateCurrentColor(animationState))
-  const headerStyle = $derived(getCSSVariables(animatedColor))
-
-  $effect(() => {
-    let animationFrame: number
-    let lastTime = performance.now()
-
-    function animate(currentTime: number) {
-      const delta = (currentTime - lastTime) / 1000
-      lastTime = currentTime
-
-      animationState = updateAnimationState(animationState, delta)
-      animationFrame = requestAnimationFrame(animate)
-    }
-
-    animationFrame = requestAnimationFrame(animate)
-
-    return () => {
-      cancelAnimationFrame(animationFrame)
-    }
-  })
-
   $inspect(hoveredPerk)
 </script>
 
@@ -151,7 +115,6 @@
       <div
         class={mobileMode ? 'perk_info_meta_mobile' : 'perk_info_meta'}
         class:perk_info_meta_mobile_lan={mobileMode && landscapeMode}
-        style={headerStyle}
       >
         <div
           class="perk_info_img"
@@ -197,7 +160,6 @@
       <div
         class={mobileMode ? 'perk_info_desc_mobile' : 'perk_info_desc'}
         class:perk_info_desc_mobile_lan={mobileMode && landscapeMode}
-        style={headerStyle}
       >
         <Description
           description={hoveredPerkInfo.description}
@@ -210,6 +172,96 @@
 {/if}
 
 <style>
+  /* Keyframe animations */
+  @keyframes breatheGlow {
+    0%,
+    100% {
+      background: radial-gradient(
+        ellipse at 50% 50%,
+        rgba(99, 46, 115, 0.35) 0%,
+        rgba(99, 46, 115, 0.175) 40%,
+        transparent 70%
+      );
+      opacity: 0.5;
+    }
+    16% {
+      opacity: 1;
+    }
+    33% {
+      background: radial-gradient(
+        ellipse at 50% 50%,
+        rgba(30, 111, 35, 0.35) 0%,
+        rgba(30, 111, 35, 0.175) 40%,
+        transparent 70%
+      );
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    66% {
+      background: radial-gradient(
+        ellipse at 50% 50%,
+        rgba(47, 83, 132, 0.35) 0%,
+        rgba(47, 83, 132, 0.175) 40%,
+        transparent 70%
+      );
+      opacity: 1;
+    }
+    83% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes breatheShadow {
+    0%,
+    100% {
+      background-image: linear-gradient(
+          180deg,
+          rgba(99, 46, 115, 0.14) 0%,
+          rgba(99, 46, 115, 0.07) 50%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    33% {
+      background-image: linear-gradient(
+          180deg,
+          rgba(30, 111, 35, 0.14) 0%,
+          rgba(30, 111, 35, 0.07) 50%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+    66% {
+      background-image: linear-gradient(
+          180deg,
+          rgba(47, 83, 132, 0.14) 0%,
+          rgba(47, 83, 132, 0.07) 50%,
+          transparent 100%
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.03) 2px,
+          rgba(255, 255, 255, 0.03) 4px
+        );
+    }
+  }
+
   /* Mobile landscape mode overrides */
   .perk_info_meta_mobile_lan {
     position: static !important;
@@ -317,12 +369,12 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(
-      ellipse at var(--breath-x) var(--breath-y),
-      rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity)) 0%,
-      rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 40%,
+      ellipse at 50% 50%,
+      rgba(99, 46, 115, 0.35) 0%,
+      rgba(99, 46, 115, 0.175) 40%,
       transparent 70%
     );
-    transition: background 0.1s linear;
+    animation: breatheGlow 30s ease-in-out infinite;
     z-index: 1;
   }
 
@@ -417,8 +469,8 @@
     height: 20%;
     background-image: linear-gradient(
         180deg,
-        rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.4)) 0%,
-        rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.2)) 50%,
+        rgba(99, 46, 115, 0.14) 0%,
+        rgba(99, 46, 115, 0.07) 50%,
         transparent 100%
       ),
       repeating-linear-gradient(
@@ -428,7 +480,7 @@
         rgba(255, 255, 255, 0.03) 2px,
         rgba(255, 255, 255, 0.03) 4px
       );
-    transition: background-image 0.1s linear;
+    animation: breatheShadow 30s ease-in-out infinite;
     pointer-events: none;
     z-index: 0;
   }
