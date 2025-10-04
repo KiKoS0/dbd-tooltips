@@ -1,7 +1,7 @@
 <script module>
   import { visualStore } from './../Stores/VisualStore.svelte.ts'
   import { defineMeta } from '@storybook/addon-svelte-csf'
-  import PerkTooltipHud from './PerkTooltipHud.svelte'
+  import PerkTooltipHudWrapper from './PerkTooltipHudWrapper.svelte'
 
   import survivorPerkDic from '../../stories/assets/survivor_perks.json'
   import killerPerkDic from '../../stories/assets/killer_perks.json'
@@ -10,7 +10,7 @@
 
   const { Story } = defineMeta({
     title: 'HUD/PerkTooltipHud',
-    component: PerkTooltipHud,
+    component: PerkTooltipHudWrapper,
     args: {
       actorType: 'killer',
       survivorPerkId: 'Adrenaline',
@@ -38,15 +38,11 @@
   })
 </script>
 
-<Story name="Tooltip">
+<Story name="Tooltip" />
+
+<Story name="With Changelogs Button">
   {#snippet children(args)}
-    <PerkTooltipHud
-      hoveredPerk={{
-        id:
-          args.actorType === 'killer' ? args.killerPerkId : args.survivorPerkId,
-        actor: args.actorType
-      }}
-    />
+    <PerkTooltipHudWrapper {...args} />
     <button on:click={vizStore.toggleChangelogs}>Toggle changelogs</button>
   {/snippet}
 </Story>
