@@ -116,20 +116,17 @@
   function getCurrentColor() {
     const currentColor = colors[colorIndex]
     const nextColor = colors[(colorIndex + 1) % colors.length]
-    const transitionPhase = Math.max(0, (breathProgress - 0.85) / 0.15)
+    const transitionPhase = Math.max(0, (breathProgress - 0.7) / 0.3)
 
     const r = lerp(currentColor.r, nextColor.r, transitionPhase)
     const g = lerp(currentColor.g, nextColor.g, transitionPhase)
     const b = lerp(currentColor.b, nextColor.b, transitionPhase)
 
-    // Breathing opacity: oscillate between 0.2 and 0.6 with sine easing
+    // Breathing opacity: oscillate between 0.2 and 0.5 with sine easing
     const breathEase = Math.sin(breathProgress * Math.PI)
-    const opacity = 0.2 + breathEase * 0.4
+    const opacity = 0.2 + breathEase * 0.3
 
-    // Breathing position for gradient movement
-    const breathPosition = 50 + breathEase * 30
-
-    return { r, g, b, opacity, position: breathPosition }
+    return { r, g, b, opacity }
   }
 
   const animatedColor = $derived(getCurrentColor())
@@ -138,7 +135,6 @@
     --breath-g: ${animatedColor.g};
     --breath-b: ${animatedColor.b};
     --breath-opacity: ${animatedColor.opacity};
-    --breath-position: ${animatedColor.position}%;
   `)
 
   $effect(() => {
@@ -149,8 +145,8 @@
       const delta = (currentTime - lastTime) / 1000
       lastTime = currentTime
 
-      // Slower breathing: 0.125 = 8 seconds per breath cycle
-      breathProgress += delta * 0.125 * breathDirection
+      // Faster breathing: 0.3 = ~3.3 seconds per breath cycle
+      breathProgress += delta * 0.3 * breathDirection
 
       if (breathProgress >= 1) {
         breathProgress = 1
@@ -342,9 +338,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity));
-    filter: blur(40px);
-    transition: background 0.1s linear, filter 0.1s linear;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity)) 0%,
+      rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 40%,
+      transparent 70%
+    );
+    transition: background 0.1s linear;
     z-index: 1;
   }
   .perk_info_meta > * {
