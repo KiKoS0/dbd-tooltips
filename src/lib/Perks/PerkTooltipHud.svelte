@@ -100,9 +100,9 @@
 
   // Color breathing animation state
   const colors = [
-    { r: 99, g: 46, b: 115 },   // Purple #632E73
-    { r: 30, g: 111, b: 35 },   // Green #1E6F23
-    { r: 47, g: 83, b: 132 }    // Blue #2F5384
+    { r: 99, g: 46, b: 115 }, // Purple #632E73
+    { r: 30, g: 111, b: 35 }, // Green #1E6F23
+    { r: 47, g: 83, b: 132 } // Blue #2F5384
   ]
 
   let colorIndex = $state(0)
@@ -132,8 +132,8 @@
     const chaosY = Math.cos(chaosOffset * 1.7) * 10
 
     // Moving gradient position - left to right with chaos
-    const xPos = 20 + breathEase * 60 + chaosX  // moves from 20% to 80% with variation
-    const yPos = 50 + chaosY  // oscillates around center
+    const xPos = 20 + breathEase * 60 + chaosX // moves from 20% to 80% with variation
+    const yPos = 50 + chaosY // oscillates around center
 
     return { r, g, b, opacity, xPos, yPos }
   }
@@ -354,8 +354,20 @@
     bottom: 0;
     background: radial-gradient(
       ellipse at var(--breath-x) var(--breath-y),
-      rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity)) 0%,
-      rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 40%,
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          var(--breath-opacity)
+        )
+        0%,
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          calc(var(--breath-opacity) * 0.5)
+        )
+        40%,
       transparent 70%
     );
     transition: background 0.1s linear;
@@ -377,16 +389,10 @@
     justify-content: center;
   }
   .perk_info_img img {
-    transition: all 0.3s ease;
-    cursor: pointer;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  }
-  .perk_info_img img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
   }
 
   .perk_info_header_wrapper {
@@ -444,7 +450,17 @@
     right: 0;
     height: 80px;
     background-image:
-      linear-gradient(180deg, rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.4)) 0%, transparent 100%),
+      linear-gradient(
+        180deg,
+        rgba(
+            var(--breath-r),
+            var(--breath-g),
+            var(--breath-b),
+            calc(var(--breath-opacity) * 0.4)
+          )
+          0%,
+        transparent 100%
+      ),
       repeating-linear-gradient(
         0deg,
         transparent,
