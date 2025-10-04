@@ -14,9 +14,10 @@
     args: {
       actorType: 'killer',
       survivorPerkId: 'Adrenaline',
-      killerPerkId: 'Corrupt_Intervention',
+      killerPerkId: 'Remember_Me',
       mobileMode: false,
-      disabled: false
+      disabled: false,
+      showChangelogs: false
     },
     argTypes: {
       actorType: {
@@ -33,16 +34,13 @@
         name: 'Killer Perk ID',
         control: { type: 'select' },
         options: killerPerkDic
+      },
+      showChangelogs: {
+        name: 'Show Changelogs',
+        control: { type: 'boolean' }
       }
     }
   })
 </script>
 
 <Story name="Tooltip" />
-
-<Story name="With Changelogs Button">
-  {#snippet children(args)}
-    <PerkTooltipHudWrapper {...args} />
-    <button on:click={vizStore.toggleChangelogs}>Toggle changelogs</button>
-  {/snippet}
-</Story>
