@@ -382,68 +382,32 @@
     color: rgb(255, 255, 255);
   }
 
-  .perk_info_desc {
-    position: relative;
-    background-color: #1a1520;
-    padding: 20px;
-    color: #c0c0c0;
-    font-size: 15px;
-    line-height: 1.4;
-    overflow: hidden;
-  }
-  .perk_info_desc::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 20%;
-    background-image:
-      linear-gradient(
-        180deg,
-        rgba(
-            var(--breath-r),
-            var(--breath-g),
-            var(--breath-b),
-            calc(var(--breath-opacity) * 0.4)
-          )
-          0%,
-        rgba(
-            var(--breath-r),
-            var(--breath-g),
-            var(--breath-b),
-            calc(var(--breath-opacity) * 0.2)
-          )
-          50%,
-        transparent 100%
-      ),
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255, 255, 255, 0.03) 2px,
-        rgba(255, 255, 255, 0.03) 4px
-      );
-    transition: background-image 0.1s linear;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .perk_info_desc > * {
-    position: relative;
-    z-index: 1;
-  }
-
+  /* Description sections with breathing shadow */
+  .perk_info_desc,
   .perk_info_desc_mobile {
     position: relative;
     background-color: #1a1520;
+    color: #c0c0c0;
+    overflow: hidden;
+  }
+
+  .perk_info_desc {
+    padding: 20px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .perk_info_desc_mobile {
     border: 1px solid #1f1f1f;
     padding: 17px;
-    color: #aaa9a9;
     font-size: 16px;
     overflow-y: auto;
     width: 100%;
     flex: 1;
   }
+
+  /* Breathing shadow gradient */
+  .perk_info_desc::before,
   .perk_info_desc_mobile::before {
     content: '';
     position: absolute;
@@ -451,23 +415,10 @@
     left: 0;
     right: 0;
     height: 20%;
-    background-image:
-      linear-gradient(
+    background-image: linear-gradient(
         180deg,
-        rgba(
-            var(--breath-r),
-            var(--breath-g),
-            var(--breath-b),
-            calc(var(--breath-opacity) * 0.4)
-          )
-          0%,
-        rgba(
-            var(--breath-r),
-            var(--breath-g),
-            var(--breath-b),
-            calc(var(--breath-opacity) * 0.2)
-          )
-          50%,
+        rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.4)) 0%,
+        rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.2)) 50%,
         transparent 100%
       ),
       repeating-linear-gradient(
@@ -481,6 +432,8 @@
     pointer-events: none;
     z-index: 0;
   }
+
+  .perk_info_desc > *,
   .perk_info_desc_mobile > * {
     position: relative;
     z-index: 1;
