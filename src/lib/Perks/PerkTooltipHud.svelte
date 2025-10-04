@@ -14,6 +14,12 @@
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { emptyPerk, generateGifSrc } from '../utils.svelte'
+  import {
+    calculateCurrentColor,
+    updateAnimationState,
+    getCSSVariables,
+    type AnimationState
+  } from './breathingAnimation.svelte'
 
   let {
     disabled = false,
@@ -98,55 +104,16 @@
     } else return ''
   }
 
-  // Color breathing animation state
-  const colors = [
-    { r: 99, g: 46, b: 115 }, // Purple #632E73
-    { r: 30, g: 111, b: 35 }, // Green #1E6F23
-    { r: 47, g: 83, b: 132 } // Blue #2F5384
-  ]
+  // Breathing animation state
+  let animationState = $state<AnimationState>({
+    colorIndex: 0,
+    breathProgress: 0,
+    breathDirection: 1,
+    chaosOffset: 0
+  })
 
-  let colorIndex = $state(0)
-  let breathProgress = $state(0)
-  let breathDirection = $state(1)
-  let chaosOffset = $state(0)
-
-  function lerp(a: number, b: number, t: number) {
-    return a + (b - a) * t
-  }
-
-  function getCurrentColor() {
-    const currentColor = colors[colorIndex]
-    const nextColor = colors[(colorIndex + 1) % colors.length]
-    const transitionPhase = Math.max(0, (breathProgress - 0.7) / 0.3)
-
-    const r = lerp(currentColor.r, nextColor.r, transitionPhase)
-    const g = lerp(currentColor.g, nextColor.g, transitionPhase)
-    const b = lerp(currentColor.b, nextColor.b, transitionPhase)
-
-    // Breathing opacity: oscillate between 0.2 and 0.5 with sine easing
-    const breathEase = Math.sin(breathProgress * Math.PI)
-    const opacity = 0.2 + breathEase * 0.3
-
-    // Add some chaos to the movement with secondary waves
-    const chaosX = Math.sin(chaosOffset * 2.3) * 15
-    const chaosY = Math.cos(chaosOffset * 1.7) * 10
-
-    // Moving gradient position - left to right with chaos
-    const xPos = 20 + breathEase * 60 + chaosX // moves from 20% to 80% with variation
-    const yPos = 50 + chaosY // oscillates around center
-
-    return { r, g, b, opacity, xPos, yPos }
-  }
-
-  const animatedColor = $derived(getCurrentColor())
-  const headerStyle = $derived(`
-    --breath-r: ${animatedColor.r};
-    --breath-g: ${animatedColor.g};
-    --breath-b: ${animatedColor.b};
-    --breath-opacity: ${animatedColor.opacity};
-    --breath-x: ${animatedColor.xPos}%;
-    --breath-y: ${animatedColor.yPos}%;
-  `)
+  const animatedColor = $derived(calculateCurrentColor(animationState))
+  const headerStyle = $derived(getCSSVariables(animatedColor))
 
   $effect(() => {
     let animationFrame: number
@@ -156,21 +123,7 @@
       const delta = (currentTime - lastTime) / 1000
       lastTime = currentTime
 
-      // Faster breathing: 0.3 = ~3.3 seconds per breath cycle
-      breathProgress += delta * 0.3 * breathDirection
-
-      // Update chaos offset at different speed
-      chaosOffset += delta * 0.8
-
-      if (breathProgress >= 1) {
-        breathProgress = 1
-        breathDirection = -1
-      } else if (breathProgress <= 0) {
-        breathProgress = 0
-        breathDirection = 1
-        colorIndex = (colorIndex + 1) % colors.length
-      }
-
+      animationState = updateAnimationState(animationState, delta)
       animationFrame = requestAnimationFrame(animate)
     }
 
@@ -257,6 +210,7 @@
 {/if}
 
 <style>
+  /* Mobile landscape mode overrides */
   .perk_info_meta_mobile_lan {
     position: static !important;
     flex-direction: column !important;
@@ -276,14 +230,12 @@
     padding: 10px 5px !important;
     text-align: center !important;
   }
-
   .perk_info_sub_mobile_lan {
     font-size: 16px !important;
   }
   .perk_info_name_mobile_lan {
     font-size: 20px !important;
   }
-
   .perk_info_desc_mobile_lan {
     padding: 14px !important;
     overflow-y: hidden !important;
@@ -292,12 +244,13 @@
     height: auto !important;
   }
 
-  .perk_info_desc :global(img) {
-    vertical-align: middle !important;
-  }
+  /* Image vertical alignment */
+  .perk_info_desc :global(img),
   .perk_info_desc_mobile :global(img) {
     vertical-align: middle !important;
   }
+
+  /* Main containers */
   .perk_info_hud_mobile {
     height: inherit;
     display: flex;
@@ -322,68 +275,20 @@
     backdrop-filter: blur(10px);
     pointer-events: auto;
   }
-  .perk_info_meta {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    overflow: hidden;
-  }
-  .perk_info_meta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      #1a1a1a 0%,
-      #2a2a2a 25%,
-      #1a1a1a 50%,
-      #2a2a2a 75%,
-      #1a1a1a 100%
-    );
-    z-index: 0;
-  }
-  .perk_info_meta::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-      ellipse at var(--breath-x) var(--breath-y),
-      rgba(
-          var(--breath-r),
-          var(--breath-g),
-          var(--breath-b),
-          var(--breath-opacity)
-        )
-        0%,
-      rgba(
-          var(--breath-r),
-          var(--breath-g),
-          var(--breath-b),
-          calc(var(--breath-opacity) * 0.5)
-        )
-        40%,
-      transparent 70%
-    );
-    transition: background 0.1s linear;
-    z-index: 1;
-  }
-  .perk_info_meta > * {
-    position: relative;
-    z-index: 2;
-  }
+  /* Header sections with breathing animation */
+  .perk_info_meta,
   .perk_info_meta_mobile {
     display: flex;
     flex-direction: row;
     position: relative;
     overflow: hidden;
+  }
+  .perk_info_meta_mobile {
     width: 100%;
   }
+
+  /* Breathing animation base layer */
+  .perk_info_meta::before,
   .perk_info_meta_mobile::before {
     content: '';
     position: absolute;
@@ -401,6 +306,9 @@
     );
     z-index: 0;
   }
+
+  /* Breathing animation glow layer */
+  .perk_info_meta::after,
   .perk_info_meta_mobile::after {
     content: '';
     position: absolute;
@@ -410,25 +318,15 @@
     bottom: 0;
     background: radial-gradient(
       ellipse at var(--breath-x) var(--breath-y),
-      rgba(
-          var(--breath-r),
-          var(--breath-g),
-          var(--breath-b),
-          var(--breath-opacity)
-        )
-        0%,
-      rgba(
-          var(--breath-r),
-          var(--breath-g),
-          var(--breath-b),
-          calc(var(--breath-opacity) * 0.5)
-        )
-        40%,
+      rgba(var(--breath-r), var(--breath-g), var(--breath-b), var(--breath-opacity)) 0%,
+      rgba(var(--breath-r), var(--breath-g), var(--breath-b), calc(var(--breath-opacity) * 0.5)) 40%,
       transparent 70%
     );
     transition: background 0.1s linear;
     z-index: 1;
   }
+
+  .perk_info_meta > *,
   .perk_info_meta_mobile > * {
     position: relative;
     z-index: 2;
