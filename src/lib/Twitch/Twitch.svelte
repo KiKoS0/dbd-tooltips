@@ -170,7 +170,7 @@
     if (!killSwitchOn) {
       token = auth.token
       channelId = auth.channelId
-      userState.setUserData({ token, channelId })
+      userState.setUserData({ token, channelId, userId: auth.userId })
 
       console.log('onAuthorized')
       console.log('Token: ' + token)

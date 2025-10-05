@@ -9,7 +9,7 @@ export type Addon = { id: string; killerId: string }
 export type AddonsLoadout = Nullable<Addon>[]
 export type PerksLoadout = Nullable<Perk>[]
 
-export type UserData = { token: string; channelId: string }
+export type UserData = { token: string; channelId: string; userId?: string }
 
 type PerkEntry = {
   name: string

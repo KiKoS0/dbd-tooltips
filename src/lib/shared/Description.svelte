@@ -1,6 +1,7 @@
 <script lang="ts">
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { t } from '../I18n'
+  import { track } from '../Api/inngest'
 
   let {
     description = '',
@@ -122,6 +123,10 @@
         class="changelog-arrow"
         onclick={(e) => {
           e.stopPropagation()
+          track('click', {
+            type: 'changelog_toggle',
+            action: showChangelogs ? 'collapse' : 'expand'
+          })
           visualStore().toggleChangelogs()
         }}
         role="button"
@@ -129,6 +134,10 @@
         onkeydown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.stopPropagation()
+            track('click', {
+              type: 'changelog_toggle',
+              action: showChangelogs ? 'collapse' : 'expand'
+            })
             visualStore().toggleChangelogs()
           }
         }}
@@ -141,7 +150,10 @@
         target="_blank"
         rel="noopener noreferrer"
         class="support-button"
-        onclick={(e) => e.stopPropagation()}
+        onclick={(e) => {
+          e.stopPropagation()
+          track('click', { link: 'https://ko-fi.com/kikos', platform: 'web' })
+        }}
         title={t('support')}
       >
         <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />

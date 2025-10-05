@@ -15,6 +15,7 @@
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { emptyPerk, generateGifSrc } from '../utils.svelte'
+  import { track } from '../Api/inngest'
 
   let {
     disabled = false,
@@ -165,7 +166,13 @@
             rel="noopener noreferrer"
             class="perk_info_img"
             class:perk_info_img_lan={mobileMode && landscapeMode}
-            onclick={(e) => e.stopPropagation()}
+            onclick={(e) => {
+              e.stopPropagation()
+              track('click', {
+                link: getWikiUrl(hoveredPerkInfo.link),
+                type: 'perk_icon'
+              })
+            }}
           >
             <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
           </a>
@@ -186,7 +193,13 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
-                onclick={(e) => e.stopPropagation()}
+                onclick={(e) => {
+                  e.stopPropagation()
+                  track('click', {
+                    link: getWikiUrl(hoveredPerkInfo.link),
+                    type: 'perk_title'
+                  })
+                }}
               >
                 {hoveredPerkInfo['name']}
               </a>
@@ -207,7 +220,13 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   class="character-link"
-                  onclick={(e) => e.stopPropagation()}
+                  onclick={(e) => {
+                    e.stopPropagation()
+                    track('click', {
+                      link: getWikiUrl(hoveredPerkInfo.character_link),
+                      type: 'character'
+                    })
+                  }}
                 >
                   {perkOrGeneral(hoveredPerkInfo.character)} PERK
                 </a>
@@ -228,7 +247,13 @@
                     ? 'perk_info_name_mobile'
                     : 'perk_info_name'}
                   class:perk_info_name_mobile_lan={mobileMode && landscapeMode}
-                  onclick={(e) => e.stopPropagation()}
+                  onclick={(e) => {
+                    e.stopPropagation()
+                    track('click', {
+                      link: getWikiUrl(hoveredPerkInfo.link),
+                      type: 'perk_title'
+                    })
+                  }}
                 >
                   {hoveredPerkInfo['name']}
                 </a>
@@ -251,7 +276,13 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="character-link"
-                    onclick={(e) => e.stopPropagation()}
+                    onclick={(e) => {
+                      e.stopPropagation()
+                      track('click', {
+                        link: getWikiUrl(hoveredPerkInfo.character_link),
+                        type: 'character'
+                      })
+                    }}
                   >
                     {t('perk.tooltip.subtitle', {
                       actor: perkOrGeneral(hoveredPerkInfo.character)

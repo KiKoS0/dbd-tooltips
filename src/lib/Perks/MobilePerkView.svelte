@@ -10,6 +10,7 @@
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { track } from '../Api/inngest'
 
   onMount(() => {
     // Yeah, this event kicks whenever it wants it can't be trusted to actually work.
@@ -111,6 +112,11 @@
         href="https://ko-fi.com/kikos"
         target="_blank"
         rel="noopener noreferrer"
+        onclick={() =>
+          track('click', {
+            link: 'https://ko-fi.com/kikos',
+            platform: 'mobile'
+          })}
       >
         <div in:fly={{ x: 50, duration: 500 }} class="support-us">
           <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />
