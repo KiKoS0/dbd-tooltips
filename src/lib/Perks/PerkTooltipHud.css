@@ -1,0 +1,94 @@
+/* Breathing animation backgrounds */
+.breathing-meta-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    #1a1a1a 0%,
+    #2a2a2a 25%,
+    #1a1a1a 50%,
+    #2a2a2a 75%,
+    #1a1a1a 100%
+  );
+  z-index: 0;
+}
+
+.breathing-meta-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at var(--breath-x) var(--breath-y),
+    rgba(
+        var(--breath-r),
+        var(--breath-g),
+        var(--breath-b),
+        var(--breath-opacity)
+      )
+      0%,
+    rgba(
+        var(--breath-r),
+        var(--breath-g),
+        var(--breath-b),
+        calc(var(--breath-opacity) * 0.5)
+      )
+      40%,
+    transparent 70%
+  );
+  transition: background 0.1s linear;
+  z-index: 1;
+}
+
+.breathing-meta-bg > * {
+  position: relative;
+  z-index: 2;
+}
+
+.breathing-desc-shadow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  background-image: linear-gradient(
+      180deg,
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          calc(var(--breath-opacity) * 0.4)
+        )
+        0%,
+      rgba(
+          var(--breath-r),
+          var(--breath-g),
+          var(--breath-b),
+          calc(var(--breath-opacity) * 0.2)
+        )
+        50%,
+      transparent 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+  transition: background-image 0.1s linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.breathing-desc-shadow > * {
+  position: relative;
+  z-index: 1;
+}
