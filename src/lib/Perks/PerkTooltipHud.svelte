@@ -216,7 +216,8 @@
   @keyframes breatheShadow {
     0%,
     100% {
-      background-image: linear-gradient(
+      background-image:
+        linear-gradient(
           180deg,
           rgba(99, 46, 115, 0.14) 0%,
           rgba(99, 46, 115, 0.07) 50%,
@@ -231,7 +232,8 @@
         );
     }
     33% {
-      background-image: linear-gradient(
+      background-image:
+        linear-gradient(
           180deg,
           rgba(30, 111, 35, 0.14) 0%,
           rgba(30, 111, 35, 0.07) 50%,
@@ -246,7 +248,8 @@
         );
     }
     66% {
-      background-image: linear-gradient(
+      background-image:
+        linear-gradient(
           180deg,
           rgba(47, 83, 132, 0.14) 0%,
           rgba(47, 83, 132, 0.07) 50%,
@@ -467,7 +470,8 @@
     left: 0;
     right: 0;
     height: 20%;
-    background-image: linear-gradient(
+    background-image:
+      linear-gradient(
         180deg,
         rgba(99, 46, 115, 0.14) 0%,
         rgba(99, 46, 115, 0.07) 50%,
@@ -485,8 +489,8 @@
     z-index: 0;
   }
 
-  .perk_info_desc > *,
-  .perk_info_desc_mobile > * {
+  .perk_info_desc > :global(*),
+  .perk_info_desc_mobile > :global(*) {
     position: relative;
     z-index: 1;
   }

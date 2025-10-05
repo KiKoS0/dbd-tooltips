@@ -1,5 +1,3 @@
-import { type Snippet } from 'svelte'
-
 export interface BreathingColor {
   r: number
   g: number
@@ -32,9 +30,7 @@ export interface AnimatedColor {
   yPos: number
 }
 
-export function calculateCurrentColor(
-  state: AnimationState
-): AnimatedColor {
+export function calculateCurrentColor(state: AnimationState): AnimatedColor {
   const currentColor = colors[state.colorIndex]
   const nextColor = colors[(state.colorIndex + 1) % colors.length]
   const transitionPhase = Math.max(0, (state.breathProgress - 0.7) / 0.3)
