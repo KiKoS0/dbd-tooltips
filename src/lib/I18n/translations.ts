@@ -1,9 +1,6 @@
 export const translations = {
   en: {
-    'show.more': "Click to expand the perk's changelogs",
-    'show.wikiInfo': 'Descriptions are from the',
-    'show.addons': 'Addons are available',
-    'show.perks': 'You can hover over the perks',
+    'show.perks': 'Perks are available',
     'perk.tooltip.subtitle': '{{actor}} PERK',
     'perk.unknown.name': 'Unknown Perk',
     'perk.unknown.description':
@@ -14,13 +11,14 @@ export const translations = {
       "Oups I don't actually know what addon is that, please force refresh the page or contact the developers if that doesn't help.",
     general: 'GENERAL',
     loadout: 'Current loadout',
-    support: 'Support us'
+    support: 'Support us',
+    'support.alt': 'Support',
+    'changelog.expand': 'Expand changelog',
+    'changelog.collapse': 'Collapse changelog',
+    'helper.pointingDown': 'pointing down'
   },
   de: {
-    'show.more': 'Klicken Sie, um mehr zu erfahren',
-    'show.wikiInfo': 'Die Beschreibungen stammen aus dem',
-    'show.addons': 'Addons sind verfügbar',
-    'show.perks': 'Sie können mit dem Mauszeiger über die Talente fahren',
+    'show.perks': 'Talente sind verfügbar',
     'perk.tooltip.subtitle': '{{actor}} TALENT',
     'perk.unknown.name': 'Unbekannter Perk',
     'perk.unknown.description':
@@ -31,13 +29,14 @@ export const translations = {
       'Ups, ich weiß eigentlich nicht, welches Addon das ist. Bitte aktualisieren Sie die Seite oder kontaktieren Sie die Entwickler, wenn das nicht hilft.',
     general: 'ALLGEMEINE',
     loadout: 'Aktuelle Auslastung',
-    support: 'Unterstütze uns'
+    support: 'Unterstütze uns',
+    'support.alt': 'Unterstützung',
+    'changelog.expand': 'Changelog erweitern',
+    'changelog.collapse': 'Changelog reduzieren',
+    'helper.pointingDown': 'nach unten zeigen'
   },
   fr: {
-    'show.more': 'Cliquez pour voir les changelogs du perk.',
-    'show.wikiInfo': 'Les descriptions proviennent du',
-    'show.addons': 'Les addons sont disponibles',
-    'show.perks': 'Vous pouvez survoler les compétences',
+    'show.perks': 'Les compétences sont disponibles',
     'perk.tooltip.subtitle': 'COMPÉTENCE {{actor}}',
     'perk.unknown.name': 'Perk Inconnu',
     'perk.unknown.description':
@@ -48,6 +47,10 @@ export const translations = {
       'Oups, je ne sais pas vraiment quel est cet addon. Veuillez actualiser la page ou contacter les développeurs si cela ne résout pas le problème.',
     general: 'GÉNÉRALE',
     loadout: 'Compétences actuelles',
-    support: 'Nous soutenir'
+    support: 'Nous soutenir',
+    'support.alt': 'Soutien',
+    'changelog.expand': 'Développer le changelog',
+    'changelog.collapse': 'Réduire le changelog',
+    'helper.pointingDown': 'pointant vers le bas'
   }
 } as const

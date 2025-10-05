@@ -5,6 +5,7 @@
   import type { Nullable } from './types'
   import { visualStore } from './Stores/VisualStore.svelte'
   import { currentGameStateStore } from './Stores/CurrentGameStateStore.svelte'
+  import { t } from './I18n'
 
   let { scale } = $props<{ scale: number }>()
 
@@ -31,8 +32,11 @@
       out:fade
       in:fly={{ y: -50, duration: 500 }}
     >
-      Perks are available
-      <img src="/images/hand-point-down-regular-full.svg" alt="pointing down" />
+      {t('show.perks')}
+      <img
+        src="/images/hand-point-down-regular-full.svg"
+        alt={t('helper.pointingDown')}
+      />
     </div>
   {/if}
 

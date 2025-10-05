@@ -1,5 +1,6 @@
 <script lang="ts">
   import { visualStore } from '../Stores/VisualStore.svelte'
+  import { t } from '../I18n'
 
   let {
     description = '',
@@ -131,7 +132,7 @@
             visualStore().toggleChangelogs()
           }
         }}
-        title={showChangelogs ? 'Collapse changelog' : 'Expand changelog'}
+        title={showChangelogs ? t('changelog.collapse') : t('changelog.expand')}
       >
         {showChangelogs ? '▲' : '▼'}
       </div>
@@ -141,9 +142,9 @@
         rel="noopener noreferrer"
         class="support-button"
         onclick={(e) => e.stopPropagation()}
-        title="Support us"
+        title={t('support')}
       >
-        <img src="/images/heart-regular-full.svg" alt="Support" />
+        <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />
       </a>
     </div>
   {/if}

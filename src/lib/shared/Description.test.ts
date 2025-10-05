@@ -44,4 +44,50 @@ describe('Description', () => {
       expect(await screen.findByText('Patch 7.7.0')).toBeInTheDocument()
     })
   })
+
+  it('converts wiki links to absolute URLs', async () => {
+    render(Description, { ...perk })
+
+    await waitFor(() => {
+      const links = screen.getAllByRole<HTMLAnchorElement>('link')
+      const wikiLinks = links.filter((link) =>
+        link.href.includes('deadbydaylight.wiki.gg')
+      )
+      expect(wikiLinks.length).toBeGreaterThan(0)
+      wikiLinks.forEach((link) => {
+        expect(link.target).toBe('_blank')
+        expect(link.rel).toBe('noopener noreferrer')
+      })
+    })
+  })
+
+  it('shows support button when toggle is shown', () => {
+    render(Description, { ...perk })
+
+    const supportButton = screen.getByRole('link', { name: /support/i })
+    expect(supportButton).toBeInTheDocument()
+    expect(supportButton).toHaveAttribute('href', 'https://ko-fi.com/kikos')
+    expect(supportButton).toHaveAttribute('target', '_blank')
+  })
+
+  it('shows toggle button when content exceeds height threshold', () => {
+    render(Description, { ...perk })
+
+    const toggleButton = screen.getByRole('button')
+    expect(toggleButton).toBeInTheDocument()
+    expect(toggleButton).toHaveTextContent('▼')
+  })
+
+  it('changes arrow icon when changelogs are toggled', async () => {
+    render(Description, { ...perk })
+
+    const toggleButton = screen.getByRole('button')
+    expect(toggleButton).toHaveTextContent('▼')
+
+    visualStore().toggleChangelogs()
+
+    await waitFor(() => {
+      expect(toggleButton).toHaveTextContent('▲')
+    })
+  })
 })
