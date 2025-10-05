@@ -31,36 +31,36 @@
   export const queryPerks = () =>
     (async () => {
       if (!channelId) return undefined
-      // const response = await fetch(apiEndpoint + 'pubsub/' + channelId, {
-      //   mode: 'cors',
-      //   method: 'get',
-      //   headers: {
-      //     Authorization: 'Bearer ' + token,
-      //     'X-KIK-LOAD': channelId
-      //   }
-      // })
-      // const json = (await response.json()) as DbdLoadoutPayload
+      const response = await fetch(apiEndpoint + 'pubsub/' + channelId, {
+        mode: 'cors',
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'X-KIK-LOAD': channelId
+        }
+      })
+      const json = (await response.json()) as DbdLoadoutPayload
 
       // DEBUG ONLY
-      const response = {
-        actor: 'killer',
-        channel: '246771012',
-        extra: {
-          addons: ['Treated_Blade', 'Dried_Horsemeat'],
-          killer: 'Knight'
-        },
-        perks: [
-          'Scourge_Hook:_Pain_Resonance',
-          'Call_of_Brine',
-          'Corrupt_Intervention',
-          'Nowhere_to_Hide'
-        ],
-        rdm: 60000,
-        ttl: 1669161098672,
-        ui_scale: '100'
-      }
+      // const response = {
+      //   actor: 'killer',
+      //   channel: '246771012',
+      //   extra: {
+      //     addons: ['Treated_Blade', 'Dried_Horsemeat'],
+      //     killer: 'Knight'
+      //   },
+      //   perks: [
+      //     'Scourge_Hook:_Pain_Resonance',
+      //     'Call_of_Brine',
+      //     'Corrupt_Intervention',
+      //     'Nowhere_to_Hide'
+      //   ],
+      //   rdm: 60000,
+      //   ttl: 1669161098672,
+      //   ui_scale: '100'
+      // }
       // const response = { "actor": "survivor", "channel": "246771012", "extra": null, "perks": ["Adrenaline", "Dead_Hard", "Decisive_Strike", "Off_the_Record"], "rdm": 60000, "ttl": 1665350648100, "ui_scale": "100" }
-      const json = response
+      // const json = response
       return json as DbdLoadoutPayload
     })()
 
