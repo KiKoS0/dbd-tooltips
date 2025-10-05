@@ -14,6 +14,7 @@ export type UserData = { token: string; channelId: string }
 type PerkEntry = {
   name: string
   character: string
+  character_link: string
   description: string
   changelogs: string
   frames: string[]

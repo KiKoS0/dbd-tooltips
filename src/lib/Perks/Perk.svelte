@@ -12,22 +12,23 @@
   const currentGameState = currentGameStateStore()
 
   function hoverOverPerk() {
-    if (enabled) {
+    if (enabled && !visualState.isHudPinned) {
       visualState.setHoveredPerk(perkIdx)
       visualState.hideHelperInfo()
     }
   }
 
   function hoverOutOfPerk() {
-    if (enabled) {
+    if (enabled && !visualState.isHudPinned) {
       visualState.clearHoveredPerk()
-      visualState.hideChangelogs()
     }
   }
 
-  function onClick() {
+  function onClick(e: MouseEvent) {
     if (enabled) {
-      visualState.toggleChangelogs()
+      e.stopPropagation()
+      visualState.pinHud()
+      visualState.setHoveredPerk(perkIdx)
     }
   }
 </script>

@@ -73,11 +73,13 @@
     width: 100%;
     height: 100%;
     left: 0%;
+    pointer-events: none;
   }
   .dbd-app {
     width: 100vw;
     height: 100vh;
     user-select: none;
     position: absolute;
+    pointer-events: none;
   }
 </style>

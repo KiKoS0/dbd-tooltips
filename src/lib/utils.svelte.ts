@@ -29,6 +29,7 @@ const EMPTY_PERK: PerkEntry = $derived({
   name: t('perk.unknown.name'),
   description: t('perk.unknown.description'),
   character: t('perk.unknown.character'),
+  character_link: '',
   changelogs: '',
   frames: [],
   icon_alt: 'empty_perk.png',

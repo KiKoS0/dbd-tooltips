@@ -13,6 +13,7 @@
   import { mainGameStore } from '../Stores/MainGameStore'
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
+  import { visualStore } from '../Stores/VisualStore.svelte'
   import { emptyPerk, generateGifSrc } from '../utils.svelte'
 
   let {
@@ -30,6 +31,28 @@
   const gameStore = mainGameStore()
   const localization = localizationStore()
   const currentGameState = currentGameStateStore()
+  const vizStore = visualStore()
+
+  let hudElement = $state<HTMLDivElement | undefined>(undefined)
+
+  function handleClickOutside(event: MouseEvent) {
+    if (
+      vizStore.isHudPinned &&
+      hudElement &&
+      !hudElement.contains(event.target as Node)
+    ) {
+      vizStore.unpinHud()
+    }
+  }
+
+  $effect(() => {
+    if (vizStore.isHudPinned) {
+      document.addEventListener('click', handleClickOutside)
+      return () => {
+        document.removeEventListener('click', handleClickOutside)
+      }
+    }
+  })
 
   const localizePerk = (
     perkId: string,
@@ -46,6 +69,14 @@
       }
     }
     return { ...hoveredPerk, ...toUpdate } as PerkEntry
+  }
+
+  const getWikiUrl = (link?: string) => {
+    if (!link) return undefined
+    if (link.startsWith('http://') || link.startsWith('https://')) {
+      return link
+    }
+    return `https://deadbydaylight.wiki.gg/${link}`
   }
 
   const hoveredPerkInfo: Partial<PerkEntry> | undefined = $derived.by(() => {
@@ -103,6 +134,7 @@
 
 {#if !disabled}
   <div
+    bind:this={hudElement}
     style={overridePosScale(currentGameState.hudSize)}
     transition:fade
     class={mobileMode ? 'perk_info_hud_mobile' : 'perk_info_hud'}
@@ -111,47 +143,125 @@
       // Keep tooltip open when hovering over it
     }}
   >
+    {#if vizStore.isHudPinned && !mobileMode}
+      <button
+        class="close-button"
+        onclick={() => vizStore.unpinHud()}
+        title="Close tooltip"
+        aria-label="Close tooltip"
+      >
+        ✕
+      </button>
+    {/if}
     {#if hoveredPerkInfo}
       <div
         class={mobileMode ? 'perk_info_meta_mobile' : 'perk_info_meta'}
         class:perk_info_meta_mobile_lan={mobileMode && landscapeMode}
       >
-        <div
-          class="perk_info_img"
-          class:perk_info_img_lan={mobileMode && landscapeMode}
-        >
-          <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
-        </div>
+        {#if hoveredPerkInfo.link}
+          <a
+            href={getWikiUrl(hoveredPerkInfo.link)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="perk_info_img"
+            class:perk_info_img_lan={mobileMode && landscapeMode}
+            onclick={(e) => e.stopPropagation()}
+          >
+            <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
+          </a>
+        {:else}
+          <div
+            class="perk_info_img"
+            class:perk_info_img_lan={mobileMode && landscapeMode}
+          >
+            <img src={gifSrc} alt={hoveredPerkInfo.icon_alt} />
+          </div>
+        {/if}
 
         {#if mobileMode && landscapeMode}
           <div class="test" class:test_lan={mobileMode && landscapeMode}>
-            <div
-              class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
-            >
-              {hoveredPerkInfo['name']}
-            </div>
+            {#if hoveredPerkInfo.link}
+              <a
+                href={getWikiUrl(hoveredPerkInfo.link)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
+                onclick={(e) => e.stopPropagation()}
+              >
+                {hoveredPerkInfo['name']}
+              </a>
+            {:else}
+              <div
+                class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
+              >
+                {hoveredPerkInfo['name']}
+              </div>
+            {/if}
             <div
               class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               class:perk_info_sub_mobile_lan={mobileMode && landscapeMode}
             >
-              {perkOrGeneral(hoveredPerkInfo.character)} PERK
+              {#if hoveredPerkInfo.character_link}
+                <a
+                  href={getWikiUrl(hoveredPerkInfo.character_link)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="character-link"
+                  onclick={(e) => e.stopPropagation()}
+                >
+                  {perkOrGeneral(hoveredPerkInfo.character)} PERK
+                </a>
+              {:else}
+                {perkOrGeneral(hoveredPerkInfo.character)} PERK
+              {/if}
             </div>
           </div>
         {:else}
           <div class="perk_info_header">
             <div class="perk_info_header_wrapper">
-              <div
-                class={mobileMode ? 'perk_info_name_mobile' : 'perk_info_name'}
-                class:perk_info_name_mobile_lan={mobileMode && landscapeMode}
-              >
-                {hoveredPerkInfo['name']}
-              </div>
+              {#if hoveredPerkInfo.link}
+                <a
+                  href={getWikiUrl(hoveredPerkInfo.link)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class={mobileMode
+                    ? 'perk_info_name_mobile'
+                    : 'perk_info_name'}
+                  class:perk_info_name_mobile_lan={mobileMode && landscapeMode}
+                  onclick={(e) => e.stopPropagation()}
+                >
+                  {hoveredPerkInfo['name']}
+                </a>
+              {:else}
+                <div
+                  class={mobileMode
+                    ? 'perk_info_name_mobile'
+                    : 'perk_info_name'}
+                  class:perk_info_name_mobile_lan={mobileMode && landscapeMode}
+                >
+                  {hoveredPerkInfo['name']}
+                </div>
+              {/if}
               <div
                 class={mobileMode ? 'perk_info_sub_mobile' : 'perk_info_sub'}
               >
-                {t('perk.tooltip.subtitle', {
-                  actor: perkOrGeneral(hoveredPerkInfo.character)
-                })}
+                {#if hoveredPerkInfo.character_link}
+                  <a
+                    href={getWikiUrl(hoveredPerkInfo.character_link)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="character-link"
+                    onclick={(e) => e.stopPropagation()}
+                  >
+                    {t('perk.tooltip.subtitle', {
+                      actor: perkOrGeneral(hoveredPerkInfo.character)
+                    })}
+                  </a>
+                {:else}
+                  {t('perk.tooltip.subtitle', {
+                    actor: perkOrGeneral(hoveredPerkInfo.character)
+                  })}
+                {/if}
               </div>
             </div>
           </div>
@@ -323,10 +433,10 @@
     max-width: 600px;
     width: 600px;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.6);
     background: linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid #1a1a1a;
     backdrop-filter: blur(10px);
     pointer-events: auto;
   }
@@ -337,6 +447,7 @@
     flex-direction: row;
     position: relative;
     overflow: hidden;
+    border-radius: 12px 12px 0 0;
   }
   .perk_info_meta_mobile {
     width: 100%;
@@ -392,6 +503,13 @@
     align-items: center;
     justify-content: center;
   }
+  a.perk_info_img {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  a.perk_info_img:hover {
+    opacity: 0.8;
+  }
   .perk_info_img img {
     width: 120px;
     height: 120px;
@@ -426,6 +544,16 @@
     font-size: 1.7rem;
     font-weight: 600 !important;
   }
+  a.perk_info_name,
+  a.perk_info_name_mobile {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  a.perk_info_name:hover,
+  a.perk_info_name_mobile:hover {
+    color: #e7cda2;
+  }
   .perk_info_sub {
     font-size: 1.25rem;
     font-weight: 500 !important;
@@ -436,12 +564,20 @@
     font-weight: 400 !important;
     color: rgb(255, 255, 255);
   }
+  .character-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .character-link:hover {
+    color: #e7cda2;
+  }
 
   /* Description sections with breathing shadow */
   .perk_info_desc,
   .perk_info_desc_mobile {
     position: relative;
-    background-color: #1a1520;
+    background-color: #2a2a35;
     color: #c0c0c0;
     overflow: hidden;
   }
@@ -454,6 +590,7 @@
 
   .perk_info_desc_mobile {
     border: 1px solid #1f1f1f;
+    border-top: 3px solid #000000;
     padding: 17px;
     font-size: 16px;
     overflow-y: auto;
@@ -499,5 +636,37 @@
   .perk_info_desc_mobile :global(a) {
     color: #777777;
     text-decoration: none;
+  }
+
+  .close-button {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 32px;
+    height: 32px;
+    border: 2px solid #2a2a2a;
+    background-color: #1a1520;
+    color: #e7cda2;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+    z-index: 10;
+    padding: 0;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .close-button:hover {
+    background-color: #252030;
+    border-color: #3a3a3a;
+    color: #f0d9b0;
   }
 </style>

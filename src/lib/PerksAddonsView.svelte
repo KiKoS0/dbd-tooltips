@@ -29,6 +29,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     transform: rotate(45deg);
+    pointer-events: auto;
   }
 
   .refresh-btn {
@@ -85,6 +86,7 @@
     position: absolute;
     display: flex;
     align-content: flex-start;
+    pointer-events: auto;
   }
 
   .addons_hud_100 {

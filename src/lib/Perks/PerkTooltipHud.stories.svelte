@@ -16,8 +16,7 @@
       survivorPerkId: 'Adrenaline',
       killerPerkId: 'Remember_Me',
       mobileMode: false,
-      disabled: false,
-      showChangelogs: false
+      disabled: false
     },
     argTypes: {
       actorType: {
@@ -34,10 +33,6 @@
         name: 'Killer Perk ID',
         control: { type: 'select' },
         options: killerPerkDic
-      },
-      showChangelogs: {
-        name: 'Show Changelogs',
-        control: { type: 'boolean' }
       }
     }
   })

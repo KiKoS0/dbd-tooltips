@@ -9,6 +9,9 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 export default defineConfig(({ mode }) => {
   return {
     base: './',
+    server: {
+      allowedHosts: ['.ngrok-free.app']
+    },
     plugins: [
       svelte({}),
       svelteTesting(),
