@@ -34,7 +34,7 @@
     >
       {t('show.perks')}
       <img
-        src="/images/hand-point-down-regular-full.svg"
+        src="./images/hand-point-down-regular-full.svg"
         alt={t('helper.pointingDown')}
       />
     </div>

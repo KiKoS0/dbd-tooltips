@@ -119,7 +119,7 @@
           })}
       >
         <div in:fly={{ x: 50, duration: 500 }} class="support-us">
-          <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />
+          <img src="./images/heart-regular-full.svg" alt={t('support.alt')} />
         </div>
       </a>
     {:else}

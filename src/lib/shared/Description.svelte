@@ -150,7 +150,7 @@
         }}
         title={t('support')}
       >
-        <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />
+        <img src="./images/heart-regular-full.svg" alt={t('support.alt')} />
       </a>
     </div>
   {/if}
