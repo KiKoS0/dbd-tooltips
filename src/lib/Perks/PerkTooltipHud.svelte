@@ -503,6 +503,9 @@
     align-items: center;
     justify-content: center;
   }
+  .perk_info_meta_mobile .perk_info_img {
+    transform: translateX(-16px);
+  }
   a.perk_info_img {
     cursor: pointer;
     transition: opacity 0.2s ease;
@@ -590,12 +593,18 @@
 
   .perk_info_desc_mobile {
     border: 1px solid #1f1f1f;
-    border-top: 3px solid #000000;
+    border-top: none;
     padding: 17px;
     font-size: 16px;
-    overflow-y: auto;
+    overflow-y: scroll;
     width: 100%;
     flex: 1;
+    margin-top: 0;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  .perk_info_desc_mobile::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
 
   /* Breathing shadow gradient */

@@ -116,7 +116,7 @@
     {/if}
   </div>
 
-  {#if shouldShowToggle}
+  {#if shouldShowToggle && !mobileMode}
     <div class="changelog-toggle-container">
       <div
         class="changelog-arrow"
@@ -262,21 +262,26 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #2a2a35 0%, #1a1a25 100%);
+    border: 2px solid #e7cda2;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   .support-button:hover {
-    opacity: 0.8;
+    background: linear-gradient(145deg, #3a3a45 0%, #2a2a35 100%);
+    border-color: #f0d9b0;
   }
 
   .support-button img {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     filter: brightness(0) saturate(100%) invert(83%) sepia(14%) saturate(1064%)
       hue-rotate(358deg) brightness(96%) contrast(85%);
+    transition: filter 0.2s ease;
   }
 
   .support-button:hover img {

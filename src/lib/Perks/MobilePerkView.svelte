@@ -1,18 +1,11 @@
 <script lang="ts">
-  import AddonTooltipHud from './../Addons/AddonTooltipHud.svelte'
   import MobilePerk from './MobilePerk.svelte'
   import { onMount } from 'svelte'
   import PerkTootipHud from './PerkTooltipHud.svelte'
 
   import { fade, fly } from 'svelte/transition'
-  import type {
-    Perk,
-    Addon,
-    PerkShowControl,
-    AddonShowControl
-  } from '../Stores/types'
+  import type { Perk, PerkShowControl } from '../Stores/types'
   import type { Nullable } from '../types'
-  import MobileAddon from './MobileAddon.svelte'
   import { t } from '../I18n'
   import { appStateStore } from '../Stores/AppStateStore.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
@@ -38,9 +31,6 @@
   let hoveredPerk: Nullable<Perk> = $derived(
     currentGameState.perks[visualState.hoveredPerk] || null
   )
-  let hoveredAddon: Nullable<Addon> = $derived(
-    currentGameState.addons[visualState.hoveredAddon]
-  )
 
   let showPerkLock = $state(false)
   let containerRef: HTMLDivElement | null = $state(null)
@@ -56,7 +46,7 @@
   }
 
   const cssFixes: { [k: string]: string } = {
-    perk_info_img: 'overflow-y: auto;',
+    perk_info_img: 'overflow-y: scroll;',
     close: 'width: 30px;height: 30px;'
   }
 
@@ -117,15 +107,13 @@
           <MobilePerk number={perksNumbers[i]} />
         {/each}
       </div>
-      <div class="mobile_addon_hud">
-        {#each currentGameState.addons as _, i}
-          <MobileAddon number={i as AddonShowControl} />
-        {/each}
-      </div>
-      <a href="https://www.patreon.com/kikos" target="_blank">
+      <a
+        href="https://ko-fi.com/kikos"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <div in:fly={{ x: 50, duration: 500 }} class="support-us">
-          <div style="margin-bottom: 3px;">{t('support')}</div>
-          <img src="images/patreon.png" alt="Support us" />
+          <img src="/images/heart-regular-full.svg" alt={t('support.alt')} />
         </div>
       </a>
     {:else}
@@ -133,10 +121,11 @@
         <span
           onclick={goBack}
           onkeyup={goBack}
-          class="close warp black"
+          class="close"
           style={landscapeMode ? fixSmallWidthStuff('close') : ''}
           role="button"
           tabindex="0"
+          aria-label="Close"
         >
         </span>
       </div>
@@ -147,44 +136,62 @@
       {landscapeMode}
       {hoveredPerk}
     />
-    <AddonTooltipHud
-      mobileMode={true}
-      disabled={!currentlyShowingAddon}
-      {landscapeMode}
-      {hoveredAddon}
-    />
   </div>
 {/if}
 
 <style>
   .support-us {
     position: fixed;
-    bottom: 0%;
-    right: 0%;
-    color: #b0a8b9;
+    bottom: 2%;
+    right: 2%;
     display: flex;
-    gap: 5px;
-    font-size: 16px;
     align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #2a2a35 0%, #1a1a25 100%);
+    border: 2px solid #e7cda2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .support-us:hover {
+    background: linear-gradient(145deg, #3a3a45 0%, #2a2a35 100%);
+    border-color: #f0d9b0;
+    transform: scale(1.05);
   }
   .support-us img {
-    height: 16px;
-    width: 16px;
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(14%) saturate(1064%)
+      hue-rotate(358deg) brightness(96%) contrast(85%);
+    transition: filter 0.2s ease;
+  }
+  .support-us:hover img {
+    filter: brightness(0) saturate(100%) invert(92%) sepia(8%) saturate(1133%)
+      hue-rotate(334deg) brightness(101%) contrast(87%);
   }
   .main_screen_header {
     text-align: center;
-    font-size: 24px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    margin-top: 10px;
+    font-size: 28px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #e7cda2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
   }
   #btn-wrapper {
     display: flex;
     position: sticky;
+    top: 0;
     justify-content: center;
-  }
-  #btn-wrapper span {
-    margin: 10px auto;
+    align-items: center;
+    z-index: 10;
+    background: linear-gradient(180deg, #1a1a25 0%, #2a2a35 100%);
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   .mobile_perk_hud {
     width: 572px;
@@ -193,18 +200,36 @@
     display: flex;
     gap: 60px 60px;
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 53%;
+    transform: translate(-50%, -50%) rotate(45deg);
   }
   .perk_info_img {
-    background: #0b0b0b;
+    background:
+      radial-gradient(
+        ellipse at 50% 30%,
+        rgba(99, 46, 115, 0.15) 0%,
+        transparent 50%
+      ),
+      linear-gradient(180deg, #1a1a25 0%, #2a2a35 50%, #1a1a25 100%);
     color: white;
     height: 100%;
-    overflow-y: hidden;
+    overflow-y: scroll;
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  .perk_info_img::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
   .status_info {
-    background: #0b0b0b;
+    background:
+      radial-gradient(
+        ellipse at 50% 30%,
+        rgba(99, 46, 115, 0.15) 0%,
+        transparent 50%
+      ),
+      linear-gradient(180deg, #1a1a25 0%, #2a2a35 50%, #1a1a25 100%);
     color: white;
     height: 100%;
     align-items: center;
@@ -223,15 +248,6 @@
     animation: blinker 1.5s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
   }
 
-  .mobile_addon_hud {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    gap: 5vw;
-    top: 67%;
-    width: 100%;
-  }
-
   @keyframes blinker {
     from {
       opacity: 1;
@@ -243,42 +259,28 @@
   }
 
   .close {
-    position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 40px;
     height: 40px;
-    overflow: hidden;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #2a2a35 0%, #1a1a25 100%);
+    border: 2px solid #e7cda2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #e7cda2;
+    font-size: 20px;
+    line-height: 1;
   }
-  .close:hover::before,
-  .close:hover::after {
-    background: rgba(98, 0, 255, 0.637);
-  }
-  .close::before,
-  .close::after {
-    content: '';
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    top: 50%;
-    left: 0;
-    margin-top: -1px;
-    background: #000;
+  .close:hover {
+    background: linear-gradient(145deg, #3a3a45 0%, #2a2a35 100%);
+    border-color: #f0d9b0;
+    color: #f0d9b0;
+    transform: scale(1.05);
   }
   .close::before {
-    transform: rotate(45deg);
-    background: white;
-  }
-  .close::after {
-    transform: rotate(-45deg);
-    background: white;
-  }
-  .close.warp::before,
-  .close.warp::after {
-    border-radius: 120% 0;
-  }
-  .close.black::before,
-  .close.black::after {
-    height: 8px;
-    margin-top: -4px;
+    content: '✕';
+    display: block;
   }
 </style>
