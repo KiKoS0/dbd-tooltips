@@ -68,8 +68,4 @@
     background-position: center center;
     transform: rotate(-45deg) scale(1.5);
   }
-
-  .perk_info_desc :global(img) {
-    vertical-align: middle !important;
-  }
 </style>

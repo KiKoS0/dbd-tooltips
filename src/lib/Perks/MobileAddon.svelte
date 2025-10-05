@@ -64,8 +64,4 @@
     background-position: center center;
     background-repeat: no-repeat;
   }
-
-  .addon_info_desc :global(img) {
-    vertical-align: middle !important;
-  }
 </style>

@@ -14,7 +14,7 @@
   import { localizationStore } from '../Stores/LocalizationStore.svelte'
   import { currentGameStateStore } from '../Stores/CurrentGameStateStore.svelte'
   import { visualStore } from '../Stores/VisualStore.svelte'
-  import { emptyPerk, generateGifSrc } from '../utils.svelte'
+  import { emptyPerk, generateGifSrc, getWikiUrl } from '../utils.svelte'
   import { track } from '../Api/inngest'
 
   let {
@@ -70,14 +70,6 @@
       }
     }
     return { ...hoveredPerk, ...toUpdate } as PerkEntry
-  }
-
-  const getWikiUrl = (link?: string) => {
-    if (!link) return undefined
-    if (link.startsWith('http://') || link.startsWith('https://')) {
-      return link
-    }
-    return `https://deadbydaylight.wiki.gg/${link}`
   }
 
   const hoveredPerkInfo: Partial<PerkEntry> | undefined = $derived.by(() => {

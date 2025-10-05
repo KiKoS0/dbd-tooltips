@@ -53,3 +53,11 @@ export const emptyAddon = () => EMPTY_ADDON
 export const generateGifSrc = (relativePath?: string) =>
   relativePath &&
   `https://${import.meta.env?.VITE_CDN_HOST}/${relativePath.replace(/^data\//, '')}`
+
+export const getWikiUrl = (link?: string): string | undefined => {
+  if (!link) return undefined
+  if (link.startsWith('http://') || link.startsWith('https://')) {
+    return link
+  }
+  return `https://deadbydaylight.wiki.gg/${link}`
+}

@@ -2,6 +2,7 @@
   import { visualStore } from '../Stores/VisualStore.svelte'
   import { t } from '../I18n'
   import { track } from '../Api/inngest'
+  import { getWikiUrl } from '../utils.svelte'
 
   let {
     description = '',
@@ -24,13 +25,6 @@
   )
 
   const cdnHost = import.meta.env?.VITE_CDN_HOST
-
-  const getWikiUrl = (link: string) => {
-    if (link.startsWith('http://') || link.startsWith('https://')) {
-      return link
-    }
-    return `https://deadbydaylight.wiki.gg/${link}`
-  }
 
   const fixLinks = () => {
     if (description || changelogs) {
