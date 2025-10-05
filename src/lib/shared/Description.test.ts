@@ -23,7 +23,9 @@ describe('Description', () => {
     render(Description, { ...perk })
 
     await waitFor(() => {
-      expect(screen.getByRole<HTMLImageElement>('img')['src']).toBe(
+      const images = screen.getAllByRole<HTMLImageElement>('img')
+      const iconImage = images.find((img) => img.alt === 'IconHelp addons')
+      expect(iconImage?.src).toBe(
         `https://${import.meta.env.VITE_CDN_HOST}/images/icons/IconHelp_addons.png`
       )
     })
@@ -31,11 +33,14 @@ describe('Description', () => {
 
   it('shows changelogs when triggered', async () => {
     render(Description, { ...perk })
-    expect(screen.queryByText('Patch 7.7.0')).toBeNull()
+
+    const changelogsElement = screen.getByTestId('description.changelogs')
+    expect(changelogsElement).toHaveClass('changelog-content-hidden')
 
     visualStore().toggleChangelogs()
 
     await waitFor(async () => {
+      expect(changelogsElement).not.toHaveClass('changelog-content-hidden')
       expect(await screen.findByText('Patch 7.7.0')).toBeInTheDocument()
     })
   })

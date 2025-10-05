@@ -52,11 +52,13 @@ describe('PerkTooltipHud', () => {
       hoveredPerk: currentPerks[perkIdx]
     })
 
-    expect(screen.queryByTestId('description.changelogs')).toBeNull()
+    const changelogsElement = screen.getByTestId('description.changelogs')
+    expect(changelogsElement).toHaveClass('changelog-content-hidden')
+
     visualStore().toggleChangelogs()
 
     await waitFor(async () => {
-      expect(screen.getByTestId('description.changelogs')).toBeInTheDocument()
+      expect(changelogsElement).not.toHaveClass('changelog-content-hidden')
     })
   })
 

@@ -51,22 +51,20 @@ describe('Perk', () => {
     })
   })
 
-  it('toggles the changelogs state in the visual store when clicked', async () => {
+  it('pins the HUD when clicked', async () => {
     const visualState = visualStore()
+    const currentGameState = currentGameStateStore()
+    currentGameState.setPerks(currentPerks)
 
     render(Perk, { perkIdx, enabled: true })
     const perk = screen.getByTestId(`perk-${perkIdx}`)
 
-    expect(visualState.changelogsShowing).toBe(false)
+    expect(visualState.isHudPinned).toBe(false)
 
     fireEvent.click(perk)
     await waitFor(() => {
-      expect(visualState.changelogsShowing).toBe(true)
-    })
-
-    fireEvent.click(perk)
-    await waitFor(() => {
-      expect(visualState.changelogsShowing).toBe(false)
+      expect(visualState.isHudPinned).toBe(true)
+      expect(visualState.hoveredPerk).toBe(perkIdx)
     })
   })
 })
