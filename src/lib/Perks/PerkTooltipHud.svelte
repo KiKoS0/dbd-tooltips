@@ -494,4 +494,10 @@
     position: relative;
     z-index: 1;
   }
+
+  .perk_info_desc :global(a),
+  .perk_info_desc_mobile :global(a) {
+    color: #777777;
+    text-decoration: none;
+  }
 </style>
