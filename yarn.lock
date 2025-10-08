@@ -4302,8 +4302,8 @@ __metadata:
   linkType: hard
 
 "rollup-plugin-webpack-stats@npm:^2.0.0":
-  version: 2.1.5
-  resolution: "rollup-plugin-webpack-stats@npm:2.1.5"
+  version: 2.1.6
+  resolution: "rollup-plugin-webpack-stats@npm:2.1.6"
   dependencies:
     rollup-plugin-stats: "npm:1.5.1"
   peerDependencies:
@@ -4311,11 +4311,13 @@ __metadata:
     rollup: ^3.0.0 || ^4.0.0
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0
   peerDependenciesMeta:
+    rolldown:
+      optional: true
     rollup:
       optional: true
     vite:
       optional: true
-  checksum: 10c0/355b29fea448dbcdd2c33c499c16cc4fe7823776f586f4aebe14c3eb172d4502b2756059dedf62731b363ff63ae21bf8059f90f6910afae29d74d86c72a7fac7
+  checksum: 10c0/58aa2fc166d5eb5efffc64f76ff62766280480f3c530822f874d3db96fd964b7a2954ad922ab06b217ad3bf442177e41db5df8e43c2732e96062b520258663aa
   languageName: node
   linkType: hard
 
