@@ -981,51 +981,54 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-vitest@npm:9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/addon-vitest@npm:9.1.10"
+"@storybook/addon-vitest@npm:9.1.16":
+  version: 9.1.16
+  resolution: "@storybook/addon-vitest@npm:9.1.16"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^1.4.0"
     prompts: "npm:^2.4.0"
     ts-dedent: "npm:^2.2.0"
   peerDependencies:
-    "@vitest/browser": ^3.0.0
-    "@vitest/runner": ^3.0.0
-    storybook: ^9.1.10
-    vitest: ^3.0.0
+    "@vitest/browser": ^3.0.0 || ^4.0.0
+    "@vitest/browser-playwright": ^4.0.0
+    "@vitest/runner": ^3.0.0 || ^4.0.0
+    storybook: ^9.1.16
+    vitest: ^3.0.0 || ^4.0.0
   peerDependenciesMeta:
     "@vitest/browser":
+      optional: true
+    "@vitest/browser-playwright":
       optional: true
     "@vitest/runner":
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/b5d7a9489ace9fcf489252c48bab23ba0bf9c3681cdd76e50a57176c301918cf2812ce3eee842f536183143fe851351b458c9cbd6b904009426b080eee11986a
+  checksum: 10c0/28966418a4d3124b9fff4b5ac845e958fc083355510f32908e01544d27fa989527f8a3911516381c6b7e6d698df26e33b536b18571e812e68e10dc6c18f314f1
   languageName: node
   linkType: hard
 
-"@storybook/builder-vite@npm:9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/builder-vite@npm:9.1.10"
+"@storybook/builder-vite@npm:9.1.16":
+  version: 9.1.16
+  resolution: "@storybook/builder-vite@npm:9.1.16"
   dependencies:
-    "@storybook/csf-plugin": "npm:9.1.10"
+    "@storybook/csf-plugin": "npm:9.1.16"
     ts-dedent: "npm:^2.0.0"
   peerDependencies:
-    storybook: ^9.1.10
+    storybook: ^9.1.16
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10c0/96ffce92448b5bf2c6d0c1f3c71e57f5093bd7b80492b24c14c1277d15a7f9cf4153bfc15fbbc6d30c21a5ac2605f5fa02cdb0ae7fc1abe28a30e64afd9ba210
+  checksum: 10c0/e84a4cec4722a902d59d008ec87bebf9306af27e4b61dadaade2e3befb6c723d2eaebe7eeada533c1c39e38717554bdae9306dabe19c5a228454b10048c921b0
   languageName: node
   linkType: hard
 
-"@storybook/csf-plugin@npm:9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/csf-plugin@npm:9.1.10"
+"@storybook/csf-plugin@npm:9.1.16":
+  version: 9.1.16
+  resolution: "@storybook/csf-plugin@npm:9.1.16"
   dependencies:
     unplugin: "npm:^1.3.1"
   peerDependencies:
-    storybook: ^9.1.10
-  checksum: 10c0/1608ee463a5cc606266cf71498fe045ebe634a0d85880272a6d3aee6a039bad46f9bca8a3c21b3cfb6e8e9b306191785daa4aff94f02f4cfc6ec65275a695864
+    storybook: ^9.1.16
+  checksum: 10c0/23499c1eec9fbf75a2f6a4ce14fc0ca18b4242695c029c6bc6a8159a44446da47dac453b8e01a6a824355a4be6134f3c174aa8d519a7d9f3216df2643f3860f9
   languageName: node
   linkType: hard
 
@@ -1055,49 +1058,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/svelte-vite@npm:9.1.10, @storybook/svelte-vite@npm:^9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/svelte-vite@npm:9.1.10"
+"@storybook/svelte-vite@npm:9.1.16, @storybook/svelte-vite@npm:^9.1.10":
+  version: 9.1.16
+  resolution: "@storybook/svelte-vite@npm:9.1.16"
   dependencies:
-    "@storybook/builder-vite": "npm:9.1.10"
-    "@storybook/svelte": "npm:9.1.10"
+    "@storybook/builder-vite": "npm:9.1.16"
+    "@storybook/svelte": "npm:9.1.16"
     magic-string: "npm:^0.30.0"
     svelte2tsx: "npm:^0.7.35"
     typescript: "npm:^4.9.4 || ^5.0.0"
   peerDependencies:
     "@sveltejs/vite-plugin-svelte": ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
-    storybook: ^9.1.10
+    storybook: ^9.1.16
     svelte: ^5.0.0
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10c0/7a61070f610c59138fb627337e543f97eea5914a7495a5dc3c4ab25c435819cb0c48023c49b9988e231505d8e6fbb33eb40a26f2338737854e681681c9995719
+  checksum: 10c0/c3810219aed684747afb4732f6611ba5477a16a4a7a3b4299fd342fbef6f9acab9dc0bce0a1e96fcdf28a1c5ed57542c9082a57957c62e09fb488444c25258af
   languageName: node
   linkType: hard
 
-"@storybook/svelte@npm:9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/svelte@npm:9.1.10"
+"@storybook/svelte@npm:9.1.16":
+  version: 9.1.16
+  resolution: "@storybook/svelte@npm:9.1.16"
   dependencies:
     ts-dedent: "npm:^2.0.0"
     type-fest: "npm:~2.19"
   peerDependencies:
-    storybook: ^9.1.10
+    storybook: ^9.1.16
     svelte: ^5.0.0
-  checksum: 10c0/dbc139c69c0fd9de4594c2fa2b2ca911ba44b0a16ccd58ce383362f6c76346a4dcc62b91115eb95ee5717bcbca8548817ccfe91abe051c4d8bd690df185286ad
+  checksum: 10c0/22f537099bbaff882f1f87f27c0967f7725568be029dab2422cdbd4f4b318b726930008b956bce0965839dd205bee28ff266b7f3349000c55d079ddb40caa6c1
   languageName: node
   linkType: hard
 
 "@storybook/sveltekit@npm:^9.1.10":
-  version: 9.1.10
-  resolution: "@storybook/sveltekit@npm:9.1.10"
+  version: 9.1.16
+  resolution: "@storybook/sveltekit@npm:9.1.16"
   dependencies:
-    "@storybook/builder-vite": "npm:9.1.10"
-    "@storybook/svelte": "npm:9.1.10"
-    "@storybook/svelte-vite": "npm:9.1.10"
+    "@storybook/builder-vite": "npm:9.1.16"
+    "@storybook/svelte": "npm:9.1.16"
+    "@storybook/svelte-vite": "npm:9.1.16"
   peerDependencies:
-    storybook: ^9.1.10
+    storybook: ^9.1.16
     svelte: ^5.0.0
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0
-  checksum: 10c0/b1ee078f91741a892f1cdce0adb163426b367dca434be994995f2aa010db5b222340a70d4a7ba193b5841556b0cb713d1a5b7ef4d78b876b64a78e75adab9e43
+  checksum: 10c0/6fe9e5595a9733461df011f319def85a88172963791ae3ae2490913c8580a11a1acb1c3c66a377a474186f1bbbf4224c4244d34d21a92e2aa583e78b54152835
   languageName: node
   linkType: hard
 
@@ -2091,7 +2094,7 @@ __metadata:
     "@sentry/svelte": "npm:^10.0.0"
     "@sentry/vite-plugin": "npm:^4.0.0"
     "@storybook/addon-svelte-csf": "npm:^5.0.10"
-    "@storybook/addon-vitest": "npm:9.1.10"
+    "@storybook/addon-vitest": "npm:9.1.16"
     "@storybook/svelte-vite": "npm:^9.1.10"
     "@storybook/sveltekit": "npm:^9.1.10"
     "@sveltejs/vite-plugin-svelte": "npm:6.2.1"
@@ -2428,14 +2431,14 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-storybook@npm:^9.1.10":
-  version: 9.1.10
-  resolution: "eslint-plugin-storybook@npm:9.1.10"
+  version: 9.1.16
+  resolution: "eslint-plugin-storybook@npm:9.1.16"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.8.1"
   peerDependencies:
     eslint: ">=8"
-    storybook: ^9.1.10
-  checksum: 10c0/4a1a9db221a417c26cdbc5e8a97e22fb5f443e0d1b96c19becbcef1536d05e05cf3f3ed5d400ca2398c7dd5bf27a81326c8825711f97e843eab6830b905d28d4
+    storybook: ^9.1.16
+  checksum: 10c0/b5637962434ae777449ca9804452bf5c42cf5dcb1b62cc3c9d5e37e10f5728dd3d965b0aff780ef112844bd2f086ef81e8c5903106797334829e521a186a0937
   languageName: node
   linkType: hard
 
@@ -4573,8 +4576,8 @@ __metadata:
   linkType: hard
 
 "storybook@npm:^9.1.10":
-  version: 9.1.10
-  resolution: "storybook@npm:9.1.10"
+  version: 9.1.16
+  resolution: "storybook@npm:9.1.16"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@testing-library/jest-dom": "npm:^6.6.3"
@@ -4595,7 +4598,7 @@ __metadata:
       optional: true
   bin:
     storybook: ./bin/index.cjs
-  checksum: 10c0/e44ced87d5ed1c3260c65824d5e1c5d09d4f58731ba63371bb5b52f68f5b73d52062d79c17c63ad85a4ffa69774b26b51210bbc22ffa495bb44d4fe5c87d95a7
+  checksum: 10c0/4265c5b764effbda608aaf14ce930cce69f5aca9433e54d785387e8c7ad8f3139fbd91264494e535927b21b065e921ab4a81539df38f222fb8878cb249cf2c26
   languageName: node
   linkType: hard
 
