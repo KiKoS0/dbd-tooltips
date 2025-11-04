@@ -798,10 +798,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/babel-plugin-component-annotate@npm:4.3.0":
-  version: 4.3.0
-  resolution: "@sentry/babel-plugin-component-annotate@npm:4.3.0"
-  checksum: 10c0/3b75b9fe408d777f2a1601c636c980bec46cbca7d80715b5cb4a32c51173d8b400886637ef1453627408dc10884289c7e186267775737e08a23851ed9485c956
+"@sentry/babel-plugin-component-annotate@npm:4.6.0":
+  version: 4.6.0
+  resolution: "@sentry/babel-plugin-component-annotate@npm:4.6.0"
+  checksum: 10c0/64a5d08ca571653399b35060db5007c86811dd06c79d6f09a8503d13e55f0cc4de54c02787ac4363b7cef0f4f873a3807d7846b0a13791f50068a34dadbe40f9
   languageName: node
   linkType: hard
 
@@ -818,90 +818,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/bundler-plugin-core@npm:4.3.0":
-  version: 4.3.0
-  resolution: "@sentry/bundler-plugin-core@npm:4.3.0"
+"@sentry/bundler-plugin-core@npm:4.6.0":
+  version: 4.6.0
+  resolution: "@sentry/bundler-plugin-core@npm:4.6.0"
   dependencies:
     "@babel/core": "npm:^7.18.5"
-    "@sentry/babel-plugin-component-annotate": "npm:4.3.0"
-    "@sentry/cli": "npm:^2.51.0"
+    "@sentry/babel-plugin-component-annotate": "npm:4.6.0"
+    "@sentry/cli": "npm:^2.57.0"
     dotenv: "npm:^16.3.1"
     find-up: "npm:^5.0.0"
     glob: "npm:^9.3.2"
     magic-string: "npm:0.30.8"
     unplugin: "npm:1.0.1"
-  checksum: 10c0/baf9c0362bb81a992502a3a4f5b8c47a8e2b584c27b4b2cb3e3c295028046dfb81fc3b1ea533053432d2469fe4bb2cd2281c6789bb1cc329e7837e8c8ec7a48b
+  checksum: 10c0/0d07c249e55987891eb681e40f59e632b44a7bf5cd7bb4bd0f53ea26b3ba25caef468392d64392607ba09bd5fe7fefddd7f2b5c347613f877ba85de6e0d605bc
   languageName: node
   linkType: hard
 
-"@sentry/cli-darwin@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-darwin@npm:2.52.0"
+"@sentry/cli-darwin@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-darwin@npm:2.57.0"
   conditions: os=darwin
   languageName: node
   linkType: hard
 
-"@sentry/cli-linux-arm64@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-linux-arm64@npm:2.52.0"
+"@sentry/cli-linux-arm64@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-linux-arm64@npm:2.57.0"
   conditions: (os=linux | os=freebsd | os=android) & cpu=arm64
   languageName: node
   linkType: hard
 
-"@sentry/cli-linux-arm@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-linux-arm@npm:2.52.0"
+"@sentry/cli-linux-arm@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-linux-arm@npm:2.57.0"
   conditions: (os=linux | os=freebsd | os=android) & cpu=arm
   languageName: node
   linkType: hard
 
-"@sentry/cli-linux-i686@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-linux-i686@npm:2.52.0"
+"@sentry/cli-linux-i686@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-linux-i686@npm:2.57.0"
   conditions: (os=linux | os=freebsd | os=android) & (cpu=x86 | cpu=ia32)
   languageName: node
   linkType: hard
 
-"@sentry/cli-linux-x64@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-linux-x64@npm:2.52.0"
+"@sentry/cli-linux-x64@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-linux-x64@npm:2.57.0"
   conditions: (os=linux | os=freebsd | os=android) & cpu=x64
   languageName: node
   linkType: hard
 
-"@sentry/cli-win32-arm64@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-win32-arm64@npm:2.52.0"
+"@sentry/cli-win32-arm64@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-win32-arm64@npm:2.57.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@sentry/cli-win32-i686@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-win32-i686@npm:2.52.0"
+"@sentry/cli-win32-i686@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-win32-i686@npm:2.57.0"
   conditions: os=win32 & (cpu=x86 | cpu=ia32)
   languageName: node
   linkType: hard
 
-"@sentry/cli-win32-x64@npm:2.52.0":
-  version: 2.52.0
-  resolution: "@sentry/cli-win32-x64@npm:2.52.0"
+"@sentry/cli-win32-x64@npm:2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli-win32-x64@npm:2.57.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@sentry/cli@npm:^2.51.0":
-  version: 2.52.0
-  resolution: "@sentry/cli@npm:2.52.0"
+"@sentry/cli@npm:^2.57.0":
+  version: 2.57.0
+  resolution: "@sentry/cli@npm:2.57.0"
   dependencies:
-    "@sentry/cli-darwin": "npm:2.52.0"
-    "@sentry/cli-linux-arm": "npm:2.52.0"
-    "@sentry/cli-linux-arm64": "npm:2.52.0"
-    "@sentry/cli-linux-i686": "npm:2.52.0"
-    "@sentry/cli-linux-x64": "npm:2.52.0"
-    "@sentry/cli-win32-arm64": "npm:2.52.0"
-    "@sentry/cli-win32-i686": "npm:2.52.0"
-    "@sentry/cli-win32-x64": "npm:2.52.0"
+    "@sentry/cli-darwin": "npm:2.57.0"
+    "@sentry/cli-linux-arm": "npm:2.57.0"
+    "@sentry/cli-linux-arm64": "npm:2.57.0"
+    "@sentry/cli-linux-i686": "npm:2.57.0"
+    "@sentry/cli-linux-x64": "npm:2.57.0"
+    "@sentry/cli-win32-arm64": "npm:2.57.0"
+    "@sentry/cli-win32-i686": "npm:2.57.0"
+    "@sentry/cli-win32-x64": "npm:2.57.0"
     https-proxy-agent: "npm:^5.0.0"
     node-fetch: "npm:^2.6.7"
     progress: "npm:^2.0.3"
@@ -926,7 +926,7 @@ __metadata:
       optional: true
   bin:
     sentry-cli: bin/sentry-cli
-  checksum: 10c0/9d49e583ffba089b8920bd85e6fcd9dd1184932cbd53d3fead743fdb69b18d0e9ed1791b5bda92acb09d1e067679e9551cf05c6a74f2872518eac8cad8f9b2aa
+  checksum: 10c0/a633c52ac7c6265a60ee903b685320d04f49db464ad60b1600b6f6d7f8e4dd8d171151fc5905938d8aca89811fe1f0ee8c18cf435365cd801bb5dd1fbcb9fb28
   languageName: node
   linkType: hard
 
@@ -951,12 +951,12 @@ __metadata:
   linkType: hard
 
 "@sentry/vite-plugin@npm:^4.0.0":
-  version: 4.3.0
-  resolution: "@sentry/vite-plugin@npm:4.3.0"
+  version: 4.6.0
+  resolution: "@sentry/vite-plugin@npm:4.6.0"
   dependencies:
-    "@sentry/bundler-plugin-core": "npm:4.3.0"
+    "@sentry/bundler-plugin-core": "npm:4.6.0"
     unplugin: "npm:1.0.1"
-  checksum: 10c0/92053fd291ead4be01faa892f0e59072611df989fb683814cb94bdf65aac88dc08ccc130169f57bf9c66ae42a3e553299b791163b2dd21aab4f892960839c45c
+  checksum: 10c0/9041828eb5f830272ff150946d69596ab427348a64018308b01b1090b52c32854caf58a989cbbb943fe80026eddf6b3a78014be77213c9959ec0a831486658dc
   languageName: node
   linkType: hard
 
